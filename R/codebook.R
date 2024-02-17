@@ -7,33 +7,33 @@ codebook <- function(.data, ...) {
   }
   .data <- .data[pos]
 
-  .output <- .data %>%
-    summarise(
-      across(everything(), read_var_type)
-    ) %>%
-    pivot_longer(
-      everything(),
+  .output <- dplyr::summarise(
+    .data,
+    dplyr::across(tidyselect::everything(), read_var_type)
+  ) %>%
+    tidyr::pivot_longer(
+      tidyselect::everything(),
       names_to = "variable"
     ) %>%
-    unnest_wider(value) %>%
-    mutate(
-      type = if_else(
+    tidyr::unnest_wider(value) %>%
+    dplyr::mutate(
+      type = dplyr::if_else(
         !is.na(unit),
         paste0(type, " [", unit, "]"),
         type
       )
     ) %>%
-    select(-unit)
+    dplyr::select(-unit)
 
   contents <- Hmisc::contents(.data)$contents %>%
-    tibble()
+    tibble::as_tibble()
 
   if ("Labels" %in% names(contents)) {
-    .output <- .output %>%
-      bind_cols(
-        contents %>%
-          select(label = Labels)
-      )
+    .output <- dplyr::bind_cols(
+      .output,
+      contents %>%
+        dplyr::select(label = Labels)
+    )
   }
 
   return(.output)
