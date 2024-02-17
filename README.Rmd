@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 The primary goal of statart is to migrate some useful commands (functions) from Stata to R. Functions are built in the tidyverse framework, including
+
 - `tab()` and `tab1()` for frequency tables (like `tab` and `tab1` in Stata)
 - `fre()` for frequency tables with missing information (like `fre` in Stata)
 - `summ()` for summary statistics (like `summarize` in Stata)
@@ -31,15 +32,9 @@ The primary goal of statart is to migrate some useful commands (functions) from 
 You can install the development version of Packages like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+devtools::install_github("socimh/statart")
 ```
 
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
-
-```{r example}
-library(startart)
-
-codebook(mtcars)
-```
