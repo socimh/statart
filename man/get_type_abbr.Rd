@@ -17,5 +17,5 @@ Get the abbreviated type of a vector.
 }
 \examples{
 get_type_abbr(1:10)
-get_type_abbr("abc")
+get_type_abbr(letters)
 }

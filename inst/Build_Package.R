@@ -1,39 +1,39 @@
-
 pacman::p_load(devtools, usethis)
 
 getwd()
-create_tidy_package(getwd())
+create_package(getwd())
+use_git()
 
-# use_git()
+devtools::dev_sitrep()
+devtools::install_dev_deps()
 
-use_r("get_unit")
+available::available("statart")
+pak::pkg_name_check("statart")
+
 use_r("get_type_abbr")
-use_r("read_var_type")
-use_r("codebook")
-
-use_data_raw("complex_tb")
-
-document()
+use_pipe()
+starwars <- dplyr::starwars
+use_data(starwars)
+# import lifeexp.dta from Stata
+# lifeexp <- haven::read_dta("lifeexp.dta")
+# use_data(lifeexp)
 
 load_all()
+test()
+get_type_abbr(1:10)
+ls("package:statart")
 check()
 
-install()
+test()
 
+document()
+install(upgrade = FALSE)
 library(statart)
-get_type_abbr(1:10)
-?statart::get_type_abbr
 ls("package:statart")
-
-codebook(tibble::tibble(x = 1:10, y = letters[1:10]))
+??haven
 
 use_github()
 
-devtools::install_github("socimh/statart")
+use_data_raw("complex_tb")
 
-devtools::build_readme()
-
-?install_github
-
-??statart
-
+check()
