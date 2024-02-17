@@ -24,6 +24,9 @@ use_testthat(3)
 use_test("complex_tb")
 
 library(statart)
+get_type_abbr(1:10)
+?statart::get_type_abbr
+
 codebook(tibble::tibble(x = 1:10, y = letters[1:10]))
 
 use_github()
