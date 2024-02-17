@@ -30,7 +30,9 @@ document()
 install(upgrade = FALSE)
 library(statart)
 ls("package:statart")
-??haven
+
+?lifeexp
+
 
 use_github()
 

@@ -11,6 +11,7 @@
 #' \item{lexp}{Life expectancy at birth (years)}
 #' \item{gnppc}{GNP per capita}
 #' \item{safewater}{Safe water (%)}
+#' }
 #' @examples
 #' lifeexp
 "lifeexp"

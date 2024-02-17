@@ -14,6 +14,7 @@ A tibble with 68 rows and 6 variables:
 \item{gnppc}{GNP per capita}
 \item{safewater}{Safe water (\%)}
 }
+}
 \usage{
 lifeexp
 }
