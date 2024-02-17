@@ -20,14 +20,20 @@ check()
 
 install()
 
- use_testthat(3)
+use_testthat(3)
 use_test("complex_tb")
 
 library(statart)
+codebook(tibble::tibble(x = 1:10, y = letters[1:10]))
 
 use_github()
-build_readme()
 
 devtools::install_github("socimh/statart")
+ls("package:statart")
 
-statart::codebook(tibble::tibble(x = 1:10, y = letters[1:10]))
+devtools::build_readme()
+
+?install_github
+
+??statart
+
