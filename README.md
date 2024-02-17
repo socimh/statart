@@ -1,14 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Packages
+# statart
 
 <!-- badges: start -->
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/Packages)](https://CRAN.R-project.org/package=Packages)
+status](https://www.r-pkg.org/badges/version/statart)](https://CRAN.R-project.org/package=statart)
 
 <!-- badges: end -->
 
@@ -25,7 +25,7 @@ framework, including
 
 ## Installation
 
-You can install the development version of Packages like so:
+You can install the development version of statart like so:
 
 ``` r
 devtools::install_github("socimh/statart")

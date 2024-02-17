@@ -20,19 +20,16 @@ check()
 
 install()
 
-use_testthat(3)
-use_test("complex_tb")
-
 library(statart)
 get_type_abbr(1:10)
 ?statart::get_type_abbr
+ls("package:statart")
 
 codebook(tibble::tibble(x = 1:10, y = letters[1:10]))
 
 use_github()
 
 devtools::install_github("socimh/statart")
-ls("package:statart")
 
 devtools::build_readme()
 
