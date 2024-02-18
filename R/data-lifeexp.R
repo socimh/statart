@@ -5,7 +5,7 @@
 #'
 #' @format A tibble with 68 rows and 6 variables:
 #' \describe{
-#' \item{region}{Region}
+#' \item{region}{Region (with value labels)}
 #' \item{country}{Country}
 #' \item{popgrowth}{Average annual population growth rate (%)}
 #' \item{lexp}{Life expectancy at birth (years)}
