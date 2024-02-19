@@ -11,9 +11,14 @@ get_type_abbr <- function(.x) {
   type <- vctrs::vec_ptype_abbr(.x)
   if (
     vctrs::vec_ptype_full(.x) %>%
-      stringr::str_detect("^labelled")
+      stringr::str_detect("labelled")
   ) {
     type <- "lbl"
   }
   return(type)
+}
+
+s_vec_type <- function(.x) {
+  vctrs::vec_ptype_abbr(.x) %>%
+    dplyr::if_else(. %in% c("int", "dbl"), "num", .)
 }

@@ -1,4 +1,4 @@
-get_unit <- function(x) {
+s_unit <- function(x) {
   unit <- NA_character_
 
   if (get_type_abbr(x) %in% c("units", "drtn", "time")) {

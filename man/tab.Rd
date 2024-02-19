@@ -5,44 +5,39 @@
 \alias{tab1}
 \alias{tab2}
 \alias{fre}
+\alias{fre1}
+\alias{fre2}
 \title{Tabulate columns}
 \usage{
-tab(.data, ..., .desc = FALSE, .print = TRUE, .print_n = 10)
+tab(.data, ..., .desc = FALSE)
 
-tab1(
-  .data,
-  ...,
-  .desc = FALSE,
-  .separate = FALSE,
-  .print = TRUE,
-  .print_n = 10
-)
+tab1(.data, ..., .desc = FALSE, .append = FALSE)
 
-tab2(
-  .data,
-  row_var,
-  col_var,
-  .desc = FALSE,
-  .print = TRUE,
-  .print_n = 10,
-  .print_width = NULL
-)
+tab2(.data, ..., .flip = FALSE)
 
-fre(.data, ..., .desc = FALSE, .print = TRUE, .print_n = 10)
+fre(.data, ..., .desc = FALSE)
+
+fre1(.data, ..., .desc = FALSE, .append = FALSE)
+
+fre2(.data, ..., .flip = FALSE)
 }
 \arguments{
-\item{.data}{The input .data (.data frame or tibble).}
+\item{.data}{A data frame, data frame extension
+(e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
 
-\item{.desc}{A logical value.
-If TRUE, sort the result in descending order by frequency.
-Default is FALSE.}
+\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> or
+<\code{\link[=args_data_masking]{data-masking}}> Variables to tabulate.
 
-\item{row_var}{The variable to tabulate.}
+Both tidyselect (e.g., \code{starts_with()} in \code{select()}) and
+data masking (e.g., \code{x_sq = x ^ 2} in \code{mutate()}) are supported.
+See examples below.}
 
-\item{col_var}{(Optional) The additional variable to cross-tabulate.}
+\item{.desc}{If TRUE, will show the largest groups at the top.}
 
-\item{.quiet}{A logical value.
-If TRUE, do not print the result. Default is FALSE.}
+\item{.append}{If TRUE, will return a single tibble
+instead of a list of tibbles.}
+
+\item{.flip}{If TRUE, will transpose the output tibble.}
 }
 \value{
 An object of the same type as \code{.data}.
@@ -50,23 +45,43 @@ An object of the same type as \code{.data}.
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 \itemize{
-\item \code{fre()} tabulates the frequency and missing values of one or more variables.
-\item \code{tab()} tabulates a single variable.
-\item \code{tab1()} tabulates multiple variables at once.
-\item \code{tab2()} cross-tabulates two variables.
+\item \code{tab()} - Tabulates variable(s) simultaneously, similar to \code{count()}.
+\item \code{tab1()} - Tabulates variable(s) one by one.
+\item \code{tab2()} - Cross-tabulates two variables.
+\item \code{fre()} - Adds “Total” row(s) to the output of \code{tab()}.
+\item \code{fre1()} - Adds “Total” row(s) to the output of \code{tab1()}.
+\item \code{fre2()} - Adds a “Total” row and a “total” column to the output of \code{tab2()}.
 }
 
-Overall, \code{fre()} is a more general function
-that is an enhanced version of \code{count()}.
+Overall, \code{tab()} functions are suitable for
+subsequent data analysis, while \code{fre()} functions
+are suitable for printing.
 
-However, \code{tab()} family functions could yield
-different results that are sometimes more useful.
+If the output tibble has many rows, consider using
+\code{print()} or \code{\link[=s_print]{s_print()}} to display the output.
 }
 \examples{
-# tab() the 8th column
 tab(starwars, 8)
 tab(starwars, sex)
 tab(starwars, sex, .desc = TRUE)
+fre(starwars, sex)
+fre(starwars, sex, .desc = TRUE)
+
 tab(starwars, sex, gender)
-tab(starwars, gender, sex)
+tab(starwars, sex == "male")
+tab(starwars, male = sex == "male")
+tab(starwars, ends_with("color"))
+tab(starwars, s_matches("s*e"))
+tab(starwars)
+
+tab1(starwars, 1:3)
+tab1(starwars, ends_with("color"))
+tab1(starwars, ends_with("color"), .append = TRUE)
+fre1(starwars, ends_with("color"), .append = TRUE)
+fre1(starwars, ends_with("color"), .append = TRUE) \%>\% s_print()
+
+tab2(starwars, sex, gender)
+tab2(starwars, height, gender)
+fre2(starwars, height, gender)
+fre2(starwars, height, gender) \%>\% s_print()
 }

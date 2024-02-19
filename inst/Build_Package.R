@@ -3,6 +3,7 @@ pacman::p_load(devtools, usethis)
 getwd()
 create_package(getwd())
 use_git()
+use_pipe()
 
 devtools::dev_sitrep()
 devtools::install_dev_deps()
@@ -30,7 +31,19 @@ pacman::p_load(devtools, usethis, tidyverse)
 document()
 install(upgrade = FALSE)
 library(statart)
-ls("package:dplyr")
+ls("package:statart")
+?tab
+
+names(starwars)
+
+
+document()
+load_all()
+starwars %>%
+  select(s_matches("s*e gen")) %>%
+  names()
+starwars %>%
+  tab2(s_matches("s*e"))
 
 lifeexp %>%
   mutate(
@@ -42,8 +55,84 @@ lifeexp %>%
 starwars %>%
   codebook()
 
+load_all()
+starwars %>%
+  fre(birth_year)
+
+
+
+
+starwars %>%
+  tab(gender, birth_year)
+
+starwars %>%
+  tab0(gender, birth_year)
+load_all()
+starwars %>%
+  tab1(gender, sex)
+starwars %>%
+  tab1(gender, birth_year)
+starwars %>%
+  tab1(gender, birth_year, .append = TRUE)
+starwars %>%
+  tab1(.append = TRUE)
+
+pacman::p_load(devtools, usethis, tidyverse)
+document()
+load_all()
+install(upgrade = FALSE)
+?tab
+starwars %>%
+  tab2(s_matches("s*e"))
+starwars %>%
+  tab2(s_matches("s*e"),
+    .flip = TRUE
+  ) %>%
+  s_print(n = 5)
+
+starwars %>%
+  tab2(birth_year, sex)
+starwars %>%
+  fre2(birth_year, sex) %>%
+  s_print()
+
+starwars %>%
+  fre2(
+    s_matches("s*e"),
+    .flip = TRUE
+  ) %>%
+  s_print()
+
+
+starwars %>%
+  tab2(gender, young = birth_year > 50)
+starwars %>%
+  tab2(young = birth_year > 50, gender)
+
 lifeexp %>%
-  tab(as.numeric(region))
+  mutate(
+    gnppc = if_else(
+      gnppc < 400, 2, gnppc
+    )
+  ) %>%
+    tab1(gnppc, region)
+
+  lifeexp %>%
+    fre(country, safewater)
+
+  lifeexp %>%
+    tab(region, gnppc)
+  lifeexp %>%
+    group_by(region) %>%
+    tab0(mean(gnppc))
+
+  vector1 <- c("a", "b", "c")
+  vector2 <- c("c", "d")
+  intersect(vector1, vector2)
+
+  load_all()
+  lifeexp %>%
+    tab_data0(as.numeric(region))
 
 lifeexp %>%
   tab1(region, .desc = TRUE)
@@ -51,21 +140,23 @@ lifeexp %>%
 lifeexp %>%
   tab1(region:country, .desc = TRUE)
 lifeexp %>%
-  fre(region, .desc = TRUE)
+  tab_data0(safewater)
 
 document()
 load_all()
 ?tab
+
 lifeexp %>%
-  tab(region)
-lifeexp %>%
-  tab(starts_with("region"))
-lifeexp %>%
-  tab(region == 1)
-lifeexp %>%
-  tab(eurasia = region == 1)
+  tab(region, safewater)
+
+  load_all()
 starwars %>%
-  tab(films)
+  fre(sex == "male")
+  starwars %>%
+    fre(sex, birth_year)
+
+  starwars %>%
+    tab1()
 
 starwars %>%
   fre()
@@ -74,11 +165,11 @@ document()
 load_all()
 
 starwars %>%
-  head_tail_print()
+  s_print()
 
 starwars %>%
   arrange(-height) %>%
-  head_tail_print()
+  s_print()
 
 tab(lifeexp, region)
 tab(lifeexp, country)

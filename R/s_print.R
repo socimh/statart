@@ -1,6 +1,6 @@
 #' Print a long tibble with its first and last rows
 #' @export
-head_tail_print <- function(
+s_print <- function(
     .data,
     n = 5, width = NULL,
     .head_row = FALSE, .tail_row = FALSE) {
@@ -41,7 +41,7 @@ head_tail_print <- function(
   }
 }
 
-# Helpers:
+# Helper function:
 check_positive_int <- function(x) {
   not_positive_int <- !is.numeric(x) || any(x <= 0) || any(!x %% 1 == 0)
   if (not_positive_int && !is.null(x)) {
