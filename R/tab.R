@@ -66,7 +66,7 @@ NULL
 tab <- function(.data, ..., .desc = FALSE) {
   # Prepare data
   .data <- .data %>%
-    select_or_transmute(...)
+    s_select(...)
   .data <- s_ungroup(.data)
 
   # Confirm names
@@ -88,7 +88,7 @@ tab1 <- function(
     .append = FALSE) {
   # Prepare data
   .data <- .data %>%
-    select_or_transmute(...)
+    s_select(...)
   .data <- s_ungroup(.data)
 
   # Confirm names
@@ -117,7 +117,7 @@ tab2 <- function(
     .data, ..., .flip = FALSE) {
   # Prepare data
   .data <- .data %>%
-    select_or_transmute(...)
+    s_select(...)
   .data <- s_ungroup(.data)
 
   # Confirm names
@@ -143,7 +143,7 @@ fre <- function(
     .data, ..., .desc = FALSE) {
   # Prepare data
   .data <- .data %>%
-    select_or_transmute(...)
+    s_select(...)
   .data <- s_ungroup(.data)
 
   # Confirm names
@@ -165,7 +165,7 @@ fre1 <- function(
     .data, ..., .desc = FALSE, .append = FALSE) {
   # Prepare data
   .data <- .data %>%
-    select_or_transmute(...)
+    s_select(...)
   .data <- s_ungroup(.data)
 
   # Confirm names
@@ -196,7 +196,7 @@ fre2 <- function(
     .data, ..., .flip = FALSE) {
   # Prepare data
   .data <- .data %>%
-    select_or_transmute(...)
+    s_select(...)
   .data <- s_ungroup(.data)
 
   # Confirm names

@@ -53,14 +53,16 @@ lifeexp %>%
   tab1(.append = TRUE) %>%
     tab()
 
+
 load_all()
 s_type(.x)
 s_type(.x, .full = TRUE)
 
-
-
+load_all()
 starwars %>%
-  tab(gender, birth_year)
+  group_by(sex) %>%
+    summ()
+  summ(.by = c("gender"))
 
 starwars %>%
   tab0(gender, birth_year)

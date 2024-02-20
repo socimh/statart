@@ -1,32 +1,4 @@
 # Helper functions for tab() and fre() families
-select_or_transmute <- function(.data, ...) {
-  select_works <- s_try(
-    dplyr::select(.data, ...)
-  )
-  mutate_works <- s_try(
-    dplyr::transmute(.data, ...)
-  )
-  empty_dots <- missing(...)
-
-  if (!select_works && !mutate_works && !empty_dots) {
-    stop("Neither <tidy-select> (i.e., `select()`) nor <data-masking> (e.g., `mutate()`) works.
-    Please check your input.")
-  }
-
-  if (!empty_dots) {
-    if (select_works) {
-      .data <- dplyr::select(
-        .data, ...
-      )
-    } else {
-      .data <- dplyr::transmute(
-        .data, ...
-      )
-    }
-  }
-  return(.data)
-}
-
 s_ungroup <- function(.data) {
   if (dplyr::is_grouped_df(.data)) {
     message("Ungrouping the data.")
