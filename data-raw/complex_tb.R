@@ -1,6 +1,7 @@
 ## code to prepare `complex_tb` dataset goes here
 complex_tb <- tibble(
-  date = as.Date("2024-02-09") - 1:1000,
+  date1 = as.Date("2024-02-09") - 1:1000,
+  date2 = as.Date("2024-02-10") - 1:1000,
   time = as_datetime("2024-02-09 12:00:00") - 1:1000,
   duration1 = as_datetime("2024-02-09 12:00:00") -
     as_datetime("2024-02-09 10:00:00") + 1:1000,

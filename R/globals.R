@@ -7,3 +7,4 @@ utils::globalVariables(
     "head", "tail", "valid_cum"
   )
 )
+

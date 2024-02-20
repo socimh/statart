@@ -7,20 +7,16 @@
 summ <- function(
     .data, ...,
     .by = NULL,
-    .detail = FALSE) {
+    .detail = FALSE,
+    .stat = character(0)) {
   # Identify group variables
-  group_vars <- extract_group_var(.data, .by)  
-  
+  group_vars <- extract_group_var(.data, .by)
+
   # Prepare data
-  .data_summ <- .data %>%
-    s_select(...) %>%
-    dplyr::ungroup() %>%
-    dplyr::select(
-      -tidyselect::any_of(group_vars)
-    ) %>%
-    # Suppress "adding missing grouping variables" message
-    suppressMessages()
-  
+  .data_summ <- keep_summ_vars(
+    .data, ..., group_vars = group_vars
+  )
+
   # Confirm variables
   check_numeric(.data_summ)
   check_missing(.data_summ)
@@ -28,9 +24,10 @@ summ <- function(
   check_factor(.data_num)
 
   # Add group variables
-  .data <- keep_minimal_vars(.data, .data_num, group_vars)
+  .data <- keep_useful_vars(.data, .data_num, group_vars)
 
-  print(.data)
+  out <- summ_list(.data, group_vars, .detail, .stat)
+  return(out)
   # .output <- summ_data_to_value(.data, vars, group_vars, .by, .stat, .detail, no_dot_by)
 
   # return(.output)

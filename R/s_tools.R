@@ -11,11 +11,11 @@
 s_type <- function(.x, .full = FALSE) {
   type <- .x %>%
     pillar::type_sum() %>%
-    stringr::str_extract("^(\\w|\\+)+") %>%
-    dplyr::if_else(
-      class(.x) == "units",
-      "units", .
-    )
+    stringr::str_extract("^(\\w|\\+)+")
+
+    if (vctrs::vec_ptype_abbr(.x) == "units") {
+      type <- "units"
+    }
 
   if (.full) {
     type <- dplyr::case_when(
@@ -35,6 +35,7 @@ s_type <- function(.x, .full = FALSE) {
       TRUE ~ type
     )
   }
+
   return(type)
 }
 
@@ -46,15 +47,4 @@ s_unit <- function(x) {
   }
 
   return(unit)
-}
-
-s_vec_stat <- function(var) {
-  stat_tb <- tibble::tibble(
-    type = vctrs::vec_ptype_full(var) %>%
-      stringr::str_extract("^\\w+"),
-    unit = s_unit(var),
-    n = sum(!is.na(var), na.rm = TRUE),
-    unique = dplyr::n_distinct(var, na.rm = TRUE)
-  )
-  return(stat_tb)
 }

@@ -36,7 +36,6 @@ ls("package:statart")
 
 load_all()
 
-
 document()
 load_all()
 starwars %>%
@@ -53,19 +52,9 @@ lifeexp %>%
   tab1(.append = TRUE) %>%
     tab()
 
-
 load_all()
-s_type(.x)
-s_type(.x, .full = TRUE)
 
-load_all()
-starwars %>%
-  group_by(sex) %>%
-    summ()
-  summ(.by = c("gender"))
 
-starwars %>%
-  tab0(gender, birth_year)
 load_all()
 starwars %>%
   tab1(gender, sex)
