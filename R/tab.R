@@ -70,11 +70,11 @@ tab <- function(.data, ..., .desc = FALSE) {
   .data <- s_ungroup(.data)
 
   # Confirm names
-  check_invalid_names(.data, "tab()")
+  .data <- modify_invalid_names(.data, "tab()")
 
   # Tabulate
   out <- tab_data(.data, .desc) %>%
-    dplyr::select(-.any_miss)
+    dplyr::select(-...any_miss)
 
   # Output
   return(out)
@@ -92,14 +92,14 @@ tab1 <- function(
   .data <- s_ungroup(.data)
 
   # Confirm names
-  check_invalid_names(.data, "tab1()")
+  .data <- modify_invalid_names(.data, "tab1()")
 
   # Tabulate as a list
   out <- .data %>%
     purrr::map(
       ~ tibble::tibble(value = .) %>%
         tab_data(.desc) %>%
-        dplyr::select(-.any_miss)
+        dplyr::select(-...any_miss)
     )
 
   # Bind rows if .append
@@ -122,7 +122,7 @@ tab2 <- function(
 
   # Confirm names
   check_two_vars(.data)
-  check_invalid_names(.data, "tab2()")
+  .data <- modify_invalid_names(.data, "tab2()")
 
   # Flip variables
   if (.flip) {
@@ -147,13 +147,13 @@ fre <- function(
   .data <- s_ungroup(.data)
 
   # Confirm names
-  check_invalid_names(.data, "fre()")
+  .data <- modify_invalid_names(.data, "fre()")
 
   # Tabulate
   out <- .data %>%
     tab_data(.desc) %>%
     add_total() %>%
-    dplyr::select(-.any_miss)
+    dplyr::select(-...any_miss)
 
   # Output
   return(out)
@@ -169,7 +169,7 @@ fre1 <- function(
   .data <- s_ungroup(.data)
 
   # Confirm names
-  check_invalid_names(.data, "fre1()")
+  .data <- modify_invalid_names(.data, "fre1()")
 
   # Tabulate as a list
   out <- .data %>%
@@ -177,7 +177,7 @@ fre1 <- function(
       ~ tibble::tibble(value = .) %>%
         tab_data(.desc) %>%
         add_total() %>%
-        dplyr::select(-.any_miss)
+        dplyr::select(-...any_miss)
     )
 
   # Bind rows if .append
@@ -201,7 +201,7 @@ fre2 <- function(
 
   # Confirm names
   check_two_vars(.data)
-  check_invalid_names(.data, "fre2()")
+  .data <- modify_invalid_names(.data, "fre2()")
 
   # Flip variables
   if (.flip) {

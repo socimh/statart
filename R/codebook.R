@@ -25,7 +25,7 @@ codebook <- function(.data, ...) {
 
   out <- dplyr::summarise(
     .data,
-    dplyr::across(tidyselect::everything(), read_var_type)
+    dplyr::across(tidyselect::everything(), s_vec_stat)
   ) %>%
     tidyr::pivot_longer(
       tidyselect::everything(),

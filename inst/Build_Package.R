@@ -11,7 +11,7 @@ devtools::install_dev_deps()
 available::available("statart")
 pak::pkg_name_check("statart")
 
-use_r("get_type_abbr")
+use_r("s_type")
 use_import_from("rlang", ":=")
 starwars <- dplyr::starwars
 use_data(starwars)
@@ -21,7 +21,7 @@ use_data(starwars)
 
 load_all()
 test()
-get_type_abbr(1:10)
+s_type(1:10)
 ls("package:statart")
 check()
 
@@ -32,22 +32,17 @@ document()
 install(upgrade = FALSE)
 library(statart)
 ls("package:statart")
-?s_matches
+?starwars
 
 load_all()
-tb %>%
-  dplyr::select(s_matches("x[9-15]"))
 
 
 document()
 load_all()
 starwars %>%
-  select(s_matches("s*e gen")) %>%
-  names()
-matches("s*e") %>% class()
-starwars %>%
-  tab2(s_matches("s*e"))
 
+starwars %>%
+  ds(s_matches("s*e*"))
 
 
 lifeexp %>%
@@ -55,15 +50,12 @@ lifeexp %>%
     region2 = haven::as_factor(region),
     .keep = "used"
   ) %>%
-  tab1()
-
-starwars %>%
-  codebook()
+  tab1(.append = TRUE) %>%
+    tab()
 
 load_all()
-starwars %>%
-  fre(birth_year)
-
+s_type(.x)
+s_type(.x, .full = TRUE)
 
 
 

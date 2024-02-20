@@ -13,7 +13,7 @@
 #'     .keep = "used"
 #'   )
 as_character <- function(.x) {
-  type <- get_type_abbr(.x)
+  type <- s_type(.x)
   if (type == "lbl") {
     vec <- .x %>%
       haven::as_factor() %>%

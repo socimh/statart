@@ -1,4 +1,21 @@
 #' Print a long tibble with its first and last rows
+#'
+#' @param .data A data frame, data frame extension
+#' (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).
+#' @param n A positive integer. The number of rows to print.
+#' @param width A positive integer. The width of the printed tibble.
+#' @param .head_row If TRUE, will add the first row in the output.
+#' Postive integers are also accepted.
+#' @param .tail_row If TRUE, will add the last row in the output.
+#' Postive integers are also accepted.
+#'
+#' @return Print the first and last rows of the data.
+#'
+#' @examples
+#' s_print(starwars)
+#' fre1(starwars, .append = TRUE) %>%
+#'   s_print()
+#'
 #' @export
 s_print <- function(
     .data,
@@ -6,6 +23,8 @@ s_print <- function(
     .head_row = FALSE, .tail_row = FALSE) {
   check_positive_int(n)
   check_positive_int(width)
+
+  .data <- tibble::as_tibble(.data)
 
   head_n <- n + .head_row
   tail_n <- n + .tail_row

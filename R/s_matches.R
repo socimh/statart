@@ -12,6 +12,7 @@
 #'
 #' @param string A character vector of column names
 #' like selecting a varlist in Stata `keep` command.
+#' @inheritParams tidyselect::starts_with
 #'
 #' @details
 #'

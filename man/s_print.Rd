@@ -6,6 +6,29 @@
 \usage{
 s_print(.data, n = 5, width = NULL, .head_row = FALSE, .tail_row = FALSE)
 }
+\arguments{
+\item{.data}{A data frame, data frame extension
+(e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
+
+\item{n}{A positive integer. The number of rows to print.}
+
+\item{width}{A positive integer. The width of the printed tibble.}
+
+\item{.head_row}{If TRUE, will add the first row in the output.
+Postive integers are also accepted.}
+
+\item{.tail_row}{If TRUE, will add the last row in the output.
+Postive integers are also accepted.}
+}
+\value{
+Print the first and last rows of the data.
+}
 \description{
 Print a long tibble with its first and last rows
+}
+\examples{
+s_print(starwars)
+fre1(starwars, .append = TRUE) \%>\%
+  s_print()
+
 }

@@ -35,21 +35,21 @@ s_ungroup <- function(.data) {
   return(.data)
 }
 
-check_invalid_names <- function(
+modify_invalid_names <- function(
     .data, function_name) {
   invalid_names <-
     c(
       "n", "percent", "cum",
-      "valid", "valid_cum", 
-      ".any_miss", ".valid_sum", ".tmp"
+      "valid", "valid_cum",
+      "...any_miss", "...valid_sum", "...tmp"
     )
-  
-  if (function_name %in% 
-   c("tab()", "tab1()", "fre()", "fre1()")) {
+
+  if (function_name %in%
+    c("tab()", "tab1()", "fre()", "fre1()")) {
     invalid_names <- invalid_names
-  } else if (function_name %in% 
-   c("tab2()", "fre2()")) {
-    invalid_names <- invalid_names %>% 
+  } else if (function_name %in%
+    c("tab2()", "fre2()")) {
+    invalid_names <- invalid_names %>%
       c("total")
   } else {
     stop("Invalid function name.")
@@ -59,18 +59,57 @@ check_invalid_names <- function(
     names(.data),
     invalid_names
   )
-  detected_invalid <- length(detected_names) > 0
-  if (detected_invalid) {
-    stringr::str_flatten(
-      detected_names,
-      collapse = ", "
+
+  if (length(detected_names) > 1) {
+    names1 <- detected_names %>%
+      paste0("`", ., "`") %>%
+      stringr::str_flatten(
+        collapse <- ", "
+      )
+    names2 <- detected_names %>%
+      paste0("`.", ., "`") %>%
+      stringr::str_flatten(
+        collapse = ", "
+      )
+    message <- paste0(
+      "To avoid duplicates in `", function_name, "`, ",
+      names1, " are renamed as ", names2, ", respectively.\n",
+      "Better to rename them before `", function_name, "`."
+    )
+    message(message)
+  } else if (length(detected_names) == 1) {
+    names1 <- detected_names %>%
+      paste0("`", ., "`")
+    names2 <- detected_names %>%
+      paste0("`.", ., "`")
+    message <- paste0(
+      "To avoid duplicates in `", function_name, "`, ",
+      names1, " is renamed as ", names2, ".\n",
+      "Better to rename them before `", function_name, "`."
+    )
+    message(message)
+  } else {
+    return(.data)
+  }
+
+  can_rename <- .data %>%
+    dplyr::rename_with(
+      ~ paste0(".", .x),
+      tidyselect::all_of(detected_names)
     ) %>%
-      paste0(
-        " are invalid names in `",
-        function_name,
-        "`. Please rename them before using the function."
-      ) %>%
-      stop()
+    s_try()
+
+  if (length(detected_names) > 0) {
+    if (can_rename) {
+      .data %>%
+        dplyr::rename_with(
+          ~ paste0(".", .x),
+          tidyselect::all_of(detected_names)
+        ) %>%
+        return()
+    } else {
+      stop("The new name is also taken. Rename fails.")
+    }
   }
 }
 
@@ -104,21 +143,21 @@ tab_data <- function(
     ) %>%
     dplyr::mutate(
       percent = n / sum(n) * 100,
-      .any_miss = dplyr::if_any(
+      ...any_miss = dplyr::if_any(
         dplyr::everything(), ~ is.na(.)
       ),
-      .valid_sum = dplyr::if_else(
-        .any_miss, 0, percent
+      ...valid_sum = dplyr::if_else(
+        ...any_miss, 0, percent
       ) %>% sum(),
       valid = dplyr::if_else(
-        .any_miss, NA_real_, percent / .valid_sum * 100
+        ...any_miss, NA_real_, percent / ...valid_sum * 100
       )
     )
 
   if (.desc) {
     out <- dplyr::arrange(out, -valid)
   } else {
-    out <- dplyr::arrange(out, .any_miss)
+    out <- dplyr::arrange(out, ...any_miss)
   }
 
   out <- out %>%
@@ -130,7 +169,7 @@ tab_data <- function(
       percent, cum, valid, valid_cum,
       .after = n
     ) %>%
-    dplyr::select(-.valid_sum)
+    dplyr::select(-...valid_sum)
 
   return(out)
 }
@@ -140,22 +179,16 @@ add_total <- function(out) {
     dplyr::select(
       -c(n:dplyr::last_col())
     ) %>%
-    ds(dplyr::last_col()) %>%
-    suppressMessages()
+    ds(dplyr::last_col())
 
   out <- out %>%
-    dplyr::rename(
-      .tmp = {{ col_name }}
-    ) %>%
-    dplyr::mutate(
-      .tmp = .tmp %>%
-        as_character()
-    )
+    dplyr::rename(...tmp = {{ col_name }}) %>%
+      dplyr::mutate(...tmp = ...tmp %>% as_character())
 
   out_head <- out %>%
-    dplyr::filter(!.any_miss) %>%
+    dplyr::filter(!...any_miss) %>%
     dplyr::add_row(
-      .tmp = "Valid Total",
+      ...tmp = "Valid Total",
       n = dplyr::pull(., n) %>%
         sum(),
       percent = dplyr::pull(., percent) %>%
@@ -163,9 +196,9 @@ add_total <- function(out) {
       valid = 100
     )
   out_tail <- out %>%
-    dplyr::filter(.any_miss) %>%
+    dplyr::filter(...any_miss) %>%
     dplyr::add_row(
-      .tmp = "Missing Total",
+      ...tmp = "Missing Total",
       n = dplyr::pull(., n) %>%
         sum(),
       percent = dplyr::pull(., percent) %>%
@@ -179,13 +212,13 @@ add_total <- function(out) {
   out <- out_head %>%
     dplyr::bind_rows(out_tail) %>%
     dplyr::add_row(
-      .tmp = "Total",
+      ...tmp = "Total",
       n = dplyr::pull(., n) %>%
         sum(),
       percent = 100
     ) %>%
     dplyr::rename(
-      {{ col_name }} := .tmp
+      {{ col_name }} := ...tmp
     )
   return(out)
 }
@@ -202,7 +235,10 @@ append_tab_list <- function(.data) {
   vec_types <- out %>%
     purrr::map_chr(
       ~ dplyr::pull(., value) %>%
-        s_vec_type()
+        vctrs::vec_ptype_abbr(.x) %>%
+        dplyr::if_else(
+          . %in% c("int", "dbl"), "num", .
+        )
     ) %>%
     unique() %>%
     length()
@@ -256,23 +292,23 @@ add_total2 <- function(out, .data) {
 
   out <- out %>%
     dplyr::rename(
-      .tmp := 1
+      ...tmp := 1
     ) %>%
     dplyr::mutate(
       dplyr::across(
         -1, ~ tidyr::replace_na(.x, 0)
       ),
-      .tmp := .tmp %>%
+      ...tmp := ...tmp %>%
         as_character()
     )
-  
+
   out_sum <- out %>%
     dplyr::mutate(
       dplyr::across(-1, ~ sum(out$.)),
-      .tmp := "total"
+      ...tmp := "total"
     ) %>%
     dplyr::slice(1)
-  
+
   out <- out %>%
     dplyr::bind_rows(out_sum) %>%
     dplyr::rowwise() %>%
@@ -282,8 +318,8 @@ add_total2 <- function(out, .data) {
     ) %>%
     dplyr::ungroup() %>%
     dplyr::rename(
-      {{ join_name }} := .tmp
+      {{ join_name }} := ...tmp
     )
-  
+
   return(out)
 }
