@@ -32,9 +32,11 @@ document()
 install(upgrade = FALSE)
 library(statart)
 ls("package:statart")
-?tab
+?s_matches
 
-names(starwars)
+load_all()
+tb %>%
+  dplyr::select(s_matches("x[9-15]"))
 
 
 document()
@@ -42,8 +44,11 @@ load_all()
 starwars %>%
   select(s_matches("s*e gen")) %>%
   names()
+matches("s*e") %>% class()
 starwars %>%
   tab2(s_matches("s*e"))
+
+
 
 lifeexp %>%
   mutate(

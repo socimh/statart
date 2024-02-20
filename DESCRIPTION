@@ -20,7 +20,9 @@ Imports:
     stringr,
     vctrs,
     Hmisc,
-    rlang
+    rlang,
+    haven,
+    purrr
 URL: https://github.com/socimh/statart
 BugReports: https://github.com/socimh/statart/issues
 Depends: 

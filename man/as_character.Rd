@@ -17,9 +17,9 @@ Enhance the performance of as.character()
 }
 \examples{
 lifeexp \%>\%
-  select(region)
+  dplyr::select(region)
 lifeexp \%>\%
-  mutate(
+  dplyr::mutate(
     region_chr = as_character(region),
     .keep = "used"
   )

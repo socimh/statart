@@ -22,8 +22,8 @@
 #' @param ... <[`tidy-select`][dplyr_tidy_select]> or
 #' <[`data-masking`][args_data_masking]> Variables to tabulate.
 #'
-#' Both tidyselect (e.g., `starts_with()` in `select()`) and
-#' data masking (e.g., `x_sq = x ^ 2` in `mutate()`) are supported.
+#' Both tidyselect (e.g., `starts_with()`) and
+#' data masking (e.g., `x_sq = x^2`) are supported.
 #' See examples below.
 #' @param .desc If TRUE, will show the largest groups at the top.
 #' @param .append If TRUE, will return a single tibble

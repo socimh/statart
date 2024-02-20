@@ -12,7 +12,13 @@
 #' ds(starwars, ends_with("color"))
 #' ds(starwars, where(is.character))
 ds <- function(.data, ...) {
-  .data %>%
-    dplyr::select(...) %>%
-    names()
+  if (missing(...)) {
+    names(.data) %>%
+      return()
+  } else {
+    .data %>%
+      dplyr::select(...) %>%
+      names() %>%
+      return()
+  }
 }

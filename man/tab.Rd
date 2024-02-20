@@ -28,8 +28,8 @@ fre2(.data, ..., .flip = FALSE)
 \item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> or
 <\code{\link[=args_data_masking]{data-masking}}> Variables to tabulate.
 
-Both tidyselect (e.g., \code{starts_with()} in \code{select()}) and
-data masking (e.g., \code{x_sq = x ^ 2} in \code{mutate()}) are supported.
+Both tidyselect (e.g., \code{starts_with()}) and
+data masking (e.g., \code{x_sq = x^2}) are supported.
 See examples below.}
 
 \item{.desc}{If TRUE, will show the largest groups at the top.}
