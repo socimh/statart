@@ -9,5 +9,6 @@
 #' @importFrom lifecycle deprecated
 #' @importFrom magrittr %>%
 #' @importFrom rlang :=
+#' @importFrom stats IQR mad median quantile sd
 ## usethis namespace: end
 NULL

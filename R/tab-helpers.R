@@ -176,10 +176,6 @@ add_total <- function(out) {
       percent = dplyr::pull(., percent) %>%
         sum()
     )
-  if (nrow(out_tail) == 2) {
-    out_tail <- out_tail %>%
-      dplyr::slice(1)
-  }
 
   out <- out_head %>%
     dplyr::bind_rows(out_tail) %>%
@@ -207,7 +203,7 @@ append_tab_list <- function(.data) {
   vec_types <- out %>%
     purrr::map_chr(
       ~ dplyr::pull(., value) %>%
-        vctrs::vec_ptype_abbr(.x) %>%
+        s_type() %>%
         dplyr::if_else(
           . %in% c("int", "dbl"), "num", .
         )

@@ -1,6 +1,7 @@
 #' The clean type of an object.
 #'
 #' @param .x An object.
+#' @param .full A logical. If `TRUE`, the full name of the type is returned.
 #' @return A character.
 #' @export
 #'
@@ -15,6 +16,9 @@ s_type <- function(.x, .full = FALSE) {
 
     if (vctrs::vec_ptype_abbr(.x) == "units") {
       type <- "units"
+    }
+    if (stringr::str_detect(type, "lbl")) {
+      type <- "lbl"
     }
 
   if (.full) {
@@ -31,7 +35,7 @@ s_type <- function(.x, .full = FALSE) {
       type == "fn" ~ "function",
       type == "env" ~ "environment",
       type == "sym" ~ "symbol",
-      str_detect(type, "lbl") ~ "labelled",
+      type == "lbl" ~ "labelled",
       TRUE ~ type
     )
   }

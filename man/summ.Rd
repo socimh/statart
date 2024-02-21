@@ -7,7 +7,26 @@
 summ(.data, ..., .by = NULL, .detail = FALSE, .stat = character(0))
 }
 \arguments{
-\item{.data}{A data frame}
+\item{.data}{A data frame, data frame extension
+(e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
+
+\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> or
+<\code{\link[=args_data_masking]{data-masking}}> Variables to tabulate.
+
+Both tidyselect (e.g., \code{starts_with()}) and
+data masking (e.g., \code{x_sq = x^2}) are supported.
+See examples below.}
+
+\item{.by}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
+<\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
+group by for just this operation, functioning as an alternative to \code{\link[dplyr:group_by]{group_by()}}. For
+details and examples, see \link[dplyr:dplyr_by]{?dplyr_by}.}
+
+\item{.detail}{A logical. If \code{TRUE}, the detailed summary is returned.}
+
+\item{.stat}{A character vector.
+If specified, only the listed statistics are returned.}
 }
 \value{
 A tibble

@@ -23,6 +23,8 @@ Imports:
     rlang,
     haven,
     purrr,
+    pillar,
+    hms,
     lifecycle
 URL: https://github.com/socimh/statart
 BugReports: https://github.com/socimh/statart/issues

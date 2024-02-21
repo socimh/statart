@@ -22,6 +22,7 @@ Postive integers are also accepted.}
 }
 \value{
 Print the first and last rows of the data.
+Return the input data frame invisibly.
 }
 \description{
 Print a long tibble with its first and last rows

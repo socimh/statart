@@ -8,6 +8,8 @@ s_type(.x, .full = FALSE)
 }
 \arguments{
 \item{.x}{An object.}
+
+\item{.full}{A logical. If \code{TRUE}, the full name of the type is returned.}
 }
 \value{
 A character.

@@ -3,7 +3,11 @@
 #' `r lifecycle::badge("experimental")`
 #' Enhanced `summarise()`.
 #' 
-#' @param .data A data frame
+#' @inheritParams tab
+#' @inheritParams dplyr::summarise
+#' @param .detail A logical. If `TRUE`, the detailed summary is returned.
+#' @param .stat A character vector. 
+#' If specified, only the listed statistics are returned.
 #'
 #' @return A tibble
 #' @export

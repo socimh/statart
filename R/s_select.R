@@ -1,28 +1,32 @@
 #' Enhanced select() with data-masking
-#' 
+#'
 #' @inheritParams tab
-#' 
+#'
 #' @return A tibble
 #' @export
-#' 
+#'
 #' @examples
 #' starwars %>%
-#'  s_select()
+#'   s_select()
 #' starwars %>%
-#'  s_select(name, height)
+#'   s_select(name, height)
 #' \dontrun{
 #' starwars %>%
-#'  dplyr::select(height > 50)
+#'   dplyr::select(height > 50)
 #' }
 #' starwars %>%
-#'  s_select(height > 50)
+#'   s_select(height > 50)
 s_select <- function(.data, ...) {
-  select_works <- s_try(
-    dplyr::select(.data, ...)
-  )
-  mutate_works <- s_try(
-    dplyr::transmute(.data, ...)
-  )
+  select_works <- .data %>%
+    dplyr::select(...) %>%
+    suppressWarnings() %>%
+    s_try()
+
+  mutate_works <- .data %>%
+    dplyr::transmute(...) %>%
+    suppressWarnings() %>%
+    s_try()
+
   empty_dots <- missing(...)
 
   if (!select_works && !mutate_works && !empty_dots) {

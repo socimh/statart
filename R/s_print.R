@@ -10,6 +10,7 @@
 #' Postive integers are also accepted.
 #'
 #' @return Print the first and last rows of the data.
+#' Return the input data frame invisibly.
 #'
 #' @examples
 #' s_print(starwars)
@@ -24,15 +25,15 @@ s_print <- function(
   check_positive_int(n)
   check_positive_int(width)
 
-  .data <- tibble::as_tibble(.data)
+  .data_tb <- tibble::as_tibble(.data)
 
   head_n <- n + .head_row
   tail_n <- n + .tail_row
-  if (nrow(.data) <= head_n + tail_n + 1) {
-    print(.data, n = nrow(.data), width = width)
+  if (nrow(.data_tb) <= head_n + tail_n + 1) {
+    print(.data_tb, n = nrow(.data_tb), width = width)
   } else {
     paste0(
-      "\033[31mThere are ", nrow(.data), " rows in the dataset.\033[0m"
+      "\033[31mThere are ", nrow(.data_tb), " rows in the dataset.\033[0m"
     ) %>%
       message()
     paste(
@@ -42,13 +43,13 @@ s_print <- function(
     # I tried to adjust the header of the tibble output,
     # but currently pillar does not support it within functions.
     print(
-      .data %>% head(head_n),
+      .data_tb %>% head(head_n),
       n = head_n, width = width,
       max_footer_lines = 0
     )
     paste(
       "\033[31m......",
-      nrow(.data) - head_n - tail_n,
+      nrow(.data_tb) - head_n - tail_n,
       "rows omitted ......\033[0m"
     ) %>%
       message()
@@ -56,8 +57,9 @@ s_print <- function(
       "# Bottom", tail_n, "rows:"
     ) %>%
       message()
-    print(.data %>% tail(tail_n), n = tail_n, width = width)
+    print(.data_tb %>% tail(tail_n), n = tail_n, width = width)
   }
+return(invisible(.data))
 }
 
 # Helper function:

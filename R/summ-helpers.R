@@ -5,7 +5,7 @@ extract_group_var <- function(.data, .by) {
   if (!any_dot_by && any_group_by) {
     group_vars <- dplyr::group_vars(.data)
   } else if (any_dot_by) {
-    group_vars <- .by
+    group_vars <- ds(.data, .by)
   } else {
     group_vars <- character(0)
   }
@@ -284,7 +284,10 @@ summ_list <- function(.data, group_vars, .detail, .stat) {
   ) %>%
     dplyr::mutate(
       dplyr::across(
-        mean:max,
+        type:tidyselect::last_col() & 
+          tidyselect::where(
+            ~ is.numeric(.x)
+          ),
         ~ dplyr::if_else(
           is.na(.x) | !is.finite(.x),
           NA_real_, .x

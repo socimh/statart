@@ -39,13 +39,10 @@ use_github_action("check-standard")
 usethis::use_lifecycle()
 load_all()
 use_version()
+check()
 
 document()
 load_all()
-starwars %>%
-
-starwars %>%
-  ds(s_matches("s*e*"))
 
 
 lifeexp %>%
@@ -54,7 +51,7 @@ lifeexp %>%
     .keep = "used"
   ) %>%
   tab1(.append = TRUE) %>%
-    tab()
+  tab()
 
 load_all()
 
@@ -107,24 +104,24 @@ lifeexp %>%
       gnppc < 400, 2, gnppc
     )
   ) %>%
-    tab1(gnppc, region)
+  tab1(gnppc, region)
 
-  lifeexp %>%
-    fre(country, safewater)
+lifeexp %>%
+  fre(country, safewater)
 
-  lifeexp %>%
-    tab(region, gnppc)
-  lifeexp %>%
-    group_by(region) %>%
-    tab0(mean(gnppc))
+lifeexp %>%
+  tab(region, gnppc)
+lifeexp %>%
+  group_by(region) %>%
+  tab0(mean(gnppc))
 
-  vector1 <- c("a", "b", "c")
-  vector2 <- c("c", "d")
-  intersect(vector1, vector2)
+vector1 <- c("a", "b", "c")
+vector2 <- c("c", "d")
+intersect(vector1, vector2)
 
-  load_all()
-  lifeexp %>%
-    tab_data0(as.numeric(region))
+load_all()
+lifeexp %>%
+  tab_data0(as.numeric(region))
 
 lifeexp %>%
   tab1(region, .desc = TRUE)
@@ -141,14 +138,14 @@ load_all()
 lifeexp %>%
   tab(region, safewater)
 
-  load_all()
+load_all()
 starwars %>%
   fre(sex == "male")
-  starwars %>%
-    fre(sex, birth_year)
+starwars %>%
+  fre(sex, birth_year)
 
-  starwars %>%
-    tab1()
+starwars %>%
+  tab1()
 
 starwars %>%
   fre()
