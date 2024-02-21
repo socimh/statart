@@ -1,11 +1,11 @@
 #' Tidyselect columns in stata style
 #'
 #' @description
-#' `s_matches()` is a simpler version of `matches()`
+#' `s_match()` is a simpler version of `matches()`
 #' in <[`tidy-select`][dplyr_tidy_select]>.
 #' It is designed to select columns in a Stata-like style.
 #'
-#' As `matches()`, `s_matches()` must be used
+#' As `matches()`, `s_match()` must be used
 #' within a *selecting* function, such as
 #' `ds()` or
 #' `dplyr::across()`.
@@ -22,38 +22,38 @@
 #' * `[a-h]` matches any character in the range from `a` to `h`.
 #' * `[1-12]` matches any number in the range from `1` to `12`.
 #' * `var1-var5` is NOT used to select a range of variables.
-#' Use `var1:var5` out of `s_matches()` instead.
+#' Use `var1:var5` out of `s_match()` instead.
 #'
 #' @examples
 #' tb <- paste0("x", 1:15) %>%
 #'   tibble::as_tibble() %>%
 #'   tidyr::pivot_wider(names_from = value)
 #' tb
-#' 
+#'
 #' # List variable names by ds()
 #' ds(tb)
-#' 
+#'
 #' tb %>%
-#'   ds(s_matches("x1*"))
+#'   ds(s_match("x1*"))
 #' tb %>%
-#'   ds(s_matches("x1~"))
+#'   ds(s_match("x1~"))
 #' tb %>%
-#'   ds(s_matches("*5"))
+#'   ds(s_match("*5"))
 #' tb %>%
-#'   ds(s_matches("?5"))
+#'   ds(s_match("?5"))
 #' tb %>%
-#'   ds(s_matches("x[9-15]"))
+#'   ds(s_match("x[9-15]"))
 #'
 #' \dontrun{
 #' tb %>%
-#'   ds(s_matches("x1-x5"))
+#'   ds(s_match("x1-x5"))
 #' }
 #'
 #' tb %>%
 #'   ds(x1:x5)
 #'
 #' @export
-s_matches <- function(
+s_match <- function(
     string, ignore.case = TRUE, vars = NULL) {
   if (is.character(string)) {
     string <- paste0("^(", string, ")$")

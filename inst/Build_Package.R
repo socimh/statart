@@ -40,6 +40,7 @@ usethis::use_lifecycle()
 load_all()
 use_version()
 check()
+build_readme()
 
 document()
 load_all()
@@ -72,9 +73,9 @@ load_all()
 install(upgrade = FALSE)
 ?tab
 starwars %>%
-  tab2(s_matches("s*e"))
+  tab2(s_match("s*e"))
 starwars %>%
-  tab2(s_matches("s*e"),
+  tab2(s_match("s*e"),
     .flip = TRUE
   ) %>%
   s_print(n = 5)
@@ -87,7 +88,7 @@ starwars %>%
 
 starwars %>%
   fre2(
-    s_matches("s*e"),
+    s_match("s*e"),
     .flip = TRUE
   ) %>%
   s_print()

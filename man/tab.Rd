@@ -72,7 +72,7 @@ tab(starwars, sex, gender)
 tab(starwars, sex == "male")
 tab(starwars, male = sex == "male")
 tab(starwars, ends_with("color"))
-tab(starwars, s_matches("s*e"))
+tab(starwars, s_match("s*e"))
 tab(starwars)
 
 tab1(starwars, 1:3)
