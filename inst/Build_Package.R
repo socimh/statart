@@ -43,7 +43,7 @@ check()
 
 document()
 load_all()
-
+edit_r_environ()
 
 lifeexp %>%
   mutate(

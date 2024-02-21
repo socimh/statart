@@ -25,13 +25,13 @@ Enhanced select() with data-masking
 }
 \examples{
 starwars \%>\%
- s_select()
+  s_select()
 starwars \%>\%
- s_select(name, height)
+  s_select(name, height)
 \dontrun{
 starwars \%>\%
- dplyr::select(height > 50)
+  dplyr::select(height > 50)
 }
 starwars \%>\%
- s_select(height > 50)
+  s_select(height > 50)
 }
