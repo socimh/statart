@@ -45,7 +45,7 @@ devtools::install_github("socimh/statart")
 
 I highly recommend using `tidyverse` with `statart` for better performance.
 
-```{r}
+```{r, warning=FALSE}
 library(statart)
 library(tidyverse)
 ```
@@ -57,14 +57,14 @@ codebook(lifeexp)
 ```
 ### `summ()`
 
-```{r}
+```{r, error=TRUE}
 summ(starwars)
 summ(lifeexp)
 ```
 
 ### `tab()`
 
-```{r}
+```{r, error=TRUE}
 tab(starwars)
 tab(starwars, species)
 tab(starwars, ends_with("color"))

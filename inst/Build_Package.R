@@ -1,4 +1,5 @@
 pacman::p_load(devtools, usethis)
+build_readme()
 
 getwd()
 create_package(getwd())
@@ -34,6 +35,7 @@ library(statart)
 ls("package:statart")
 ?starwars
 
+lifeexp %>%
 large_starwars <- starwars %>%
   sample_n(1e6, replace = TRUE) %>%
   s_time()
@@ -65,7 +67,6 @@ usethis::use_lifecycle()
 load_all()
 use_version()
 check()
-build_readme()
 
 document()
 load_all()
