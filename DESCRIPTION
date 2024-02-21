@@ -22,7 +22,8 @@ Imports:
     Hmisc,
     rlang,
     haven,
-    purrr
+    purrr,
+    lifecycle
 URL: https://github.com/socimh/statart
 BugReports: https://github.com/socimh/statart/issues
 Depends: 

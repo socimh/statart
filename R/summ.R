@@ -1,5 +1,8 @@
 #' Summarise columns
 #'
+#' `r lifecycle::badge("experimental")`
+#' Enhanced `summarise()`.
+#' 
 #' @param .data A data frame
 #'
 #' @return A tibble

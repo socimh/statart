@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental) [![CRAN status](https://www.r-pkg.org/badges/version/statart)](https://CRAN.R-project.org/package=statart)
-
+[![R-CMD-check](https://github.com/socimh/statart/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/socimh/statart/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The primary goal of statart is to migrate some useful commands (functions) from Stata to R. Functions are built in the tidyverse framework, including

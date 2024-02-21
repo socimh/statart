@@ -34,7 +34,11 @@ library(statart)
 ls("package:statart")
 ?starwars
 
+use_github_action()
+use_github_action("check-standard")
+usethis::use_lifecycle()
 load_all()
+use_version()
 
 document()
 load_all()

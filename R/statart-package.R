@@ -6,7 +6,8 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @importFrom rlang :=
+#' @importFrom lifecycle deprecated
 #' @importFrom magrittr %>%
+#' @importFrom rlang :=
 ## usethis namespace: end
 NULL

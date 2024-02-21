@@ -2,6 +2,7 @@
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
+#' Enhanced `count()`.
 #'
 #' * `tab()` - Tabulates variable(s) simultaneously, similar to `count()`.
 #' * `tab1()` - Tabulates variable(s) one by one.

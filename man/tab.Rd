@@ -44,6 +44,7 @@ An object of the same type as \code{.data}.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+Enhanced \code{count()}.
 \itemize{
 \item \code{tab()} - Tabulates variable(s) simultaneously, similar to \code{count()}.
 \item \code{tab1()} - Tabulates variable(s) one by one.

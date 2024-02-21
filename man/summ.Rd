@@ -13,5 +13,6 @@ summ(.data, ..., .by = NULL, .detail = FALSE, .stat = character(0))
 A tibble
 }
 \description{
-Summarise columns
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+Enhanced \code{summarise()}.
 }
