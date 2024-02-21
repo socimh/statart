@@ -139,18 +139,6 @@ check_factor <- function(.data) {
   }
 }
 
-if_numeric <- function(var) {
-  if (s_type(var) %in%
-    c("lbl", "units", "drtn", "time", "fct", "ord")) {
-    var <- as.numeric(var)
-  } else if (s_type_summable(var)) {
-    var <- var
-  } else {
-    var <- NA_real_
-  }
-  return(var)
-}
-
 summ_var <- function(var, stat = character(0), .detail = FALSE) {
   if (length(stat) == 0 && !.detail) {
     stat_tb <- tibble::tibble(
@@ -161,10 +149,10 @@ summ_var <- function(var, stat = character(0), .detail = FALSE) {
       ) %>% as.character(),
       n = sum(!is.na(var), na.rm = TRUE),
       unique = dplyr::n_distinct(var, na.rm = TRUE),
-      min = min(if_numeric(var), na.rm = TRUE),
-      mean = mean(if_numeric(var), na.rm = TRUE),
-      sd = sd(if_numeric(var), na.rm = TRUE),
-      max = max(if_numeric(var), na.rm = TRUE)
+      min = min(as_numeric(var), na.rm = TRUE),
+      mean = mean(as_numeric(var), na.rm = TRUE),
+      sd = sd(as_numeric(var), na.rm = TRUE),
+      max = max(as_numeric(var), na.rm = TRUE)
     )
     return(stat_tb)
   } else {
@@ -178,17 +166,17 @@ summ_var <- function(var, stat = character(0), .detail = FALSE) {
         unique = dplyr::n_distinct(var, na.rm = TRUE),
         miss_n = dplyr::n() - n,
         valid_pct = 1 - miss_n / (n + miss_n),
-        min = min(if_numeric(var), na.rm = TRUE),
-        q1 = quantile(if_numeric(var), .25, na.rm = TRUE),
-        median = median(if_numeric(var), na.rm = TRUE),
-        mean = mean(if_numeric(var), na.rm = TRUE),
-        mad = mad(if_numeric(var), na.rm = TRUE),
-        sd = sd(if_numeric(var), na.rm = TRUE),
-        q3 = quantile(if_numeric(var), .75, na.rm = TRUE),
-        max = max(if_numeric(var), na.rm = TRUE),
-        iqr = IQR(if_numeric(var), na.rm = TRUE),
-        skew = skew(if_numeric(var), sum(!is.na(var), na.rm = TRUE)),
-        kurtosis = kurtosis(if_numeric(var), sum(!is.na(var), na.rm = TRUE)),
+        min = min(as_numeric(var), na.rm = TRUE),
+        q1 = quantile(as_numeric(var), .25, na.rm = TRUE),
+        median = median(as_numeric(var), na.rm = TRUE),
+        mean = mean(as_numeric(var), na.rm = TRUE),
+        mad = mad(as_numeric(var), na.rm = TRUE),
+        sd = sd(as_numeric(var), na.rm = TRUE),
+        q3 = quantile(as_numeric(var), .75, na.rm = TRUE),
+        max = max(as_numeric(var), na.rm = TRUE),
+        iqr = IQR(as_numeric(var), na.rm = TRUE),
+        skew = skew(as_numeric(var), sum(!is.na(var), na.rm = TRUE)),
+        kurtosis = kurtosis(as_numeric(var), sum(!is.na(var), na.rm = TRUE)),
         se = sd / sqrt(n),
         # mean_sd0 = paste0(sprintf("%.0f", mean), " (", sprintf("%.0f", sd, ")")),
         # mean_sd1 = paste0(sprintf("%.1f", mean), " (", sprintf("%.1f", sd, ")")),
@@ -212,19 +200,19 @@ summ_date <- function(var, stat = character(0), .detail = FALSE) {
     ) %>% as.character(),
     n = sum(!is.na(var), na.rm = TRUE),
     unique = dplyr::n_distinct(var, na.rm = TRUE),
-    miss_n = sum(is.na(if_numeric(var)), na.rm = TRUE),
+    miss_n = sum(is.na(as_numeric(var)), na.rm = TRUE),
     valid_pct = 1 - miss_n / n,
-    min = min(if_numeric(var), na.rm = TRUE),
-    # q1 = quantile(if_numeric(var), .25, na.rm = TRUE),
-    median = median(if_numeric(var), na.rm = TRUE),
-    mean = mean(if_numeric(var), na.rm = TRUE),
-    mad = mad(if_numeric(var), na.rm = TRUE),
-    sd = sd(if_numeric(var), na.rm = TRUE),
-    # q3 = quantile(if_numeric(var), .75, na.rm = TRUE),
-    max = max(if_numeric(var), na.rm = TRUE),
-    iqr = IQR(if_numeric(var), na.rm = TRUE),
-    # skew = skew(if_numeric(var), n),
-    # kurtosis = kurtosis(if_numeric(var), n),
+    min = min(as_numeric(var), na.rm = TRUE),
+    # q1 = quantile(as_numeric(var), .25, na.rm = TRUE),
+    median = median(as_numeric(var), na.rm = TRUE),
+    mean = mean(as_numeric(var), na.rm = TRUE),
+    mad = mad(as_numeric(var), na.rm = TRUE),
+    sd = sd(as_numeric(var), na.rm = TRUE),
+    # q3 = quantile(as_numeric(var), .75, na.rm = TRUE),
+    max = max(as_numeric(var), na.rm = TRUE),
+    iqr = IQR(as_numeric(var), na.rm = TRUE),
+    # skew = skew(as_numeric(var), n),
+    # kurtosis = kurtosis(as_numeric(var), n),
     se = sd / sqrt(n),
     # mean_sd0 = paste0(sprintf("%.0f", mean), " (", sprintf("%.0f", sd), ")"),
     # mean_sd1 = paste0(sprintf("%.1f", mean), " (", sprintf("%.1f", sd), ")"),

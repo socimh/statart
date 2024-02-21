@@ -24,3 +24,18 @@ as_character <- function(.x) {
   }
   return(vec)
 }
+
+as_numeric <- function(var) {
+  if (s_type(var) %in%
+    c("units", "drtn", "time", "fct", "ord")) {
+    var <- as.numeric(var)
+  } else if (s_type(var) == "lbl") {
+    library(haven)
+    var <- as.numeric(var)
+  } else if (s_type_summable(var)) {
+    var <- var
+  } else {
+    var <- NA_real_
+  }
+  return(var)
+}

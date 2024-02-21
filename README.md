@@ -79,7 +79,6 @@ codebook(starwars)
 #> 13 vehicles   list         87     11
 #> 14 starships  list         87     17
 codebook(lifeexp)
-#> Joining with `by = join_by(variable)`
 #> # A tibble: 6 × 5
 #>   variable  type          n unique label                   
 #>   <chr>     <chr>     <int>  <int> <chr>                   
@@ -108,12 +107,14 @@ summ(lifeexp)
 #> Warning in check_numeric(.data_summ): 
 #>     country is non-numeric.
 #>     Consider using `tab()` or `fre()` instead.
-#> Error in `dplyr::summarise()`:
-#> ℹ In argument: `dplyr::across(...)`.
-#> Caused by error in `across()`:
-#> ! Can't compute column `region`.
-#> Caused by error in `as.numeric()`:
-#> ! Can't convert `x` <haven_labelled> to <double>.
+#> # A tibble: 5 × 8
+#>   name      type      n unique   min     mean        sd   max
+#>   <chr>     <chr> <dbl>  <dbl> <dbl>    <dbl>     <dbl> <dbl>
+#> 1 region*** lbl      68      3   1      1.5       0.743     3
+#> 2 popgrowth dbl      68     30  -0.5    0.972     0.931     3
+#> 3 lexp      dbl      68     18  54     72.3       4.72     79
+#> 4 gnppc     dbl      63     62 370   8675.    10635.    39980
+#> 5 safewater dbl      40     29  28     76.1      17.9     100
 ```
 
 ### `tab()`
