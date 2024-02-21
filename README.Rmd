@@ -45,26 +45,26 @@ devtools::install_github("socimh/statart")
 
 I highly recommend using `tidyverse` with `statart` for better performance.
 
-```r
+```{r}
 library(statart)
 library(tidyverse)
 ```
 
 ### `codebook()`
-```r
+```{r}
 codebook(starwars)
 codebook(lifeexp)
 ```
 ### `summ()`
 
-```r
+```{r}
 summ(starwars)
 summ(lifeexp)
 ```
 
 ### `tab()`
 
-```r
+```{r}
 tab(starwars)
 tab(starwars, species)
 tab(starwars, ends_with("color"))
@@ -82,7 +82,7 @@ tab2(starwars, s_match("*i*color"))
 
 `fre()` family functions simply add total rows (and total columns in `fre2()`) to their corresponding `tab()` functions.
 
-```r
+```{r}
 fre(starwars, species)
 # `s_print()` usually prints the output in a more readable format
 fre(starwars, species) %>% s_print()

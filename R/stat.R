@@ -7,7 +7,6 @@
 #' @return A numeric value
 #' @name stat
 
-#' @export
 #' @rdname stat
 skew <- function(x, n) {
   mean_val <- mean(x, na.rm = TRUE)
@@ -16,7 +15,6 @@ skew <- function(x, n) {
   return(skew_val)
 }
 
-#' @export
 #' @rdname stat
 kurtosis <- function(x, n) {
   mean_val <- mean(x, na.rm = TRUE)

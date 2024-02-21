@@ -152,44 +152,55 @@ if_numeric <- function(var) {
 }
 
 summ_var <- function(var, stat = character(0), .detail = FALSE) {
-  stat_tb <- tibble::tibble(
-    type = dplyr::if_else(
-      !is.na(s_unit(var)),
-      stringr::str_glue("[{s_unit(var)}]"),
-      s_type(var)
-    ) %>% as.character(),
-    n = sum(!is.na(var), na.rm = TRUE),
-    unique = dplyr::n_distinct(var, na.rm = TRUE),
-    miss_n = sum(is.na(if_numeric(var)), na.rm = TRUE),
-    valid_pct = 1 - miss_n / n,
-    min = min(if_numeric(var), na.rm = TRUE),
-    q1 = quantile(if_numeric(var), .25, na.rm = TRUE),
-    median = median(if_numeric(var), na.rm = TRUE),
-    mean = mean(if_numeric(var), na.rm = TRUE),
-    mad = mad(if_numeric(var), na.rm = TRUE),
-    sd = sd(if_numeric(var), na.rm = TRUE),
-    q3 = quantile(if_numeric(var), .75, na.rm = TRUE),
-    max = max(if_numeric(var), na.rm = TRUE),
-    iqr = IQR(if_numeric(var), na.rm = TRUE),
-    skew = skew(if_numeric(var), n),
-    kurtosis = kurtosis(if_numeric(var), n),
-    se = sd / sqrt(n),
-    mean_sd0 = paste0(sprintf("%.0f", mean), " (", sprintf("%.0f", sd), ")"),
-    mean_sd1 = paste0(sprintf("%.1f", mean), " (", sprintf("%.1f", sd), ")"),
-    mean_sd2 = paste0(sprintf("%.2f", mean), " (", sprintf("%.2f", sd), ")"),
-    mean_sd3 = paste0(sprintf("%.3f", mean), " (", sprintf("%.3f", sd), ")")
-  )
-  if (length(stat) > 0) {
-    stat_tb <- stat_tb %>%
-      dplyr::select(type, tidyselect::all_of(stat))
-  } else if (!.detail) {
-    stat_tb <- stat_tb %>%
-      dplyr::select(
-        type, n, unique,
-        mean, sd, min, max
+  if (length(stat) == 0 && !.detail) {
+    stat_tb <- tibble::tibble(
+      type = dplyr::if_else(
+        !is.na(s_unit(var)),
+        stringr::str_glue("[{s_unit(var)}]"),
+        s_type(var)
+      ) %>% as.character(),
+      n = sum(!is.na(var), na.rm = TRUE),
+      unique = dplyr::n_distinct(var, na.rm = TRUE),
+      min = min(if_numeric(var), na.rm = TRUE),
+      mean = mean(if_numeric(var), na.rm = TRUE),
+      sd = sd(if_numeric(var), na.rm = TRUE),
+      max = max(if_numeric(var), na.rm = TRUE)
+    )
+    return(stat_tb)
+  } else {
+      stat_tb <- tibble::tibble(
+        type = dplyr::if_else(
+          !is.na(s_unit(var)),
+          stringr::str_glue("[{s_unit(var)}]"),
+          s_type(var)
+        ) %>% as.character(),
+        n = sum(!is.na(var), na.rm = TRUE),
+        unique = dplyr::n_distinct(var, na.rm = TRUE),
+        miss_n = dplyr::n() - n,
+        valid_pct = 1 - miss_n / (n + miss_n),
+        min = min(if_numeric(var), na.rm = TRUE),
+        q1 = quantile(if_numeric(var), .25, na.rm = TRUE),
+        median = median(if_numeric(var), na.rm = TRUE),
+        mean = mean(if_numeric(var), na.rm = TRUE),
+        mad = mad(if_numeric(var), na.rm = TRUE),
+        sd = sd(if_numeric(var), na.rm = TRUE),
+        q3 = quantile(if_numeric(var), .75, na.rm = TRUE),
+        max = max(if_numeric(var), na.rm = TRUE),
+        iqr = IQR(if_numeric(var), na.rm = TRUE),
+        skew = skew(if_numeric(var), sum(!is.na(var), na.rm = TRUE)),
+        kurtosis = kurtosis(if_numeric(var), sum(!is.na(var), na.rm = TRUE)),
+        se = sd / sqrt(n),
+        # mean_sd0 = paste0(sprintf("%.0f", mean), " (", sprintf("%.0f", sd, ")")),
+        # mean_sd1 = paste0(sprintf("%.1f", mean), " (", sprintf("%.1f", sd, ")")),
+        # mean_sd2 = paste0(sprintf("%.2f", mean), " (", sprintf("%.2f", sd, ")")),
+        # mean_sd3 = paste0(sprintf("%.3f", mean), " (", sprintf("%.3f", sd, ")"))
       )
-  }
-  return(stat_tb)
+      if (length(stat) > 0) {
+        stat_tb <- stat_tb %>%
+          dplyr::select(type, tidyselect::all_of(stat))
+      }
+      return(stat_tb)
+  }  
 }
 
 summ_date <- function(var, stat = character(0), .detail = FALSE) {
@@ -284,7 +295,7 @@ summ_list <- function(.data, group_vars, .detail, .stat) {
   ) %>%
     dplyr::mutate(
       dplyr::across(
-        type:tidyselect::last_col() & 
+        type:tidyselect::last_col() &
           tidyselect::where(
             ~ is.numeric(.x)
           ),
@@ -299,7 +310,7 @@ summ_list <- function(.data, group_vars, .detail, .stat) {
         name
       ) %>% as.character()
     )
-  
+
   date <- summ_data(
     .data, summ_date, date, group_vars, .detail, .stat
   )
@@ -314,7 +325,7 @@ summ_list <- function(.data, group_vars, .detail, .stat) {
     datetime = datetime
   ) %>%
     purrr::discard(~ is.null(.))
-  
+
   if (length(out) == 1) {
     out <- out[[1]]
   } else {

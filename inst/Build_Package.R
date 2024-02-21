@@ -34,6 +34,31 @@ library(statart)
 ls("package:statart")
 ?starwars
 
+large_starwars <- starwars %>%
+  sample_n(1e6, replace = TRUE) %>%
+  s_time()
+
+load_all()
+large_starwars %>%
+  summ() %>%
+  s_time()
+
+large_starwars %>%
+  summarise(summ_var(height)) %>%
+  s_time()
+
+large_starwars %>%
+  summarise(summ_var(height, stat = "mean")) %>%
+  s_time()
+large_starwars %>%
+  summarise(height %>% mean(na.rm = T)) %>%
+  s_time()
+large_starwars %>%
+  summarise(
+    across(height, ~ tibble(mean = mean(.x, na.rm = TRUE)))
+  ) %>%
+  s_time()
+
 use_github_action()
 use_github_action("check-standard")
 usethis::use_lifecycle()
