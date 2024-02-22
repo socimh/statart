@@ -4,10 +4,7 @@
 #' (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).
 #' @param n A positive integer. The number of rows to print.
 #' @param width A positive integer. The width of the printed tibble.
-#' @param .head_row If TRUE, will add the first row in the output.
-#' Postive integers are also accepted.
-#' @param .tail_row If TRUE, will add the last row in the output.
-#' Postive integers are also accepted.
+#' @param .append If TRUE, will append the list into a tibble.
 #'
 #' @return Print the first and last rows of the data.
 #' Return the input data frame invisibly.
@@ -29,30 +26,16 @@ s_print <- function(
   if (nrow(.data_tb) <= 2 * n + 1) {
     print(.data_tb, n = nrow(.data_tb), width = width)
   } else {
-    if (tibble::has_rownames(.data_tb) && !is.null(.data_tb)) {
-      .data_tb <- .data_tb %>%
-        tibble::rownames_to_column(".rowname")
-    } else if (!is.null(.data_tb)) {
-      .data_tb <- .data_tb %>%
-        tibble::rowid_to_column(".rowname")
-    }
-
-    paste0(
-      "There are ", nrow(.data_tb), " rows in the dataset."
-    ) %>%
-      message()
-    .data_tb %>%
-      head(n) %>%
-      dplyr::bind_rows(
-        .data_tb %>% tail(n)
-      ) %>%
-      tibble::column_to_rownames(".rowname") %>%
-    print(
-      n = 2 * n,
-      width = width,
-      na.print = "<NA>"
-    )
+    class_tbl(.data, "head_tail", n) %>%
+      print(width = width)
   }
+
+  message(paste0(
+    "Note: ",
+    nrow(.data_tb) - 2 * n,
+    " rows in the middle are hidden."
+  ))
+
   return(invisible(.data))
 }
 
@@ -62,4 +45,44 @@ check_positive_int <- function(x) {
   if (not_positive_int && !is.null(x)) {
     stop(paste(x, "must be a positive integer"))
   }
+}
+
+class_tbl <- function(.data, class, n) {
+  vctrs::new_data_frame(
+    dplyr::bind_rows(
+      .data %>% head(n),
+      .data %>% tail(n)
+    ),
+    nrow = nrow(.data),
+    rows = c(
+      seq_len(n),
+      seq(nrow(.data) - n + 1, nrow(.data))
+    ),
+    class = c(class, "tbl")
+  )
+}
+
+tbl_sum.head_tail <- function(x, ...) {
+  c("A tibble" = paste0(
+    attr(x, "nrow"),
+    " × ",
+    ncol(x)
+  ))
+}
+
+ctl_new_rowid_pillar.head_tail <- function(controller, x, width, ...) {
+  out <- NextMethod()
+  rowid <- attr(controller, "rows")
+  width <- max(nchar(as.character(rowid)))
+  list(
+    title = out$title,
+    type = out$type,
+    data = pillar::new_pillar_shaft(
+      list(row_ids = rowid),
+      width = width,
+      class = "pillar_rif_shaft"
+    ) %>%
+      pillar::pillar_component()
+  ) %>%
+    pillar::new_pillar(width = width)
 }

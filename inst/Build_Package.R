@@ -14,6 +14,82 @@ devtools::install_dev_deps()
 available::available("statart")
 pak::pkg_name_check("statart")
 
+load_all()
+# lifeexp
+# s_print(lifeexp)
+s_print(lifeexp)
+
+
+lifeexp %>%
+  fre(safewater) %>%
+  s_print(n = 8)
+
+lifeexp %>%
+  fre(safewater) %>%
+  s_print(n = 8, .append = FALSE)
+
+s_print2(lifeexp, "head_tail")
+
+class_tbl <- function(.data, class, n) {
+  vctrs::new_data_frame(
+    dplyr::bind_rows(
+      .data %>% head(n),
+      .data %>% tail(n)
+    ),
+    nrow = nrow(.data),
+    rows = c(
+      seq_len(n),
+      seq(nrow(.data) - n + 1, nrow(.data))
+    ),
+    class = c(class, "tbl")
+  )
+}
+
+tbl_sum.head_tail <- function(x, ...) {
+  c("A tibble" = paste0(
+    attr(x, "nrow"),
+    " × ",
+    ncol(x)
+  ))
+}
+
+ctl_new_rowid_pillar.head_tail <- function(controller, x, width, ...) {
+  out <- NextMethod()
+  rowid <- attr(controller, "rows")
+  width <- max(nchar(as.character(rowid)))
+  list(
+    title = out$title,
+    type = out$type,
+    data = pillar::new_pillar_shaft(
+      list(row_ids = rowid),
+      width = width,
+      class = "pillar_rif_shaft"
+    ) %>%
+      pillar::pillar_component()
+  ) %>%
+    pillar::new_pillar(width = width)
+}
+
+tbl_format_footer.head_tail <- function(x, setup, ...) {
+  paste0(
+    "Notice: Middle ", attr(x, "nrow") - length(attr(x, "rows")), " rows are hidden."
+  )
+}
+
+class_tbl(cbind(lifeexp, lifeexp), "head_tail", 5) %>%
+  print(width = Inf)
+
+
+
+
+tbl_format_header.header <- function(x, setup, ...) {
+  pillar::style_subtle("Head and Tail")
+}
+
+class_tbl(lifeexp, "header", 5)
+
+
+
 use_r("s_type")
 use_import_from("rlang", ":=")
 starwars <- dplyr::starwars
@@ -38,7 +114,7 @@ ls("package:statart")
 ?starwars
 
 lifeexp %>%
-large_starwars <- starwars %>%
+  large_starwars() <- starwars %>%
   sample_n(1e6, replace = TRUE) %>%
   s_time()
 

@@ -1,5 +1,6 @@
 #' The clean type of an object.
 #'
+#' @name s_type
 #' @param .x An object.
 #' @param .full A logical. If `TRUE`, the full name of the type is returned.
 #' @return A character.
@@ -7,16 +8,20 @@
 #'
 #' @examples
 #' s_type(1:10)
-#' s_type(letters) 
+#' s_type(letters)
+
 #' @export
+#' @rdname s_type
 s_type <- function(.x, .abbr = FALSE) {
   type <- .x %>%
     pillar::type_sum() %>%
     stringr::str_extract("^(\\w|\\+)+")
 
+  if (vctrs::obj_is_vector(.x)) {
     if (vctrs::vec_ptype_abbr(.x) == "units") {
       type <- "units"
     }
+  }
     if (stringr::str_detect(type, "lbl")) {
       type <- "lbl"
     }
@@ -43,6 +48,8 @@ s_type <- function(.x, .abbr = FALSE) {
   return(type)
 }
 
+#' @export
+#' @rdname s_type
 s_unit <- function(x) {
   unit <- NA_character_
 
