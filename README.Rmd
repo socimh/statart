@@ -140,7 +140,7 @@ Built on `pillar::type_sum()` and `vctrs::vec_ptype_abbr()`, `s_type()` returns 
 ```{r}
 s_type(lifeexp)
 
-s_type(lifeexp$region)
+s_type(lifeexp$region, .full = TRUE)
 ```
 
 `s_print()` is designed for viewing long data by their top and bottom rows.  
@@ -157,7 +157,7 @@ lifeexp %>%
 
 ```{r}
 summ_result <- lifeexp %>%
-  summ(safewater) %>%
+  summ() %>%
   s_time()
 ```
 

@@ -290,12 +290,12 @@ use `s_try()`.
 starwars %>%
   select(tall_characters = height > 100) %>%
   s_try()
-#> Error in s_try(.): 没有"s_try"这个函数
+#> [1] FALSE
 
 starwars %>%
   s_select(tall_characters = height > 100) %>%
   s_try()
-#> Error in s_try(.): 没有"s_try"这个函数
+#> [1] TRUE
 ```
 
 Built on `pillar::type_sum()` and `vctrs::vec_ptype_abbr()`, `s_type()`
@@ -305,8 +305,8 @@ returns the type of input object.
 s_type(lifeexp)
 #> [1] "tibble"
 
-s_type(lifeexp$region)
-#> [1] "lbl"
+s_type(lifeexp$region, .full = TRUE)
+#> [1] "labelled"
 ```
 
 `s_print()` is designed for viewing long data by their top and bottom
@@ -364,19 +364,26 @@ lifeexp %>%
 
 ``` r
 summ_result <- lifeexp %>%
-  summ(safewater) %>%
+  summ() %>%
   s_time()
-#> Time spent: 0.031 secs
+#> Warning in check_numeric(.data_summ): 
+#>     country is non-numeric.
+#>     Consider using `tab()` or `fre()` instead.
+#> Time spent: 0.052 secs
 ```
 
 … and it does not affect the function result.
 
 ``` r
 summ_result
-#> # A tibble: 1 × 8
-#>   name      type      n unique   min  mean    sd   max
-#>   <chr>     <chr> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl>
-#> 1 safewater dbl      40     29    28  76.1  17.9   100
+#> # A tibble: 5 × 8
+#>   name      type      n unique   min     mean        sd   max
+#>   <chr>     <chr> <dbl>  <dbl> <dbl>    <dbl>     <dbl> <dbl>
+#> 1 region*** lbl      68      3   1      1.5       0.743     3
+#> 2 popgrowth dbl      68     30  -0.5    0.972     0.931     3
+#> 3 lexp      dbl      68     18  54     72.3       4.72     79
+#> 4 gnppc     dbl      63     62 370   8675.    10635.    39980
+#> 5 safewater dbl      40     29  28     76.1      17.9     100
 ```
 
 ## Code of Conduct

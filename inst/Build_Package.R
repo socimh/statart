@@ -1,6 +1,7 @@
 pacman::p_load(devtools, usethis)
 build_readme()
 
+document()
 getwd()
 create_package(getwd())
 use_git()
