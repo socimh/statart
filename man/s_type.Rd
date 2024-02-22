@@ -2,9 +2,12 @@
 % Please edit documentation in R/s_tools.R
 \name{s_type}
 \alias{s_type}
+\alias{s_unit}
 \title{The clean type of an object.}
 \usage{
 s_type(.x, .abbr = FALSE)
+
+s_unit(x)
 }
 \arguments{
 \item{.x}{An object.}
@@ -19,5 +22,5 @@ The clean type of an object.
 }
 \examples{
 s_type(1:10)
-s_type(letters) 
+s_type(letters)
 }

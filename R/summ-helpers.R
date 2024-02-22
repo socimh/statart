@@ -68,7 +68,7 @@ check_summarise <- function(.data) {
 
   if (length(summ_vars) == 0) {
     stop("None of the provided variable(s) is suitable for `summ()`.
-    Consider using `tab1()` or `fre1()` instead.")
+    Consider using `tab1()` or `fre1()` instead.", call. = FALSE)
   } else {
     return(out)
   }

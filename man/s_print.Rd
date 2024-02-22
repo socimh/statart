@@ -14,11 +14,7 @@ s_print(.data, n = 5, width = NULL)
 
 \item{width}{A positive integer. The width of the printed tibble.}
 
-\item{.head_row}{If TRUE, will add the first row in the output.
-Postive integers are also accepted.}
-
-\item{.tail_row}{If TRUE, will add the last row in the output.
-Postive integers are also accepted.}
+\item{.append}{If TRUE, will append the list into a tibble.}
 }
 \value{
 Print the first and last rows of the data.

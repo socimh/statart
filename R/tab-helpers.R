@@ -24,7 +24,7 @@ modify_invalid_names <- function(
     invalid_names <- invalid_names %>%
       c("total")
   } else {
-    stop("Invalid function name.")
+    stop("Invalid function name.", call. = FALSE)
   }
 
   detected_names <- intersect(
@@ -80,7 +80,7 @@ modify_invalid_names <- function(
         ) %>%
         return()
     } else {
-      stop("The new name is also taken. Rename fails.")
+      stop("The new name is also taken. Rename fails.", call. = FALSE)
     }
   }
 }
@@ -99,9 +99,9 @@ check_two_vars <- function(.data) {
       Please provide only two variables for cross-tabulation."
   )
   if (var_n < 2) {
-    stop(message1)
+    stop(message1, call. = FALSE)
   } else if (var_n > 2) {
-    stop(message2)
+    stop(message2, call. = FALSE)
   }
 }
 

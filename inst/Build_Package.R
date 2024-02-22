@@ -14,10 +14,62 @@ devtools::install_dev_deps()
 available::available("statart")
 pak::pkg_name_check("statart")
 
+ls("package:statart")
 load_all()
-# lifeexp
-# s_print(lifeexp)
 s_print(lifeexp)
+
+skimr::skim(lifeexp)
+library(sloop)
+s3_dispatch(s_type(lifeexp))
+
+s3_methods_generic("mutate")
+s3_methods_generic("select")
+
+s3_methods_class("ordered")
+s3_methods_class("data.frame")
+
+tb <- class_tbl(lifeexp, "head_tail", 5)
+attr(tb, "row.names") <- attr(tb, "rows")
+tb
+s3_methods_generic(class_tbl(lifeexp, "head_tail", 5))
+s3_methods_generic("class_tbl")
+s3_class(tb)
+str(tb)
+unclass(tb)
+tb
+
+
+## Create an object inheriting from class 'cls', and call the
+## generic on it:
+type_sum(tb)
+tb
+
+document()
+load_all()
+s3_methods_generic("tbl_sum")
+s3_methods_generic("ctl_new_rowid_pillar")
+s3_methods_generic("print") %>%
+  filter(str_detect(class, "^he"))
+
+s3_methods_class("head_tail")
+
+tb <- class_tbl(lifeexp, "head_tail", 5)
+s3_class(tb)
+tbl_sum(tb)
+ctl_new_rowid_pillar(tb)
+tb
+
+source("https://install-github.me/nbenn/prt")
+
+s_print(starwars)
+print(class_tbl(lifeexp, "head_tail", 5))
+
+s3_dispatch(tbl_sum(tb))
+s3_dispatch(ctl_new_rowid_pillar(tb))
+s3_dispatch(class_tbl(lifeexp, "head_tail", 5))
+s3_dispatch(print(tb))
+
+?print.tbl
 
 
 lifeexp %>%

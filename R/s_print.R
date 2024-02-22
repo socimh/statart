@@ -47,6 +47,7 @@ check_positive_int <- function(x) {
   }
 }
 
+#' @export
 class_tbl <- function(.data, class, n) {
   vctrs::new_data_frame(
     dplyr::bind_rows(
@@ -62,7 +63,12 @@ class_tbl <- function(.data, class, n) {
   )
 }
 
-tbl_sum.head_tail <- function(x, ...) {
+#' @export
+tbl_sum <- function(x, ...) UseMethod("tbl_sum", x)
+
+#' @export tbl_sum.head_tail
+#' @method tbl_sum head_tail
+tbl_sum.head_tail <- function(x) {
   c("A tibble" = paste0(
     attr(x, "nrow"),
     " × ",
@@ -70,6 +76,15 @@ tbl_sum.head_tail <- function(x, ...) {
   ))
 }
 
+.S3method("tbl_sum", "head_tail")
+
+#' @export
+ctl_new_rowid_pillar <- function(x) {
+  UseMethod("ctl_new_rowid_pillar", x)
+}
+
+#' @export ctl_new_rowid_pillar.head_tail
+#' @method ctl_new_rowid_pillar head_tail
 ctl_new_rowid_pillar.head_tail <- function(controller, x, width, ...) {
   out <- NextMethod()
   rowid <- attr(controller, "rows")
@@ -86,3 +101,5 @@ ctl_new_rowid_pillar.head_tail <- function(controller, x, width, ...) {
   ) %>%
     pillar::new_pillar(width = width)
 }
+
+.S3method("ctl_new_rowid_pillar", "head_tail")

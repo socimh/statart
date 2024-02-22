@@ -94,7 +94,7 @@ num_range_to_regex <- function(string) {
 
   multiple_ranges <- length(start_end) > 2
   if (multiple_ranges) {
-    stop("Only one range is allowed.")
+    stop("Only one range is allowed.", call. = FALSE)
   }
 
   letter_range <- start_end %in%
@@ -110,7 +110,10 @@ num_range_to_regex <- function(string) {
     begin <- as.integer(start_end[1])
     end <- as.integer(start_end[2])
     if (begin > end) {
-      stop("The number range should start with a smaller number.")
+      stop(
+        "The number range should start with a smaller number.",
+        call. = FALSE
+      )
     } else {
       string_parts <- string %>%
         stringr::str_split_1("\\[.*\\]")
@@ -120,6 +123,8 @@ num_range_to_regex <- function(string) {
       return(out)
     }
   } else {
-    stop("The range should be specified as [a-m] or [1-10]")
+    stop("The range should be specified as [a-m] or [1-10]",
+      call. = FALSE
+    )
   }
 }
