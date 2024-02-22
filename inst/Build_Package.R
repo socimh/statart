@@ -1,4 +1,5 @@
 pacman::p_load(devtools, usethis)
+library(tidyverse)
 build_readme()
 
 document()

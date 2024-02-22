@@ -20,46 +20,38 @@
 #' @export
 s_print <- function(
     .data,
-    n = 5, width = NULL,
-    .head_row = FALSE, .tail_row = FALSE) {
+    n = 5, width = NULL) {
   check_positive_int(n)
   check_positive_int(width)
 
   .data_tb <- tibble::as_tibble(.data)
 
-  head_n <- n + .head_row
-  tail_n <- n + .tail_row
-  if (nrow(.data_tb) <= head_n + tail_n + 1) {
+  if (nrow(.data_tb) <= 2 * n + 1) {
     print(.data_tb, n = nrow(.data_tb), width = width)
   } else {
+    if (tibble::has_rownames(.data_tb) && !is.null(.data_tb)) {
+      .data_tb <- .data_tb %>%
+        tibble::rownames_to_column()
+    } else if (!is.null(.data_tb)) {
+      .data_tb <- .data_tb %>%
+        tibble::rowid_to_column()
+    }
+
     paste0(
       "There are ", nrow(.data_tb), " rows in the dataset."
     ) %>%
       message()
-    paste(
-      "# Top", head_n, "rows:"
-    ) %>%
-      message()
-    # I tried to adjust the header of the tibble output,
-    # but currently pillar does not support it within functions.
+    .data_tb %>%
+      head(n) %>%
+      dplyr::bind_rows(
+        .data_tb %>% tail(n)
+      ) %>%
     print(
-      .data_tb %>% head(head_n),
-      n = head_n, width = width,
-      max_footer_lines = 0
+      n = 2 * n, 
+      width = width
     )
-    paste(
-      "[......",
-      nrow(.data_tb) - head_n - tail_n,
-      "rows omitted ......]"
-    ) %>%
-      message()
-    paste(
-      "# Bottom", tail_n, "rows:"
-    ) %>%
-      message()
-    print(.data_tb %>% tail(tail_n), n = tail_n, width = width)
   }
-return(invisible(.data))
+  return(invisible(.data))
 }
 
 # Helper function:

@@ -315,49 +315,37 @@ rows.
 ``` r
 s_print(lifeexp)
 #> There are 68 rows in the dataset.
-#> # Top 5 rows:
-#> # A tibble: 5 × 6
-#>   region               country    popgrowth  lexp gnppc safewater
-#>   <dbl+lbl>            <chr>          <dbl> <dbl> <dbl>     <dbl>
-#> 1 1 [Europe & C. Asia] Albania        1.20     72   810        76
-#> 2 1 [Europe & C. Asia] Armenia        1.10     74   460        NA
-#> 3 1 [Europe & C. Asia] Austria        0.400    79 26830        NA
-#> 4 1 [Europe & C. Asia] Azerbaijan     1.40     71   480        NA
-#> 5 1 [Europe & C. Asia] Belarus        0.300    68  2180        NA
-#> [...... 58 rows omitted ......]
-#> # Bottom 5 rows:
-#> # A tibble: 5 × 6
-#>   region            country   popgrowth  lexp gnppc safewater
-#>   <dbl+lbl>         <chr>         <dbl> <dbl> <dbl>     <dbl>
-#> 1 3 [South America] Ecuador       2.40     70  1520        70
-#> 2 3 [South America] Paraguay      2.90     70  1760        39
-#> 3 3 [South America] Peru          2        69  2440        80
-#> 4 3 [South America] Uruguay       0.700    74  6070        89
-#> 5 3 [South America] Venezuela     2.40     73  3530        79
+#> # A tibble: 10 × 7
+#>    rowid region               country    popgrowth  lexp gnppc safewater
+#>    <int> <dbl+lbl>            <chr>          <dbl> <dbl> <dbl>     <dbl>
+#>  1     1 1 [Europe & C. Asia] Albania        1.20     72   810        76
+#>  2     2 1 [Europe & C. Asia] Armenia        1.10     74   460        NA
+#>  3     3 1 [Europe & C. Asia] Austria        0.400    79 26830        NA
+#>  4     4 1 [Europe & C. Asia] Azerbaijan     1.40     71   480        NA
+#>  5     5 1 [Europe & C. Asia] Belarus        0.300    68  2180        NA
+#>  6    64 3 [South America]    Ecuador        2.40     70  1520        70
+#>  7    65 3 [South America]    Paraguay       2.90     70  1760        39
+#>  8    66 3 [South America]    Peru           2        69  2440        80
+#>  9    67 3 [South America]    Uruguay        0.700    74  6070        89
+#> 10    68 3 [South America]    Venezuela      2.40     73  3530        79
 
 lifeexp %>%
   fre(safewater) %>%
   s_print()
 #> There are 33 rows in the dataset.
-#> # Top 5 rows:
-#> # A tibble: 5 × 6
-#>   safewater     n percent   cum valid valid_cum
-#>   <chr>     <int>   <dbl> <dbl> <dbl>     <dbl>
-#> 1 28            1    1.47  1.47   2.5       2.5
-#> 2 39            1    1.47  2.94   2.5       5  
-#> 3 55            3    4.41  7.35   7.5      12.5
-#> 4 56            1    1.47  8.82   2.5      15  
-#> 5 57            1    1.47 10.3    2.5      17.5
-#> [...... 23 rows omitted ......]
-#> # Bottom 5 rows:
-#> # A tibble: 5 × 6
-#>   safewater         n percent   cum valid valid_cum
-#>   <chr>         <int>   <dbl> <dbl> <dbl>     <dbl>
-#> 1 100               5    7.35  58.8  12.5       100
-#> 2 Valid Total      40   58.8   NA   100          NA
-#> 3 <NA>             28   41.2  100    NA          NA
-#> 4 Missing Total    28   41.2   NA    NA          NA
-#> 5 Total           136  100     NA    NA          NA
+#> # A tibble: 10 × 7
+#>    rowid safewater         n percent    cum valid valid_cum
+#>    <int> <chr>         <int>   <dbl>  <dbl> <dbl>     <dbl>
+#>  1     1 28                1    1.47   1.47   2.5       2.5
+#>  2     2 39                1    1.47   2.94   2.5       5  
+#>  3     3 55                3    4.41   7.35   7.5      12.5
+#>  4     4 56                1    1.47   8.82   2.5      15  
+#>  5     5 57                1    1.47  10.3    2.5      17.5
+#>  6    29 100               5    7.35  58.8   12.5     100  
+#>  7    30 Valid Total      40   58.8   NA    100        NA  
+#>  8    31 <NA>             28   41.2  100     NA        NA  
+#>  9    32 Missing Total    28   41.2   NA     NA        NA  
+#> 10    33 Total           136  100     NA     NA        NA
 ```
 
 `s_time()` shows the time spent on running a function:
@@ -369,7 +357,7 @@ summ_result <- lifeexp %>%
 #> Warning in check_numeric(.data_summ): 
 #>     country is non-numeric.
 #>     Consider using `tab()` or `fre()` instead.
-#> Time spent: 0.066 secs
+#> Time spent: 0.077 secs
 ```
 
 … and it does not affect the function result.
