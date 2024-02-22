@@ -9,7 +9,7 @@
 #' s_type(1:10)
 #' s_type(letters) 
 #' @export
-s_type <- function(.x, .full = FALSE) {
+s_type <- function(.x, .abbr = FALSE) {
   type <- .x %>%
     pillar::type_sum() %>%
     stringr::str_extract("^(\\w|\\+)+")
@@ -21,7 +21,7 @@ s_type <- function(.x, .full = FALSE) {
       type <- "lbl"
     }
 
-  if (.full) {
+  if (!.abbr) {
     type <- dplyr::case_when(
       type == "int" ~ "integer",
       type == "dbl" ~ "double",
@@ -46,7 +46,7 @@ s_type <- function(.x, .full = FALSE) {
 s_unit <- function(x) {
   unit <- NA_character_
 
-  if (s_type(x) %in% c("units", "drtn", "time")) {
+  if (s_type(x, .abbr = TRUE) %in% c("units", "drtn", "time")) {
     unit <- units(x) %>% as.character()
   }
 

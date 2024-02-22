@@ -203,7 +203,7 @@ append_tab_list <- function(.data) {
   vec_types <- out %>%
     purrr::map_chr(
       ~ dplyr::pull(., value) %>%
-        s_type() %>%
+        s_type(.abbr = TRUE) %>%
         dplyr::if_else(
           . %in% c("int", "dbl"), "num", .
         )

@@ -305,7 +305,7 @@ returns the type of input object.
 s_type(lifeexp)
 #> [1] "tibble"
 
-s_type(lifeexp$region, .full = TRUE)
+s_type(lifeexp$region)
 #> [1] "labelled"
 ```
 
@@ -369,7 +369,7 @@ summ_result <- lifeexp %>%
 #> Warning in check_numeric(.data_summ): 
 #>     country is non-numeric.
 #>     Consider using `tab()` or `fre()` instead.
-#> Time spent: 0.052 secs
+#> Time spent: 0.063 secs
 ```
 
 … and it does not affect the function result.

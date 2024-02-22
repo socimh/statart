@@ -78,7 +78,7 @@ codebook <- function(.data, ...) {
 # Helper function:
 codebook_var <- function(var) {
   stat_tb <- tibble::tibble(
-    type = s_type(var, .full = TRUE),
+    type = s_type(var),
     unit = s_unit(var),
     n = sum(!is.na(var), na.rm = TRUE),
     unique = dplyr::n_distinct(var, na.rm = TRUE)

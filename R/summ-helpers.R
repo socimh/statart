@@ -51,7 +51,7 @@ keep_useful_vars <- function(.data, .data_num, group_vars) {
 }
 
 s_type_summable <- function(var) {
-  s_type(var) %in% c(
+  s_type(var, .abbr = TRUE) %in% c(
     "lgl", "int", "dbl", "int64", "units",
     "drtn", "time", "date", "dttm",
     "lbl", "fct", "ord"
@@ -119,7 +119,7 @@ check_missing <- function(.data) {
 check_factor <- function(.data) {
   fct_vars <- .data %>%
     ds(tidyselect::where(
-      ~ s_type(.x) %in% c("fct", "ord")
+      ~ s_type(.x, .abbr = TRUE) %in% c("fct", "ord")
     ))
 
   if (length(fct_vars) == 1) {
@@ -145,7 +145,7 @@ summ_var <- function(var, stat = character(0), .detail = FALSE) {
       type = dplyr::if_else(
         !is.na(s_unit(var)),
         stringr::str_glue("[{s_unit(var)}]"),
-        s_type(var)
+        s_type(var, .abbr = TRUE)
       ) %>% as.character(),
       n = sum(!is.na(var), na.rm = TRUE),
       unique = dplyr::n_distinct(var, na.rm = TRUE),
@@ -160,7 +160,7 @@ summ_var <- function(var, stat = character(0), .detail = FALSE) {
         type = dplyr::if_else(
           !is.na(s_unit(var)),
           stringr::str_glue("[{s_unit(var)}]"),
-          s_type(var)
+          s_type(var, .abbr = TRUE)
         ) %>% as.character(),
         n = sum(!is.na(var), na.rm = TRUE),
         unique = dplyr::n_distinct(var, na.rm = TRUE),
@@ -196,7 +196,7 @@ summ_date <- function(var, stat = character(0), .detail = FALSE) {
     type = dplyr::if_else(
       !is.na(s_unit(var)),
       stringr::str_glue("[{s_unit(var)}]"),
-      s_type(var)
+      s_type(var, .abbr = TRUE)
     ) %>% as.character(),
     n = sum(!is.na(var), na.rm = TRUE),
     unique = dplyr::n_distinct(var, na.rm = TRUE),
@@ -258,7 +258,7 @@ summ_list <- function(.data, group_vars, .detail, .stat) {
     ds(
       !tidyselect::all_of(group_vars) &
         !tidyselect::where(
-          ~ s_type(.x) %in% c("date", "dttm")
+          ~ s_type(.x) %in% c("date", "datetime")
         )
     )
 
@@ -274,7 +274,7 @@ summ_list <- function(.data, group_vars, .detail, .stat) {
     ds(
       !tidyselect::all_of(group_vars) &
         tidyselect::where(
-          ~ s_type(.x) %in% c("dttm")
+          ~ s_type(.x) %in% c("datetime")
         )
     )
 
