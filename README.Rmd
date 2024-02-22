@@ -45,50 +45,126 @@ devtools::install_github("socimh/statart")
 
 I highly recommend using `tidyverse` with `statart` for better performance.
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, message=FALSE}
 library(statart)
 library(tidyverse)
 ```
 
-### `codebook()`
+### codebook()
+
+View the codebook of `lifeexp`.
+
 ```{r}
-codebook(starwars)
 codebook(lifeexp)
 ```
-### `summ()`
+
+### summ()
+
+Summarise the numeric variables in `lifeexp`.
 
 ```{r, error=TRUE}
-summ(starwars)
 summ(lifeexp)
 ```
 
-### `tab()`
+Not that `region` is a factor variable, so the mean and standard deviation of it may be meaningless.
 
-```{r, error=TRUE}
-tab(starwars)
-tab(starwars, species)
-tab(starwars, ends_with("color"))
-# using the stata-style syntax in `s_match()`
+### tab()
+
+Tabulate a single variable:
+
+```{r}
+tab(starwars, sex)
+```
+
+`s_match()` can select variables in a stata style.
+
+```{r}
 tab(starwars, s_match("*color")) 
+```
 
+`tab1()` tabulates variables one by one as a list.
+
+```{r}
 tab1(starwars, s_match("*color"))
-tab1(starwars, s_match("*color"), .append = TRUE)
+```
 
+`.append` can flatten the list into a tibble.
+
+```{r}
+tab1(starwars, s_match("*color"), .append = TRUE)
+```
+
+`tab2()` cross-tabulates two variables.
+
+```{r}
 tab2(starwars, s_match("*i*color"))
 ```
 
 
-### `fre()`
+### fre()
 
-`fre()` family functions simply add total rows (and total columns in `fre2()`) to their corresponding `tab()` functions.
+`fre()` family functions simply add total rows (and total columns in `fre2()`) to their `tab()` counterparts.
 
 ```{r}
-fre(starwars, species)
-# `s_print()` usually prints the output in a more readable format
-fre(starwars, species) %>% s_print()
+fre(starwars, sex)
+```
 
-fre1(starwars, s_match("*color"))
-fre2(starwars, s_match("*i*color"))
+As the “Total” row is added, subsequent analysis on the result becomes more complicated, and the categories of the variable will be always converted to `character` (i.e., the same type as “Total”). However, I still keep these functions as they print the results with more comprehensive information.
+
+
+### s_...() tools
+
+"s" stands for `statart` as "st_" has already be taken by the powerful geospatial package `sf`. Let me briefly introduce some of them here.
+
+`s_select()` extends the `select()` in tidyverse to enable data-masking features. For example,
+
+```{r}
+starwars %>%
+  s_select(tall_characters = height > 100)
+```
+
+If you do not know whether a function works without any error, you could use `s_try()`.
+
+```{r, error=TRUE}
+starwars %>%
+  select(tall_characters = height > 100) %>%
+  s_try()
+
+starwars %>%
+  s_select(tall_characters = height > 100) %>%
+  s_try()
+```
+
+Built on `pillar::type_sum()` and `vctrs::vec_ptype_abbr()`, `s_type()` returns the type of input object.
+
+```{r}
+s_type(lifeexp)
+
+s_type(lifeexp$region)
+```
+
+`s_print()` is designed for viewing long data by their top and bottom rows.  
+
+```{r}
+s_print(lifeexp)
+
+lifeexp %>%
+  fre(safewater) %>%
+  s_print()
+```
+
+`s_time()` shows the time spent on running a function:  
+
+```{r}
+summ_result <- lifeexp %>%
+  summ(safewater) %>%
+  s_time()
+```
+
+... and it does not affect the function result.
+
+```{r}
+summ_result
 ```
 
 ## Code of Conduct

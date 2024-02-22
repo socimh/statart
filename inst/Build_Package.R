@@ -41,6 +41,7 @@ large_starwars <- starwars %>%
   s_time()
 
 load_all()
+?fre
 large_starwars %>%
   summ() %>%
   s_time()
