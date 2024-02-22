@@ -49,7 +49,8 @@ s_print <- function(
       tibble::column_to_rownames(".rowname") %>%
     print(
       n = 2 * n,
-      width = width
+      width = width,
+      na.print = "<NA>"
     )
   }
   return(invisible(.data))

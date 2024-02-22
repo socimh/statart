@@ -145,7 +145,7 @@ s_type(lifeexp$region)
 
 `s_print()` is designed for viewing long data by their top and bottom rows.  
 
-```{r}
+```{r, error=TRUE}
 s_print(lifeexp)
 
 lifeexp %>%
