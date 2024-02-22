@@ -31,10 +31,10 @@ s_print <- function(
   } else {
     if (tibble::has_rownames(.data_tb) && !is.null(.data_tb)) {
       .data_tb <- .data_tb %>%
-        tibble::rownames_to_column()
+        tibble::rownames_to_column(".rowname")
     } else if (!is.null(.data_tb)) {
       .data_tb <- .data_tb %>%
-        tibble::rowid_to_column()
+        tibble::rowid_to_column(".rowname")
     }
 
     paste0(
@@ -46,8 +46,9 @@ s_print <- function(
       dplyr::bind_rows(
         .data_tb %>% tail(n)
       ) %>%
+      tibble::column_to_rownames(".rowname") %>%
     print(
-      n = 2 * n, 
+      n = 2 * n,
       width = width
     )
   }

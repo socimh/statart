@@ -4,7 +4,7 @@
 \alias{s_type}
 \title{The clean type of an object.}
 \usage{
-s_type(.x, .full = FALSE)
+s_type(.x, .abbr = FALSE)
 }
 \arguments{
 \item{.x}{An object.}

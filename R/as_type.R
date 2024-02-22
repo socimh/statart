@@ -16,7 +16,7 @@
 #'   )
 
 #' @export
-#' @name as_type
+#' @rdname as_type
 as_character <- function(.x) {
   type <- s_type(.x, .abbr = TRUE)
   if (type == "lbl") {
@@ -31,7 +31,7 @@ as_character <- function(.x) {
 }
 
 #' @export
-#' @name as_type
+#' @rdname as_type
 as_numeric <- function(var) {
   if (s_type(var, .abbr = TRUE) %in%
     c("units", "drtn", "time", "fct", "ord")) {

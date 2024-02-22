@@ -2,6 +2,7 @@
 
 export("%>%")
 export(as_character)
+export(as_numeric)
 export(codebook)
 export(ds)
 export(fre)

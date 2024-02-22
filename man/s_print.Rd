@@ -4,7 +4,7 @@
 \alias{s_print}
 \title{Print a long tibble with its first and last rows}
 \usage{
-s_print(.data, n = 5, width = NULL, .head_row = FALSE, .tail_row = FALSE)
+s_print(.data, n = 5, width = NULL)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension
