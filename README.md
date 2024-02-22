@@ -314,7 +314,7 @@ rows.
 
 ``` r
 s_print(lifeexp)
-#> [31mThere are 68 rows in the dataset.[0m
+#> There are 68 rows in the dataset.
 #> # Top 5 rows:
 #> # A tibble: 5 × 6
 #>   region               country    popgrowth  lexp gnppc safewater
@@ -324,7 +324,7 @@ s_print(lifeexp)
 #> 3 1 [Europe & C. Asia] Austria        0.400    79 26830        NA
 #> 4 1 [Europe & C. Asia] Azerbaijan     1.40     71   480        NA
 #> 5 1 [Europe & C. Asia] Belarus        0.300    68  2180        NA
-#> [31m...... 58 rows omitted ......[0m
+#> [...... 58 rows omitted ......]
 #> # Bottom 5 rows:
 #> # A tibble: 5 × 6
 #>   region            country   popgrowth  lexp gnppc safewater
@@ -338,7 +338,7 @@ s_print(lifeexp)
 lifeexp %>%
   fre(safewater) %>%
   s_print()
-#> [31mThere are 33 rows in the dataset.[0m
+#> There are 33 rows in the dataset.
 #> # Top 5 rows:
 #> # A tibble: 5 × 6
 #>   safewater     n percent   cum valid valid_cum
@@ -348,7 +348,7 @@ lifeexp %>%
 #> 3 55            3    4.41  7.35   7.5      12.5
 #> 4 56            1    1.47  8.82   2.5      15  
 #> 5 57            1    1.47 10.3    2.5      17.5
-#> [31m...... 23 rows omitted ......[0m
+#> [...... 23 rows omitted ......]
 #> # Bottom 5 rows:
 #> # A tibble: 5 × 6
 #>   safewater         n percent   cum valid valid_cum
@@ -369,7 +369,7 @@ summ_result <- lifeexp %>%
 #> Warning in check_numeric(.data_summ): 
 #>     country is non-numeric.
 #>     Consider using `tab()` or `fre()` instead.
-#> Time spent: 0.063 secs
+#> Time spent: 0.066 secs
 ```
 
 … and it does not affect the function result.

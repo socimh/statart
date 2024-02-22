@@ -33,7 +33,7 @@ s_print <- function(
     print(.data_tb, n = nrow(.data_tb), width = width)
   } else {
     paste0(
-      "\033[31mThere are ", nrow(.data_tb), " rows in the dataset.\033[0m"
+      "There are ", nrow(.data_tb), " rows in the dataset."
     ) %>%
       message()
     paste(
@@ -48,9 +48,9 @@ s_print <- function(
       max_footer_lines = 0
     )
     paste(
-      "\033[31m......",
+      "[......",
       nrow(.data_tb) - head_n - tail_n,
-      "rows omitted ......\033[0m"
+      "rows omitted ......]"
     ) %>%
       message()
     paste(
