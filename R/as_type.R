@@ -11,7 +11,7 @@
 #'   dplyr::mutate(
 #'     region_chr = as_character(region),
 #'     region_num = as_numeric(region),
-#'     region_fct = as_factor(region),
+#'     region_fct = haven::as_factor(region),
 #'     .keep = "used"
 #'   )
 
@@ -32,17 +32,14 @@ as_character <- function(.x) {
 
 #' @export
 #' @rdname as_type
-as_numeric <- function(var) {
-  if (s_type(var, .abbr = TRUE) %in%
+as_numeric <- function(.x) {
+  if (s_type(.x, .abbr = TRUE) %in%
     c("units", "drtn", "time", "fct", "ord")) {
-    var <- as.numeric(var)
-  } else if (s_type(var, .abbr = TRUE) == "lbl") {
-    library(haven)
-    var <- as.numeric(var)
-  } else if (s_type_summable(var)) {
-    var <- var
-  } else {
-    var <- NA_real_
+    .x <- as.numeric(.x)
+  } else if (s_type(.x, .abbr = TRUE) == "lbl") {
+    .x <- unclass(.x) %>% as.numeric()
+  } else if (!s_type_summable(.x)) {
+    .x <- NA_real_
   }
-  return(var)
+  return(.x)
 }

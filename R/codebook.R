@@ -68,7 +68,7 @@ codebook <- function(.data, ...) {
       dplyr::left_join(
         contents %>%
           dplyr::rename(label = Labels), 
-          by = join_by(variable)
+          by = dplyr::join_by(variable)
       )
   }
 

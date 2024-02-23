@@ -1,5 +1,5 @@
-pacman::p_load(devtools, usethis)
-library(tidyverse)
+pacman::p_load(devtools, usethis, tidyverse, sloop)
+
 build_readme()
 
 document()
@@ -7,6 +7,8 @@ getwd()
 create_package(getwd())
 use_git()
 use_pipe()
+load_all()
+check()
 
 devtools::dev_sitrep()
 devtools::install_dev_deps()
@@ -16,10 +18,13 @@ pak::pkg_name_check("statart")
 
 ls("package:statart")
 load_all()
+print(starwars)
 s_print(lifeexp)
+s_print(starwars)
+
+
 
 skimr::skim(lifeexp)
-library(sloop)
 s3_dispatch(s_type(lifeexp))
 
 s3_methods_generic("mutate")
@@ -29,7 +34,7 @@ s3_methods_class("ordered")
 s3_methods_class("data.frame")
 
 tb <- class_tbl(lifeexp, "head_tail", 5)
-attr(tb, "row.names") <- attr(tb, "rows")
+
 tb
 s3_methods_generic(class_tbl(lifeexp, "head_tail", 5))
 s3_methods_generic("class_tbl")
@@ -45,21 +50,34 @@ type_sum(tb)
 tb
 
 document()
+install(upgrade = FALSE)
 load_all()
+library(sloop)
+?tbl_sum
 s3_methods_generic("tbl_sum")
 s3_methods_generic("ctl_new_rowid_pillar")
-s3_methods_generic("print") %>%
-  filter(str_detect(class, "^he"))
+s3_methods_generic("tbl_format_footer")
 
 s3_methods_class("head_tail")
+
+s_print(lifeexp)
+s_print(starwars)
+print(starwars)
 
 tb <- class_tbl(lifeexp, "head_tail", 5)
 s3_class(tb)
 tbl_sum(tb)
 ctl_new_rowid_pillar(tb)
+tbl_format_footer(tb)
 tb
+as(arrange(mtcars, cyl), "DataFrame")
 
-source("https://install-github.me/nbenn/prt")
+library(haven)
+x <- labelled(sample(5, 10, replace = TRUE), c(Bad = 1, Good = 5))
+as.numeric(x)
+as_factor(x) %>%
+  as.numeric()
+
 
 s_print(starwars)
 print(class_tbl(lifeexp, "head_tail", 5))
@@ -68,6 +86,7 @@ s3_dispatch(tbl_sum(tb))
 s3_dispatch(ctl_new_rowid_pillar(tb))
 s3_dispatch(class_tbl(lifeexp, "head_tail", 5))
 s3_dispatch(print(tb))
+
 
 ?print.tbl
 

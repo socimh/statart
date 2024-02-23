@@ -2,7 +2,8 @@
 #'
 #' @name s_type
 #' @param .x An object.
-#' @param .full A logical. If `TRUE`, the full name of the type is returned.
+#' @param .abbr A logical. If `TRUE`, the abbreviation
+#' of the type is returned.
 #' @return A character.
 #' @export
 #'
@@ -22,9 +23,9 @@ s_type <- function(.x, .abbr = FALSE) {
       type <- "units"
     }
   }
-    if (stringr::str_detect(type, "lbl")) {
-      type <- "lbl"
-    }
+  if (stringr::str_detect(type, "lbl")) {
+    type <- "lbl"
+  }
 
   if (!.abbr) {
     type <- dplyr::case_when(
@@ -50,11 +51,11 @@ s_type <- function(.x, .abbr = FALSE) {
 
 #' @export
 #' @rdname s_type
-s_unit <- function(x) {
+s_unit <- function(.x) {
   unit <- NA_character_
 
-  if (s_type(x, .abbr = TRUE) %in% c("units", "drtn", "time")) {
-    unit <- units(x) %>% as.character()
+  if (s_type(.x, .abbr = TRUE) %in% c("units", "drtn", "time")) {
+    unit <- units(.x) %>% as.character()
   }
 
   return(unit)

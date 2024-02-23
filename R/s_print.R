@@ -4,7 +4,6 @@
 #' (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).
 #' @param n A positive integer. The number of rows to print.
 #' @param width A positive integer. The width of the printed tibble.
-#' @param .append If TRUE, will append the list into a tibble.
 #'
 #' @return Print the first and last rows of the data.
 #' Return the input data frame invisibly.
@@ -30,12 +29,6 @@ s_print <- function(
       print(width = width)
   }
 
-  message(paste0(
-    "Note: ",
-    nrow(.data_tb) - 2 * n,
-    " rows in the middle are hidden."
-  ))
-
   return(invisible(.data))
 }
 
@@ -47,7 +40,6 @@ check_positive_int <- function(x) {
   }
 }
 
-#' @export
 class_tbl <- function(.data, class, n) {
   vctrs::new_data_frame(
     dplyr::bind_rows(
@@ -63,28 +55,18 @@ class_tbl <- function(.data, class, n) {
   )
 }
 
+#' @importFrom pillar tbl_sum
 #' @export
-tbl_sum <- function(x, ...) UseMethod("tbl_sum", x)
-
-#' @export tbl_sum.head_tail
-#' @method tbl_sum head_tail
 tbl_sum.head_tail <- function(x) {
   c("A tibble" = paste0(
     attr(x, "nrow"),
-    " × ",
+    " \u00d7 ",
     ncol(x)
   ))
 }
 
-.S3method("tbl_sum", "head_tail")
-
+#' @importFrom pillar ctl_new_rowid_pillar
 #' @export
-ctl_new_rowid_pillar <- function(x) {
-  UseMethod("ctl_new_rowid_pillar", x)
-}
-
-#' @export ctl_new_rowid_pillar.head_tail
-#' @method ctl_new_rowid_pillar head_tail
 ctl_new_rowid_pillar.head_tail <- function(controller, x, width, ...) {
   out <- NextMethod()
   rowid <- attr(controller, "rows")
@@ -102,4 +84,22 @@ ctl_new_rowid_pillar.head_tail <- function(controller, x, width, ...) {
     pillar::new_pillar(width = width)
 }
 
-.S3method("ctl_new_rowid_pillar", "head_tail")
+#' @importFrom pillar tbl_format_footer
+#' @export
+tbl_format_footer.head_tail <- function(x, ...) {
+  default_footer <- NextMethod()
+
+  exclamation <- "\u2139"
+  hidden_rows <- attr(x, "nrow") - length(attr(x, "rows"))
+  rows_footer <- paste0(
+    "# ", exclamation, " ", hidden_rows, " more rows in the middle"
+  ) %>%
+    pillar::style_subtle()
+  tip_footer <- paste0(
+    "# ", exclamation, " Use `s_print(n = ...)` to see more rows"
+  ) %>%
+    pillar::style_subtle()
+
+  c(rows_footer, default_footer, tip_footer)
+}
+

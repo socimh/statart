@@ -13,8 +13,6 @@ s_print(.data, n = 5, width = NULL)
 \item{n}{A positive integer. The number of rows to print.}
 
 \item{width}{A positive integer. The width of the printed tibble.}
-
-\item{.append}{If TRUE, will append the list into a tibble.}
 }
 \value{
 Print the first and last rows of the data.

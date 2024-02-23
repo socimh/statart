@@ -8,7 +8,7 @@
 \usage{
 as_character(.x)
 
-as_numeric(var)
+as_numeric(.x)
 }
 \arguments{
 \item{.x}{A vector or matrix.}
@@ -22,7 +22,7 @@ lifeexp \%>\%
   dplyr::mutate(
     region_chr = as_character(region),
     region_num = as_numeric(region),
-    region_fct = as_factor(region),
+    region_fct = haven::as_factor(region),
     .keep = "used"
   )
 }
