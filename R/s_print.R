@@ -2,8 +2,10 @@
 #'
 #' @param .data A data frame, data frame extension
 #' (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).
-#' @param n A positive integer. The number of rows to print.
+#' @param n A positive integer. The number of rows to show in
+#' the head and in the tail.
 #' @param width A positive integer. The width of the printed tibble.
+#' @inheritParams tibble::print.tbl
 #'
 #' @return Print the first and last rows of the data.
 #' Return the input data frame invisibly.
@@ -16,17 +18,22 @@
 #' @export
 s_print <- function(
     .data,
-    n = 5, width = NULL) {
+    n = 5, width = NULL,
+    ...,
+    max_extra_cols = NULL,
+    max_footer_lines = NULL) {
   check_positive_int(n)
   check_positive_int(width)
 
   .data_tb <- tibble::as_tibble(.data)
 
-  if (nrow(.data_tb) <= 2 * n + 1) {
+  print_max <- max(2 * n + 1, 20)
+
+  if (nrow(.data_tb) <= print_max) {
     print(.data_tb, n = nrow(.data_tb), width = width)
   } else {
     class_tbl(.data, "head_tail", n) %>%
-      print(width = width)
+      print(n = Inf, width = width)
   }
 
   return(invisible(.data))
@@ -102,4 +109,3 @@ tbl_format_footer.head_tail <- function(x, ...) {
 
   c(rows_footer, default_footer, tip_footer)
 }
-

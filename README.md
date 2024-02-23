@@ -54,14 +54,14 @@ View the codebook of `lifeexp`.
 ``` r
 codebook(lifeexp)
 #> # A tibble: 6 × 5
-#>   variable  type          n unique label                   
-#>   <chr>     <chr>     <int>  <int> <chr>                   
-#> 1 region    labelled     68      3 Region                  
-#> 2 country   character    68     68 Country                 
-#> 3 popgrowth double       68     30 Avg. annual % growth    
-#> 4 lexp      double       68     18 Life expectancy at birth
-#> 5 gnppc     double       63     62 GNP per capita          
-#> 6 safewater double       40     29 Safe water
+#>   variable  type              n unique label                   
+#>   <chr>     <chr>         <int>  <int> <chr>                   
+#> 1 region    hvn_labelledl    68      3 Region                  
+#> 2 country   character        68     68 Country                 
+#> 3 popgrowth double           68     30 Avg. annual % growth    
+#> 4 lexp      double           68     18 Life expectancy at birth
+#> 5 gnppc     double           63     62 GNP per capita          
+#> 6 safewater double           40     29 Safe water
 ```
 
 ### summ()
@@ -70,16 +70,14 @@ Summarise the numeric variables in `lifeexp`.
 
 ``` r
 summ(lifeexp)
-#> Warning: country is non-numeric. Consider using `tab()` or `fre()` instead.
-#> Warning: region is a labelled variable (**).
-#> # A tibble: 5 × 8
+#> Warning: region and country are non-numeric and thus removed.
+#> # A tibble: 4 × 8
 #>   name      type      n unique   min     mean        sd   max
 #>   <chr>     <chr> <dbl>  <dbl> <dbl>    <dbl>     <dbl> <dbl>
-#> 1 region**  lbl      68      3   1      1.5       0.743     3
-#> 2 popgrowth dbl      68     30  -0.5    0.972     0.931     3
-#> 3 lexp      dbl      68     18  54     72.3       4.72     79
-#> 4 gnppc     dbl      63     62 370   8675.    10635.    39980
-#> 5 safewater dbl      40     29  28     76.1      17.9     100
+#> 1 popgrowth dbl      68     30  -0.5    0.972     0.931     3
+#> 2 lexp      dbl      68     18  54     72.3       4.72     79
+#> 3 gnppc     dbl      63     62 370   8675.    10635.    39980
+#> 4 safewater dbl      40     29  28     76.1      17.9     100
 ```
 
 Not that `region` is a factor variable, so the mean and standard
@@ -236,7 +234,7 @@ tab2(starwars, s_match("*i*color"))
 
 ``` r
 fre(starwars, sex)
-#> # A tibble: 8 × 6
+#> # A tibble: 7 × 6
 #>   sex                n percent   cum  valid valid_cum
 #>   <chr>          <int>   <dbl> <dbl>  <dbl>     <dbl>
 #> 1 female            16   18.4   18.4  19.3       19.3
@@ -245,8 +243,7 @@ fre(starwars, sex)
 #> 4 none               6    6.90  95.4   7.23     100  
 #> 5 Valid Total       83   95.4   NA   100         NA  
 #> 6 <NA>               4    4.60 100    NA         NA  
-#> 7 Missing Total      4    4.60  NA    NA         NA  
-#> 8 Total            174  100     NA    NA         NA
+#> 7 Total             87  100     NA    NA         NA
 ```
 
 As the “Total” row is added, subsequent analysis on the result becomes
@@ -305,7 +302,7 @@ s_type(lifeexp)
 #> [1] "tibble"
 
 s_type(lifeexp$region)
-#> [1] "labelled"
+#> [1] "hvn_labelledl"
 ```
 
 `s_print()` is designed for viewing long data by their top and bottom
@@ -332,20 +329,20 @@ s_print(lifeexp)
 lifeexp %>%
   fre(safewater) %>%
   s_print()
-#> # A tibble: 33 × 6
-#>    safewater         n percent    cum valid valid_cum
-#>    <chr>         <int>   <dbl>  <dbl> <dbl>     <dbl>
-#>  1 28                1    1.47   1.47   2.5       2.5
-#>  2 39                1    1.47   2.94   2.5       5  
-#>  3 55                3    4.41   7.35   7.5      12.5
-#>  4 56                1    1.47   8.82   2.5      15  
-#>  5 57                1    1.47  10.3    2.5      17.5
-#> 29 100               5    7.35  58.8   12.5     100  
-#> 30 Valid Total      40   58.8   NA    100        NA  
-#> 31 <NA>             28   41.2  100     NA        NA  
-#> 32 Missing Total    28   41.2   NA     NA        NA  
-#> 33 Total           136  100     NA     NA        NA  
-#> # ℹ 23 more rows in the middle
+#> # A tibble: 32 × 6
+#>    safewater       n percent    cum valid valid_cum
+#>    <chr>       <int>   <dbl>  <dbl> <dbl>     <dbl>
+#>  1 28              1    1.47   1.47   2.5       2.5
+#>  2 39              1    1.47   2.94   2.5       5  
+#>  3 55              3    4.41   7.35   7.5      12.5
+#>  4 56              1    1.47   8.82   2.5      15  
+#>  5 57              1    1.47  10.3    2.5      17.5
+#> 28 99              1    1.47  51.5    2.5      87.5
+#> 29 100             5    7.35  58.8   12.5     100  
+#> 30 Valid Total    40   58.8   NA    100        NA  
+#> 31 <NA>           28   41.2  100     NA        NA  
+#> 32 Total          68  100     NA     NA        NA  
+#> # ℹ 22 more rows in the middle
 #> # ℹ Use `s_print(n = ...)` to see more rows
 ```
 
@@ -355,23 +352,21 @@ lifeexp %>%
 summ_result <- lifeexp %>%
   summ() %>%
   s_time()
-#> Warning: country is non-numeric. Consider using `tab()` or `fre()` instead.
-#> Warning: region is a labelled variable (**).
-#> Time spent: 0.057 secs
+#> Warning: region and country are non-numeric and thus removed.
+#> Time spent: 0.060 secs
 ```
 
 … and it does not affect the function result.
 
 ``` r
 summ_result
-#> # A tibble: 5 × 8
+#> # A tibble: 4 × 8
 #>   name      type      n unique   min     mean        sd   max
 #>   <chr>     <chr> <dbl>  <dbl> <dbl>    <dbl>     <dbl> <dbl>
-#> 1 region**  lbl      68      3   1      1.5       0.743     3
-#> 2 popgrowth dbl      68     30  -0.5    0.972     0.931     3
-#> 3 lexp      dbl      68     18  54     72.3       4.72     79
-#> 4 gnppc     dbl      63     62 370   8675.    10635.    39980
-#> 5 safewater dbl      40     29  28     76.1      17.9     100
+#> 1 popgrowth dbl      68     30  -0.5    0.972     0.931     3
+#> 2 lexp      dbl      68     18  54     72.3       4.72     79
+#> 3 gnppc     dbl      63     62 370   8675.    10635.    39980
+#> 4 safewater dbl      40     29  28     76.1      17.9     100
 ```
 
 ## Code of Conduct

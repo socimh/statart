@@ -50,67 +50,88 @@ keep_useful_vars <- function(.data, .data_num, group_vars) {
   return(out)
 }
 
-s_type_summable <- function(var) {
-  s_type(var, .abbr = TRUE) %in% c(
-    "lgl", "int", "dbl", "int64", "units",
-    "drtn", "time", "date", "dttm",
-    "lbl", "fct", "ord"
+is_summable_chr <- function(chr) {
+  chr %>%
+  stringr::str_detect(
+    "^(lgl|int|dbl|int64|units|drtn|time|date|dttm|fct|ord)"
   )
+}
+
+is_summable <- function(.x) {
+  s_type(.x, .abbr = TRUE) %>%
+    is_summable_chr()
 }
 
 check_summarise <- function(.data) {
   out <- .data %>%
     dplyr::select(tidyselect::where(
-      ~ s_type_summable(.x) &
+      ~ is_summable(.x) &
         mean(is.na(.x)) < 1L
     ))
   summ_vars <- names(out)
 
   if (length(summ_vars) == 0) {
-    stop("None of the provided variable(s) is suitable for `summ()`.
-    Consider using `tab1()` or `fre1()` instead.", call. = FALSE)
+    stop(
+      "None of the provided variable(s) is suitable for `summ()`.",
+      call. = FALSE
+    )
   } else {
     return(out)
   }
 }
 
-check_numeric <- function(.data) {
-  # Check if vars are numeric
-  non_num_vars <- .data %>%
-    ds(!tidyselect::where(
-      ~ s_type_summable(.x)
-    ))
-
-  if (length(non_num_vars) == 1) {
+warning_vars <- function(vars, suffix) {
+  if (length(vars) == 0) {
+    return()
+  } else if (length(vars) == 1) {
+    message <- paste0(vars, " is ", suffix)
+    warning(message, call. = FALSE)
+  } else if (
+    stringr::str_length(vars[1]) +
+    stringr::str_length(vars[2]) > 40) {
     message <- paste0(
-      non_num_vars,
-      " is non-numeric. Consider using `tab()` or `fre()` instead."
+      vars[1], ", ... are ", suffix
     )
     warning(message, call. = FALSE)
-  } else if (length(non_num_vars) > 1) {
-    message <- non_num_vars %>%
-      paste(collapse = ", ") %>%
-      paste0(" are non-numeric. Consider using `tab1()` or `fre1()` instead.")
-      warning(message, call. = FALSE)
+  } else if (length(vars) > 2) {
+    message <- paste(vars[1:2], collapse = ", ") %>%
+      paste0(", ... are ", suffix)
+    warning(message, call. = FALSE)
+  } else {
+    message <- paste(vars, collapse = " and ") %>%
+      paste0(" are ", suffix)
+    warning(message, call. = FALSE)
   }
 }
 
-check_missing <- function(.data) {
+check_numeric <- function(.data, .keep_all) {
+  # Check if vars are numeric
+  non_num_vars <- .data %>%
+    ds(!tidyselect::where(
+      ~ is_summable(.x)
+    ))
+
+  suffix <- dplyr::if_else(
+    .keep_all,
+    "non-numeric (***).",
+    "non-numeric and thus removed."
+  )
+  warning_vars(non_num_vars, suffix)
+}
+
+check_missing <- function(.data, .keep_all) {
   na_vars <- .data %>%
     ds(tidyselect::where(
-      ~ s_type_summable(.x) &
+      ~ is_summable(.x) &
         mean(is.na(.)) == 1L
     ))
 
-  if (length(na_vars) == 1) {
-    message <- paste0(na_vars, " is entirely missing and thus removed.")
-    warning(message, call. = FALSE)
-  }
-  if (length(na_vars) > 1) {
-    message <- paste(na_vars, collapse = ", ") %>%
-      paste0(" is entirely missing and thus removed.")
-      warning(message, call. = FALSE)
-  }
+  suffix <- dplyr::if_else(
+    .keep_all,
+    "entirely missing.",
+    "entirely missing and thus removed."
+  )
+  warning_vars(na_vars, suffix)
 }
 
 check_factor <- function(.data) {
@@ -119,32 +140,27 @@ check_factor <- function(.data) {
       ~ s_type(.x, .abbr = TRUE) %in% c("fct", "ord")
     ))
 
-  if (length(fct_vars) == 1) {
-    message <- paste0(fct_vars, " is a factor variable (***).")
-    warning(message, call. = FALSE)
-  } else if (length(fct_vars) > 1) {
-    message <- fct_vars %>%
-      paste(collapse = ", ") %>%
-      paste0(" are factor variables (***).")
-    warning(message, call. = FALSE)
-  }
+  suffix <- dplyr::if_else(
+    length(fct_vars) == 1,
+    "a factor (**).",
+    "factors (**)."
+  )
+  warning_vars(fct_vars, suffix)
 }
 
 check_label <- function(.data) {
-  fct_vars <- .data %>%
+  lbl_vars <- .data %>%
     ds(tidyselect::where(
-      ~ s_type(.x, .abbr = TRUE) %in% c("lbl")
+      ~ s_type(.x, .abbr = TRUE) %>%
+        stringr::str_detect("lbl$")
     ))
 
-  if (length(fct_vars) == 1) {
-    message <- paste0(fct_vars, " is a labelled variable (**).")
-    warning(message, call. = FALSE)
-  } else if (length(fct_vars) > 1) {
-    message <- fct_vars %>%
-      paste(collapse = ", ") %>%
-      paste0(" are labelled variables (**).")
-      warning(message, call. = FALSE)
-  }
+  suffix <- dplyr::if_else(
+    length(lbl_vars) == 1,
+    "a labelled variable (*).",
+    "labelled variables (*)."
+  )
+  warning_vars(lbl_vars, suffix)
 }
 
 summ_var <- function(var, stat = character(0), .detail = FALSE) {
@@ -152,7 +168,9 @@ summ_var <- function(var, stat = character(0), .detail = FALSE) {
     stat_tb <- tibble::tibble(
       type = dplyr::if_else(
         !is.na(s_unit(var)),
-        stringr::str_glue("[{s_unit(var)}]"),
+        stringr::str_glue(
+          "{s_type(var, .abbr = TRUE)} [{s_unit(var)}]"
+          ),
         s_type(var, .abbr = TRUE)
       ) %>% as.character(),
       n = sum(!is.na(var), na.rm = TRUE),
@@ -167,7 +185,9 @@ summ_var <- function(var, stat = character(0), .detail = FALSE) {
     stat_tb <- tibble::tibble(
       type = dplyr::if_else(
         !is.na(s_unit(var)),
-        stringr::str_glue("[{s_unit(var)}]"),
+        stringr::str_glue(
+          "{s_type(var, .abbr = TRUE)} [{s_unit(var)}]"
+          ),
         s_type(var, .abbr = TRUE)
       ) %>% as.character(),
       n = sum(!is.na(var), na.rm = TRUE),
@@ -301,10 +321,12 @@ summ_list <- function(.data, group_vars, .detail, .stat) {
         )
       ),
       name = dplyr::case_when(
+        !is_summable_chr(type) ~
+          stringr::str_glue("***{name}"),
         type %in% c("fct", "ord") ~
-          stringr::str_glue("{name}***"),
-        type %in% c("lbl") ~
-          stringr::str_glue("{name}**"),
+          stringr::str_glue("**{name}"),
+        stringr::str_detect(type, "lbl$") ~
+          stringr::str_glue("*{name}"),
         TRUE ~ name
       ) %>% as.character()
     )
@@ -328,7 +350,7 @@ summ_list <- function(.data, group_vars, .detail, .stat) {
     out <- out[[1]]
   } else {
     warning(
-      "A list is returned. Use `purrr::map()` to manipulate the tibbles.",
+      "A list is returned as statistics are heterogeneous.",
       call. = FALSE
     )
   }

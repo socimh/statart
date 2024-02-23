@@ -4,15 +4,33 @@
 \alias{s_print}
 \title{Print a long tibble with its first and last rows}
 \usage{
-s_print(.data, n = 5, width = NULL)
+s_print(
+  .data,
+  n = 5,
+  width = NULL,
+  ...,
+  max_extra_cols = NULL,
+  max_footer_lines = NULL
+)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension
 (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
 
-\item{n}{A positive integer. The number of rows to print.}
+\item{n}{A positive integer. The number of rows to show in
+the head and in the tail.}
 
 \item{width}{A positive integer. The width of the printed tibble.}
+
+\item{...}{Passed on to \code{\link[=tbl_format_setup]{tbl_format_setup()}}.}
+
+\item{max_extra_cols}{Number of extra columns to print abbreviated information for,
+if the width is too small for the entire tibble. If \code{NULL},
+the \code{max_extra_cols} \link[pillar:pillar_options]{option} is used.
+The previously defined \code{n_extra} argument is soft-deprecated.}
+
+\item{max_footer_lines}{Maximum number of footer lines. If \code{NULL},
+the \code{max_footer_lines} \link[pillar:pillar_options]{option} is used.}
 }
 \value{
 Print the first and last rows of the data.

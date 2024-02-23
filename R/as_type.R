@@ -19,7 +19,7 @@
 #' @rdname as_type
 as_character <- function(.x) {
   type <- s_type(.x, .abbr = TRUE)
-  if (type == "lbl") {
+  if (type %>% stringr::str_detect("lbl")) {
     vec <- .x %>%
       haven::as_factor() %>%
       as.character()
@@ -36,9 +36,10 @@ as_numeric <- function(.x) {
   if (s_type(.x, .abbr = TRUE) %in%
     c("units", "drtn", "time", "fct", "ord")) {
     .x <- as.numeric(.x)
-  } else if (s_type(.x, .abbr = TRUE) == "lbl") {
+  } else if (s_type(.x, .abbr = TRUE) %>%
+    stringr::str_detect("lbl")) {
     .x <- unclass(.x) %>% as.numeric()
-  } else if (!s_type_summable(.x)) {
+  } else if (!is_summable(.x)) {
     .x <- NA_real_
   }
   return(.x)

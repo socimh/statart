@@ -1,5 +1,4 @@
 pacman::p_load(devtools, usethis, tidyverse, sloop)
-
 build_readme()
 
 document()
@@ -10,6 +9,14 @@ use_pipe()
 load_all()
 check()
 
+
+lifeexp %>%
+     dplyr::mutate(
+       region_chr = as_character(region),
+       region_num = as_numeric(region),
+       region_fct = haven::as_factor(region),
+       .keep = "used"
+     )
 s_print(lifeexp)
 lifeexp %>%
   mutate(
@@ -26,13 +33,16 @@ pak::pkg_name_check("statart")
 
 ls("package:statart")
 load_all()
-print(starwars)
-s_print(lifeexp)
-s_print(starwars)
 
+lifeexp %>%
+  fre() %>%
+  s_print(n = 20)
+fre1(complex_tb) %>%
+  walk(s_print)
 
 
 skimr::skim(lifeexp)
+skimr::skim(complex_tb)
 s3_dispatch(s_type(lifeexp))
 
 s3_methods_generic("mutate")

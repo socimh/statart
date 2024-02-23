@@ -23,27 +23,22 @@ s_type <- function(.x, .abbr = FALSE) {
       type <- "units"
     }
   }
-  if (stringr::str_detect(type, "lbl")) {
-    type <- "lbl"
-  }
 
   if (!.abbr) {
-    type <- dplyr::case_when(
-      type == "int" ~ "integer",
-      type == "dbl" ~ "double",
-      type == "chr" ~ "character",
-      type == "lgl" ~ "logical",
-      type == "cpl" ~ "complex",
-      type == "fct" ~ "factor",
-      type == "dttm" ~ "datetime",
-      type == "drtn" ~ "duration",
-      type == "df" ~ "dataframe",
-      type == "fn" ~ "function",
-      type == "env" ~ "environment",
-      type == "sym" ~ "symbol",
-      type == "lbl" ~ "labelled",
-      TRUE ~ type
-    )
+    type <- type %>%
+      stringr::str_replace("int", "integer") %>%
+      stringr::str_replace("dbl", "double") %>%
+      stringr::str_replace("chr", "character") %>%
+      stringr::str_replace("lgl", "logical") %>%
+      stringr::str_replace("cpl", "complex") %>%
+      stringr::str_replace("fct", "factor") %>%
+      stringr::str_replace("dttm", "datetime") %>%
+      stringr::str_replace("drtn", "duration") %>%
+      stringr::str_replace("df", "dataframe") %>%
+      stringr::str_replace("fn", "function") %>%
+      stringr::str_replace("env", "environment") %>%
+      stringr::str_replace("sym", "symbol") %>%
+      stringr::str_replace("lbl", "labelled")
   }
 
   return(type)

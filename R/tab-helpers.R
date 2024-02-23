@@ -17,10 +17,10 @@ modify_invalid_names <- function(
     )
 
   if (function_name %in%
-    c("tab()", "tab1()", "fre()", "fre1()")) {
+    c("tab()", "tab1()")) {
     invalid_names <- invalid_names
   } else if (function_name %in%
-    c("tab2()", "fre2()")) {
+    c("fre()", "fre1()", "tab2()", "fre2()")) {
     invalid_names <- invalid_names %>%
       c("total")
   } else {
@@ -146,48 +146,77 @@ tab_data <- function(
   return(out)
 }
 
-add_total <- function(out) {
-  col_name <- out %>%
-    dplyr::select(
-      -c(n:dplyr::last_col())
-    ) %>%
-    ds(dplyr::last_col())
+add_total <- function(data) {
+  narrow_data <- ncol(data) <= 11
 
-  out <- out %>%
-    dplyr::rename(...tmp = {{ col_name }}) %>%
+  if (narrow_data) {
+    col_name <- data %>%
+      dplyr::select(
+        -c(n:dplyr::last_col())
+      ) %>%
+      ds(dplyr::last_col())
+
+    data <- data %>%
+      dplyr::rename(...tmp = {{ col_name }}) %>%
       dplyr::mutate(...tmp = ...tmp %>% as_character())
+  } else {
+    data <- data %>%
+      dplyr::mutate(...tmp = "") %>%
+      dplyr::relocate(
+        ...tmp,
+        tidyselect::last_col(6):tidyselect::last_col(2)
+      )
+  }
 
-  out_head <- out %>%
-    dplyr::filter(!...any_miss) %>%
-    dplyr::add_row(
-      ...tmp = "Valid Total",
-      n = dplyr::pull(., n) %>%
-        sum(),
-      percent = dplyr::pull(., percent) %>%
-        sum(),
-      valid = 100
-    )
-  out_tail <- out %>%
-    dplyr::filter(...any_miss) %>%
-    dplyr::add_row(
-      ...tmp = "Missing Total",
-      n = dplyr::pull(., n) %>%
-        sum(),
-      percent = dplyr::pull(., percent) %>%
-        sum()
-    )
+  out_head <- data %>%
+    dplyr::filter(!...any_miss)
+  out_tail <- data %>%
+    dplyr::filter(...any_miss)
+
+    if (nrow(out_head) > 1 && nrow(out_tail) > 0) {
+      out_head <- out_head %>%
+        dplyr::add_row(
+          ...tmp = "Valid Total",
+          n = dplyr::pull(., n) %>%
+            sum(),
+          percent = dplyr::pull(., percent) %>%
+            sum(),
+          valid = 100
+        )
+    }
+    if (nrow(out_head) > 0 && nrow(out_tail) > 1) {
+    out_tail <- out_tail %>%
+      dplyr::add_row(
+        ...tmp = "Missing Total",
+        n = dplyr::pull(., n) %>%
+          sum(),
+        percent = dplyr::pull(., percent) %>%
+          sum()
+      )
+  }
 
   out <- out_head %>%
-    dplyr::bind_rows(out_tail) %>%
+    dplyr::bind_rows(out_tail)
+  if (nrow(out) > 0) {
+  out <- out %>%
     dplyr::add_row(
       ...tmp = "Total",
-      n = dplyr::pull(., n) %>%
+      n = dplyr::pull(data, n) %>%
         sum(),
       percent = 100
-    ) %>%
-    dplyr::rename(
-      {{ col_name }} := ...tmp
-    )
+    ) 
+      if (narrow_data) {
+          out <- out %>%
+          dplyr::rename(
+          {{ col_name }} := ...tmp
+        )
+      } else {
+        out <- out %>%
+          dplyr::rename(
+            total := ...tmp
+          )
+      }
+  }
   return(out)
 }
 

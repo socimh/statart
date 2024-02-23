@@ -4,7 +4,14 @@
 \alias{summ}
 \title{Summarise columns}
 \usage{
-summ(.data, ..., .by = NULL, .detail = FALSE, .stat = character(0))
+summ(
+  .data,
+  ...,
+  .by = NULL,
+  .keep_all = FALSE,
+  .detail = FALSE,
+  .stat = character(0)
+)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension
@@ -22,6 +29,8 @@ See examples below.}
 <\code{\link[dplyr:dplyr_tidy_select]{tidy-select}}> Optionally, a selection of columns to
 group by for just this operation, functioning as an alternative to \code{\link[dplyr:group_by]{group_by()}}. For
 details and examples, see \link[dplyr:dplyr_by]{?dplyr_by}.}
+
+\item{.keep_all}{A logical. If \code{TRUE}, all variables are kept.}
 
 \item{.detail}{A logical. If \code{TRUE}, the detailed summary is returned.}
 
