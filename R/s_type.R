@@ -18,6 +18,12 @@ s_type <- function(.x, .abbr = FALSE) {
     pillar::type_sum() %>%
     stringr::str_extract("^(\\w|\\+)+")
 
+  if (type == "hvn_lbll") {
+    type <- unclass(.x) %>%
+      pillar::type_sum() %>%
+      paste0("+lbl")
+  }
+
   if (vctrs::obj_is_vector(.x)) {
     if (vctrs::vec_ptype_abbr(.x) == "units") {
       type <- "units"
@@ -38,7 +44,7 @@ s_type <- function(.x, .abbr = FALSE) {
       stringr::str_replace("fn", "function") %>%
       stringr::str_replace("env", "environment") %>%
       stringr::str_replace("sym", "symbol") %>%
-      stringr::str_replace("lbl", "labelled")
+      stringr::str_replace("lbl", "label")
   }
 
   return(type)
