@@ -82,17 +82,16 @@ check_numeric <- function(.data) {
     ))
 
   if (length(non_num_vars) == 1) {
-    message <- paste0("
-    ", non_num_vars, " is non-numeric.
-    Consider using `tab()` or `fre()` instead.\n")
-    warning(message)
+    message <- paste0(
+      non_num_vars,
+      " is non-numeric. Consider using `tab()` or `fre()` instead."
+    )
+    warning(message, call. = FALSE)
   } else if (length(non_num_vars) > 1) {
     message <- non_num_vars %>%
       paste(collapse = ", ") %>%
-      paste0("
-      ", ., " are non-numeric.
-      Consider using `tab1()` or `fre1()` instead.\n")
-    warning(message)
+      paste0(" are non-numeric. Consider using `tab1()` or `fre1()` instead.")
+      warning(message, call. = FALSE)
   }
 }
 
@@ -104,15 +103,13 @@ check_missing <- function(.data) {
     ))
 
   if (length(na_vars) == 1) {
-    message <- paste0("
-    ", na_vars, " is entirely missing and thus removed.\n")
-    warning(message)
+    message <- paste0(na_vars, " is entirely missing and thus removed.")
+    warning(message, call. = FALSE)
   }
   if (length(na_vars) > 1) {
     message <- paste(na_vars, collapse = ", ") %>%
-      paste0("
-      ", ., " is entirely missing and thus removed.\n")
-    warning(message)
+      paste0(" is entirely missing and thus removed.")
+      warning(message, call. = FALSE)
   }
 }
 
@@ -123,19 +120,30 @@ check_factor <- function(.data) {
     ))
 
   if (length(fct_vars) == 1) {
-    message <- paste0("
-    ", fct_vars, " is a factor variable.
-    They are summarised (***), but the statistics may be misleading.
-    Consider using `tab()` or `fre()` instead.\n")
-    warning(message)
+    message <- paste0(fct_vars, " is a factor variable (***).")
+    warning(message, call. = FALSE)
   } else if (length(fct_vars) > 1) {
     message <- fct_vars %>%
       paste(collapse = ", ") %>%
-      paste0("
-      ", ., " are factor variables.
-      They are summarised (***), but the statistics may be misleading.
-      Consider using `tab1()` or `fre1()` instead.\n")
-    warning(message)
+      paste0(" are factor variables (***).")
+    warning(message, call. = FALSE)
+  }
+}
+
+check_label <- function(.data) {
+  fct_vars <- .data %>%
+    ds(tidyselect::where(
+      ~ s_type(.x, .abbr = TRUE) %in% c("lbl")
+    ))
+
+  if (length(fct_vars) == 1) {
+    message <- paste0(fct_vars, " is a labelled variable (**).")
+    warning(message, call. = FALSE)
+  } else if (length(fct_vars) > 1) {
+    message <- fct_vars %>%
+      paste(collapse = ", ") %>%
+      paste0(" are labelled variables (**).")
+      warning(message, call. = FALSE)
   }
 }
 
@@ -156,39 +164,39 @@ summ_var <- function(var, stat = character(0), .detail = FALSE) {
     )
     return(stat_tb)
   } else {
-      stat_tb <- tibble::tibble(
-        type = dplyr::if_else(
-          !is.na(s_unit(var)),
-          stringr::str_glue("[{s_unit(var)}]"),
-          s_type(var, .abbr = TRUE)
-        ) %>% as.character(),
-        n = sum(!is.na(var), na.rm = TRUE),
-        unique = dplyr::n_distinct(var, na.rm = TRUE),
-        miss_n = dplyr::n() - n,
-        valid_pct = 1 - miss_n / (n + miss_n),
-        min = min(as_numeric(var), na.rm = TRUE),
-        q1 = quantile(as_numeric(var), .25, na.rm = TRUE),
-        median = median(as_numeric(var), na.rm = TRUE),
-        mean = mean(as_numeric(var), na.rm = TRUE),
-        mad = mad(as_numeric(var), na.rm = TRUE),
-        sd = sd(as_numeric(var), na.rm = TRUE),
-        q3 = quantile(as_numeric(var), .75, na.rm = TRUE),
-        max = max(as_numeric(var), na.rm = TRUE),
-        iqr = IQR(as_numeric(var), na.rm = TRUE),
-        skew = skew(as_numeric(var), sum(!is.na(var), na.rm = TRUE)),
-        kurtosis = kurtosis(as_numeric(var), sum(!is.na(var), na.rm = TRUE)),
-        se = sd / sqrt(n),
-        # mean_sd0 = paste0(sprintf("%.0f", mean), " (", sprintf("%.0f", sd, ")")),
-        # mean_sd1 = paste0(sprintf("%.1f", mean), " (", sprintf("%.1f", sd, ")")),
-        # mean_sd2 = paste0(sprintf("%.2f", mean), " (", sprintf("%.2f", sd, ")")),
-        # mean_sd3 = paste0(sprintf("%.3f", mean), " (", sprintf("%.3f", sd, ")"))
-      )
-      if (length(stat) > 0) {
-        stat_tb <- stat_tb %>%
-          dplyr::select(type, tidyselect::all_of(stat))
-      }
-      return(stat_tb)
-  }  
+    stat_tb <- tibble::tibble(
+      type = dplyr::if_else(
+        !is.na(s_unit(var)),
+        stringr::str_glue("[{s_unit(var)}]"),
+        s_type(var, .abbr = TRUE)
+      ) %>% as.character(),
+      n = sum(!is.na(var), na.rm = TRUE),
+      unique = dplyr::n_distinct(var, na.rm = TRUE),
+      miss_n = dplyr::n() - n,
+      valid_pct = 1 - miss_n / (n + miss_n),
+      min = min(as_numeric(var), na.rm = TRUE),
+      q1 = quantile(as_numeric(var), .25, na.rm = TRUE),
+      median = median(as_numeric(var), na.rm = TRUE),
+      mean = mean(as_numeric(var), na.rm = TRUE),
+      mad = mad(as_numeric(var), na.rm = TRUE),
+      sd = sd(as_numeric(var), na.rm = TRUE),
+      q3 = quantile(as_numeric(var), .75, na.rm = TRUE),
+      max = max(as_numeric(var), na.rm = TRUE),
+      iqr = IQR(as_numeric(var), na.rm = TRUE),
+      skew = skew(as_numeric(var), sum(!is.na(var), na.rm = TRUE)),
+      kurtosis = kurtosis(as_numeric(var), sum(!is.na(var), na.rm = TRUE)),
+      se = sd / sqrt(n),
+      # mean_sd0 = paste0(sprintf("%.0f", mean), " (", sprintf("%.0f", sd, ")")),
+      # mean_sd1 = paste0(sprintf("%.1f", mean), " (", sprintf("%.1f", sd, ")")),
+      # mean_sd2 = paste0(sprintf("%.2f", mean), " (", sprintf("%.2f", sd, ")")),
+      # mean_sd3 = paste0(sprintf("%.3f", mean), " (", sprintf("%.3f", sd, ")"))
+    )
+    if (length(stat) > 0) {
+      stat_tb <- stat_tb %>%
+        dplyr::select(type, tidyselect::all_of(stat))
+    }
+    return(stat_tb)
+  }
 }
 
 summ_date <- function(var, stat = character(0), .detail = FALSE) {
@@ -292,10 +300,12 @@ summ_list <- function(.data, group_vars, .detail, .stat) {
           NA_real_, .x
         )
       ),
-      name = dplyr::if_else(
-        type %in% c("fct", "ord", "lbl"),
-        stringr::str_glue("{name}***"),
-        name
+      name = dplyr::case_when(
+        type %in% c("fct", "ord") ~
+          stringr::str_glue("{name}***"),
+        type %in% c("lbl") ~
+          stringr::str_glue("{name}**"),
+        TRUE ~ name
       ) %>% as.character()
     )
 
@@ -317,7 +327,10 @@ summ_list <- function(.data, group_vars, .detail, .stat) {
   if (length(out) == 1) {
     out <- out[[1]]
   } else {
-    warning("A list is returned. Use `purrr::map()` to manipulate the tibbles.")
+    warning(
+      "A list is returned. Use `purrr::map()` to manipulate the tibbles.",
+      call. = FALSE
+    )
   }
 
   return(out)

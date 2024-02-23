@@ -10,6 +10,14 @@ use_pipe()
 load_all()
 check()
 
+s_print(lifeexp)
+lifeexp %>%
+  mutate(
+    region2 = haven::as_factor(region)
+  ) %>%
+  summ()
+starwars %>% summ()
+case_match()
 devtools::dev_sitrep()
 devtools::install_dev_deps()
 

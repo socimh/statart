@@ -70,13 +70,12 @@ Summarise the numeric variables in `lifeexp`.
 
 ``` r
 summ(lifeexp)
-#> Warning in check_numeric(.data_summ): 
-#>     country is non-numeric.
-#>     Consider using `tab()` or `fre()` instead.
+#> Warning: country is non-numeric. Consider using `tab()` or `fre()` instead.
+#> Warning: region is a labelled variable (**).
 #> # A tibble: 5 × 8
 #>   name      type      n unique   min     mean        sd   max
 #>   <chr>     <chr> <dbl>  <dbl> <dbl>    <dbl>     <dbl> <dbl>
-#> 1 region*** lbl      68      3   1      1.5       0.743     3
+#> 1 region**  lbl      68      3   1      1.5       0.743     3
 #> 2 popgrowth dbl      68     30  -0.5    0.972     0.931     3
 #> 3 lexp      dbl      68     18  54     72.3       4.72     79
 #> 4 gnppc     dbl      63     62 370   8675.    10635.    39980
@@ -315,18 +314,18 @@ rows.
 ``` r
 s_print(lifeexp)
 #> # A tibble: 68 × 6
-#>    region               country    popgrowth  lexp gnppc safewater
-#>    <dbl+lbl>            <chr>          <dbl> <dbl> <dbl>     <dbl>
-#>  1 1 [Europe & C. Asia] Albania        1.20     72   810        76
-#>  2 1 [Europe & C. Asia] Armenia        1.10     74   460        NA
-#>  3 1 [Europe & C. Asia] Austria        0.400    79 26830        NA
-#>  4 1 [Europe & C. Asia] Azerbaijan     1.40     71   480        NA
-#>  5 1 [Europe & C. Asia] Belarus        0.300    68  2180        NA
-#> 64 3 [South America]    Ecuador        2.40     70  1520        70
-#> 65 3 [South America]    Paraguay       2.90     70  1760        39
-#> 66 3 [South America]    Peru           2        69  2440        80
-#> 67 3 [South America]    Uruguay        0.700    74  6070        89
-#> 68 3 [South America]    Venezuela      2.40     73  3530        79
+#>        region country    popgrowth  lexp gnppc safewater
+#>    <hvn_lbll> <chr>          <dbl> <dbl> <dbl>     <dbl>
+#>  1          1 Albania        1.20     72   810        76
+#>  2          1 Armenia        1.10     74   460        NA
+#>  3          1 Austria        0.400    79 26830        NA
+#>  4          1 Azerbaijan     1.40     71   480        NA
+#>  5          1 Belarus        0.300    68  2180        NA
+#> 64          3 Ecuador        2.40     70  1520        70
+#> 65          3 Paraguay       2.90     70  1760        39
+#> 66          3 Peru           2        69  2440        80
+#> 67          3 Uruguay        0.700    74  6070        89
+#> 68          3 Venezuela      2.40     73  3530        79
 #> # ℹ 58 more rows in the middle
 #> # ℹ Use `s_print(n = ...)` to see more rows
 
@@ -356,10 +355,9 @@ lifeexp %>%
 summ_result <- lifeexp %>%
   summ() %>%
   s_time()
-#> Warning in check_numeric(.data_summ): 
-#>     country is non-numeric.
-#>     Consider using `tab()` or `fre()` instead.
-#> Time spent: 0.080 secs
+#> Warning: country is non-numeric. Consider using `tab()` or `fre()` instead.
+#> Warning: region is a labelled variable (**).
+#> Time spent: 0.057 secs
 ```
 
 … and it does not affect the function result.
@@ -369,7 +367,7 @@ summ_result
 #> # A tibble: 5 × 8
 #>   name      type      n unique   min     mean        sd   max
 #>   <chr>     <chr> <dbl>  <dbl> <dbl>    <dbl>     <dbl> <dbl>
-#> 1 region*** lbl      68      3   1      1.5       0.743     3
+#> 1 region**  lbl      68      3   1      1.5       0.743     3
 #> 2 popgrowth dbl      68     30  -0.5    0.972     0.931     3
 #> 3 lexp      dbl      68     18  54     72.3       4.72     79
 #> 4 gnppc     dbl      63     62 370   8675.    10635.    39980

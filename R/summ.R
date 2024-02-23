@@ -29,6 +29,7 @@ summ <- function(
   check_missing(.data_summ)
   .data_num <- check_summarise(.data_summ)
   check_factor(.data_num)
+  check_label(.data_num)
 
   # Add group variables
   .data <- keep_useful_vars(.data, .data_num, group_vars)
