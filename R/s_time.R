@@ -14,7 +14,7 @@ s_time <- function(.x) {
   duration_to_chr(time) %>%
     paste0("Time spent: ", .) %>%
     message()
-  return(out)
+  invisible(out)
 }
 
 duration_to_chr <- function(duration) {

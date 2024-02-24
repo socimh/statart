@@ -1,5 +1,11 @@
-pacman::p_load(devtools, usethis, tidyverse, sloop)
+pacman::p_load(devtools, usethis, tidyverse, sloop, pkgdown)
 build_readme()
+
+# usethis::use_pkgdown_github_pages()
+# VPN set to 美国三
+pkgdown::build_site()
+
+
 
 document()
 getwd()
@@ -13,12 +19,12 @@ unclass(haven::labelled(1:10, c(Bad = 1, Good = 5))) %>%
   type_sum()
 
 lifeexp %>%
-     dplyr::mutate(
-       region_chr = as_character(region),
-       region_num = as_numeric(region),
-       region_fct = haven::as_factor(region),
-       .keep = "used"
-     )
+  dplyr::mutate(
+    region_chr = as_character(region),
+    region_num = as_numeric(region),
+    region_fct = haven::as_factor(region),
+    .keep = "used"
+  )
 s_print(lifeexp)
 lifeexp %>%
   mutate(
