@@ -5,6 +5,7 @@ build_readme()
 use_pkgdown()
 # VPN set to 美国
 pkgdown::build_site()
+preview_site()
 
 devtools::install_github("socimh/statart")
 library(statart)

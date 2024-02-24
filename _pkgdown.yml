@@ -1,7 +1,6 @@
 url: https://socimh.github.io/statart/
 template:
   bootstrap: 5
-  bootswatch: flatly
 
 reference:
 - title: "Stata-like Functions"

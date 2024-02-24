@@ -13,11 +13,9 @@ status](https://www.r-pkg.org/badges/version/statart)](https://CRAN.R-project.or
 
 <!-- badges: end -->
 
-[statart](socimh.github.io/statart/) is a collection of functions
-providing Stata-inspired functionality alongside tidyverse-style
-operations. I believe statart + tidyverse will be a good combination for
-both Stata and R users, fresh or experienced. Learn more in
-vignette(“statart”).
+[statart](https://socimh.github.io/statart/) is a set of functions that
+combines Stata-inspired features with tidyverse-style operations. Find
+out more in the vignette(“statart”).
 
 <!-- These functions are built in the tidyverse framework, including
 &#10;- `codebook()` for codebook (like `codebook` in Stata)
