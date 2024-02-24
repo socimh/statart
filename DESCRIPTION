@@ -1,9 +1,9 @@
 Package: statart
-Title: Use Stata-like functions in tidyverse
-Version: 0.1.0
+Title: Tidy Functions with Stata Functionality
+Version: 0.1.1
 Authors@R: 
     person("Minghong", "Shen", , "mhshenaa@connect.ust.hk", role = c("aut", "cre"))
-Description: A collection of starter-friendly, Stata-like functions for exploring the art of statistics using R. Functions like `tab()`, `tab1()`, `fre()`, `summ()`, and `codebook()` are included.
+Description: An R package that provides a range of functions for data summarization, drawing inspiration from the tidyverse and taking cues from Stata.
 License: MIT + file LICENSE
 Suggests: 
     testthat (>= 3.0.0)

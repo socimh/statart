@@ -13,19 +13,17 @@ status](https://www.r-pkg.org/badges/version/statart)](https://CRAN.R-project.or
 
 <!-- badges: end -->
 
-The primary goal of statart is to migrate some useful commands
-(functions) from Stata to R. In terms of certain jobs, however,
-functions in `statart` may perform better than any existing functions in
-Stata or R.
+[statart](socimh.github.io/statart/) is a collection of functions
+providing Stata-inspired functionality alongside tidyverse-style
+operations. I believe statart + tidyverse will be a good combination for
+both Stata and R users, fresh or experienced. Learn more in
+vignette(“statart”).
 
-These functions are built in the tidyverse framework, including
-
-- `codebook()` for codebook (like `codebook` in Stata)
+<!-- These functions are built in the tidyverse framework, including
+&#10;- `codebook()` for codebook (like `codebook` in Stata)
 - `summ()` for summary statistics (like `summarize` in Stata)
-- `tab()`, `tab1()`, and `tab2()` for frequency tables (like `tab`,
-  `tab1`, and `tab2` in Stata)
-- `fre()`, `fre1()`, and `fre2()` for frequency tables with total rows
-  and total columns (like `fre` in Stata)
+- `tab()`, `tab1()`, and `tab2()` for frequency tables (like `tab`, `tab1`, and `tab2` in Stata)
+- `fre()`, `fre1()`, and `fre2()` for frequency tables with total rows and total columns (like `fre` in Stata) -->
 
 ## Installation
 
@@ -101,27 +99,8 @@ tab(starwars, sex)
 #> 5 <NA>               4    4.60 100   NA         NA
 ```
 
-`s_match()` can select variables in a stata style.
-
-``` r
-tab(starwars, s_match("*color")) 
-#> # A tibble: 67 × 8
-#>    hair_color    skin_color eye_color     n percent   cum valid valid_cum
-#>    <chr>         <chr>      <chr>     <int>   <dbl> <dbl> <dbl>     <dbl>
-#>  1 auburn        fair       blue          1    1.15  1.15  1.22      1.22
-#>  2 auburn, grey  fair       blue          1    1.15  2.30  1.22      2.44
-#>  3 auburn, white fair       blue-gray     1    1.15  3.45  1.22      3.66
-#>  4 black         blue, grey yellow        1    1.15  4.60  1.22      4.88
-#>  5 black         brown      brown         1    1.15  5.75  1.22      6.10
-#>  6 black         dark       brown         3    3.45  9.20  3.66      9.76
-#>  7 black         dark       dark          1    1.15 10.3   1.22     11.0 
-#>  8 black         fair       brown         2    2.30 12.6   2.44     13.4 
-#>  9 black         light      brown         1    1.15 13.8   1.22     14.6 
-#> 10 black         tan        brown         2    2.30 16.1   2.44     17.1 
-#> # ℹ 57 more rows
-```
-
-`tab1()` tabulates variables one by one as a list.
+`tab1()` tabulates variables one by one as a list, and `s_match()` can
+select variables in a stata style.
 
 ``` r
 tab1(starwars, s_match("*color"))
@@ -180,7 +159,7 @@ tab1(starwars, s_match("*color"))
 #> 15 yellow           11   12.6  100   12.6      100
 ```
 
-`.append` can flatten the list into a tibble.
+`.append` flattens the list into a tibble.
 
 ``` r
 tab1(starwars, s_match("*color"), .append = TRUE)
@@ -203,30 +182,15 @@ tab1(starwars, s_match("*color"), .append = TRUE)
 `tab2()` cross-tabulates two variables.
 
 ``` r
-tab2(starwars, s_match("*i*color"))
-#> # A tibble: 13 × 32
-#>    `hair_color \\ skin_color`  fair `blue, grey` brown  dark light   tan yellow
-#>    <chr>                      <int>        <int> <int> <int> <int> <int>  <int>
-#>  1 auburn                         1            0     0     0     0     0      0
-#>  2 auburn, grey                   1            0     0     0     0     0      0
-#>  3 auburn, white                  1            0     0     0     0     0      0
-#>  4 black                          2            1     1     4     1     2      2
-#>  5 blond                          3            0     0     0     0     0      0
-#>  6 blonde                         0            0     0     0     0     0      0
-#>  7 brown                          7            0     2     0     8     0      0
-#>  8 brown, grey                    0            0     0     0     1     0      0
-#>  9 grey                           0            0     0     0     0     0      0
-#> 10 none                           0            1     1     2     1     0      0
-#> 11 unknown                        0            0     0     0     0     0      0
-#> 12 white                          2            0     0     0     0     0      0
-#> 13 <NA>                           0            0     0     0     0     0      0
-#> # ℹ 24 more variables: `fair, green, yellow` <int>, unknown <int>, pale <int>,
-#> #   blue <int>, `brown mottle` <int>, `brown, white` <int>, green <int>,
-#> #   `green, grey` <int>, grey <int>, `grey, blue` <int>,
-#> #   `grey, green, yellow` <int>, `grey, red` <int>, metal <int>,
-#> #   `mottled green` <int>, none <int>, orange <int>, red <int>,
-#> #   `red, blue, white` <int>, `silver, red` <int>, white <int>,
-#> #   `white, blue` <int>, gold <int>, `green-tan, brown` <int>, …
+tab2(starwars, sex, gender)
+#> # A tibble: 5 × 4
+#>   `sex \\ gender` feminine masculine  `NA`
+#>   <chr>              <int>     <int> <int>
+#> 1 female                16         0     0
+#> 2 hermaphroditic         0         1     0
+#> 3 male                   0        60     0
+#> 4 none                   1         5     0
+#> 5 <NA>                   0         0     4
 ```
 
 ### fre()
@@ -246,131 +210,6 @@ fre(starwars, sex)
 #> 5 Valid Total       83   95.4   NA   100         NA  
 #> 6 <NA>               4    4.60 100    NA         NA  
 #> 7 Total             87  100     NA    NA         NA
-```
-
-As the “Total” row is added, subsequent analysis on the result becomes
-more complicated, and the categories of the variable will be always
-converted to `character` (i.e., the same type as “Total”). However, I
-still keep these functions as they print the results with more
-comprehensive information.
-
-### s\_…() tools
-
-“s” stands for `statart` as “st\_” has already be taken by the powerful
-geospatial package `sf`. Let me briefly introduce some of them here.
-
-`s_select()` extends the `select()` in tidyverse to enable data-masking
-features. For example,
-
-``` r
-starwars %>%
-  s_select(tall_characters = height > 100)
-#> # A tibble: 87 × 1
-#>    tall_characters
-#>    <lgl>          
-#>  1 TRUE           
-#>  2 TRUE           
-#>  3 FALSE          
-#>  4 TRUE           
-#>  5 TRUE           
-#>  6 TRUE           
-#>  7 TRUE           
-#>  8 FALSE          
-#>  9 TRUE           
-#> 10 TRUE           
-#> # ℹ 77 more rows
-```
-
-If you do not know whether a function works without any error, you could
-use `s_try()`.
-
-``` r
-starwars %>%
-  select(tall_characters = height > 100) %>%
-  s_try()
-#> [1] FALSE
-
-starwars %>%
-  s_select(tall_characters = height > 100) %>%
-  s_try()
-#> [1] TRUE
-```
-
-Built on `pillar::type_sum()` and `vctrs::vec_ptype_abbr()`, `s_type()`
-returns the type of input object.
-
-``` r
-s_type(lifeexp)
-#> [1] "tibble"
-
-s_type(lifeexp$region)
-#> [1] "double+label"
-```
-
-`s_print()` is designed for viewing long data by their top and bottom
-rows.
-
-``` r
-s_print(lifeexp)
-#> # A tibble: 68 × 6
-#>        region country    popgrowth  lexp gnppc safewater
-#>    <hvn_lbll> <chr>          <dbl> <dbl> <dbl>     <dbl>
-#>  1          1 Albania        1.20     72   810        76
-#>  2          1 Armenia        1.10     74   460        NA
-#>  3          1 Austria        0.400    79 26830        NA
-#>  4          1 Azerbaijan     1.40     71   480        NA
-#>  5          1 Belarus        0.300    68  2180        NA
-#> 64          3 Ecuador        2.40     70  1520        70
-#> 65          3 Paraguay       2.90     70  1760        39
-#> 66          3 Peru           2        69  2440        80
-#> 67          3 Uruguay        0.700    74  6070        89
-#> 68          3 Venezuela      2.40     73  3530        79
-#> # ℹ 58 more rows in the middle
-#> # ℹ Use `s_print(n = ...)` to see more rows
-
-lifeexp %>%
-  fre(safewater) %>%
-  s_print()
-#> # A tibble: 32 × 6
-#>    safewater       n percent    cum valid valid_cum
-#>    <chr>       <int>   <dbl>  <dbl> <dbl>     <dbl>
-#>  1 28              1    1.47   1.47   2.5       2.5
-#>  2 39              1    1.47   2.94   2.5       5  
-#>  3 55              3    4.41   7.35   7.5      12.5
-#>  4 56              1    1.47   8.82   2.5      15  
-#>  5 57              1    1.47  10.3    2.5      17.5
-#> 28 99              1    1.47  51.5    2.5      87.5
-#> 29 100             5    7.35  58.8   12.5     100  
-#> 30 Valid Total    40   58.8   NA    100        NA  
-#> 31 <NA>           28   41.2  100     NA        NA  
-#> 32 Total          68  100     NA     NA        NA  
-#> # ℹ 22 more rows in the middle
-#> # ℹ Use `s_print(n = ...)` to see more rows
-```
-
-`s_time()` shows the time spent on running a function:
-
-``` r
-summ_result <- lifeexp %>%
-  summ() %>%
-  s_time()
-#> Warning: country is non-numeric and thus removed.
-#> Warning: region is a labelled variable (*).
-#> Time spent: 0.071 secs
-```
-
-… and it does not affect the function result.
-
-``` r
-summ_result
-#> # A tibble: 5 × 8
-#>   name      type        n unique   min     mean        sd   max
-#>   <chr>     <chr>   <dbl>  <dbl> <dbl>    <dbl>     <dbl> <dbl>
-#> 1 *region   dbl+lbl    68      3   1      1.5       0.743     3
-#> 2 popgrowth dbl        68     30  -0.5    0.972     0.931     3
-#> 3 lexp      dbl        68     18  54     72.3       4.72     79
-#> 4 gnppc     dbl        63     62 370   8675.    10635.    39980
-#> 5 safewater dbl        40     29  28     76.1      17.9     100
 ```
 
 ## Code of Conduct
