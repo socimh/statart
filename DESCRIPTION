@@ -31,3 +31,5 @@ BugReports: https://github.com/socimh/statart/issues
 Depends: 
     R (>= 2.10)
 LazyData: true
+LinkingTo: 
+    cpp11

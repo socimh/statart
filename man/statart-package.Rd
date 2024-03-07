@@ -4,7 +4,7 @@
 \name{statart-package}
 \alias{statart}
 \alias{statart-package}
-\title{statart: Use Stata-like functions in tidyverse}
+\title{statart: Tidy Functions with Stata Functionality}
 \description{
 To learn more about statart, start with the vignettes:
 \code{browseVignettes(package = "statart")}
@@ -16,6 +16,7 @@ To learn more about statart, start with the vignettes:
 Useful links:
 \itemize{
   \item \url{https://github.com/socimh/statart}
+  \item \url{https://socimh.github.io/statart/}
   \item Report bugs at \url{https://github.com/socimh/statart/issues}
 }
 
@@ -23,6 +24,7 @@ Useful links:
 Useful links:
 \itemize{
   \item \url{https://github.com/socimh/statart}
+  \item \url{https://socimh.github.io/statart/}
   \item Report bugs at \url{https://github.com/socimh/statart/issues}
 }
 
