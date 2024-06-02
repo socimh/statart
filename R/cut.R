@@ -10,7 +10,9 @@
 #' @name cut
 #' @examples
 #' cut_quantile(1:20)
+#'
 #' cut_length(1:20)
+#'
 #' cut_breaks(1:20, breaks = c(5, 15))
 
 #' @rdname cut
@@ -43,7 +45,7 @@ cut_breaks <- function(x, breaks = NULL, labels = NULL, right = TRUE) {
 
   breaks <- c(min, breaks, max) %>%
     unique()
-  
+
   cut(x,
     breaks = breaks,
     include.lowest = TRUE,

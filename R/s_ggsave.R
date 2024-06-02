@@ -10,12 +10,16 @@
 #'
 #' @examples
 #' gg <- s_plot(mtcars, mpg, wt)
-#' # s_ggsave(gg, "plot.png")
+#' \dontrun{
+#' s_ggsave(gg, "plot.png")
+#' }
 #'
 #' # Alternatively, you can use the pipe operator
-#' # mtcars %>%
-#' #   s_plot(mpg, wt) %>%
-#' #   s_ggsave("plot.png")
+#' \dontrun{
+#' mtcars %>%
+#'   s_plot(mpg, wt) %>%
+#'   s_ggsave("plot.png")
+#' }
 s_ggsave <- function(
     plot = ggplot2::last_plot(), filename,
     path = "wd", width = 7, height = 5,

@@ -389,7 +389,9 @@ result_to_flextable <- function(tb, group_vars, fre1 = FALSE, fre2 = FALSE) {
     tb <- tb %>%
       dplyr::mutate(
         dplyr::across(
-          dplyr::all_of(group_vars),
+          -dplyr::any_of(
+            c("n", "percent", "cum", "valid", "valid_cum")
+          ),
           ~ tidyr::replace_na(.x, "NA")
         )
       )

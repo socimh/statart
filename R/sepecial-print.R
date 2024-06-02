@@ -1,11 +1,11 @@
 #' Print a long tibble with selected rows
 #'
-#' @description 
+#' @description
 #' * `print_headtail()` - Print the head and tail rows of the data.
 #' * `print_interval()` - Print the selected rows with (almost) equal intervals.
 #' * `slice_headtail()` - Return the head and tail rows of the data.
 #' * `slice_interval()` - Return the selected rows with (almost) equal intervals.
-#' 
+#'
 #' @param .data A data frame, data frame extension
 #' (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).
 #' @param n A positive integer. The number of rows to show in
@@ -19,7 +19,12 @@
 #' @name special-print
 #' @examples
 #' print_headtail(starwars)
+#'
 #' print_interval(starwars)
+#'
+#' slice_headtail(starwars)
+#'
+#' slice_interval(starwars)
 
 #' @rdname special-print
 #' @export

@@ -12,17 +12,22 @@
 #' @param .type The output type. Default for `codebook_detail()` is `"flextable"`.
 #' @param n The number of rows to display. Default is `Inf`.
 #' @inheritParams datawizard::data_codebook
-#' 
+#'
 #' @return  A tibble or a flextable.
 #' @name codebook
 #'
 #' @examples
 #' starwars
 #' codebook(starwars)
+#'
 #' codebook(starwars, 1:4)
+#'
 #' codebook(starwars, ends_with("color"))
+#'
 #' codebook(starwars, where(is.numeric))
+#'
 #' lifeexp
+#'
 #' codebook(lifeexp)
 
 #' @rdname codebook

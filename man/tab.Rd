@@ -71,26 +71,43 @@ If the output tibble has many rows, consider using
 \code{print()} or \code{\link[=print_headtail]{print_headtail()}} to display the output.
 }
 \examples{
+# tabulate the 8th column
 tab(starwars, 8)
+
+# tabulate the "sex" column
 tab(starwars, sex)
+
 tab(starwars, sex, .desc = TRUE)
+
 fre(starwars, sex)
+
 fre(starwars, sex, .desc = TRUE)
 
 tab(starwars, sex, gender)
+
 tab(starwars, sex == "male")
+
 tab(starwars, male = sex == "male")
+
 tab(starwars, ends_with("color"))
+
 tab(starwars, s_match("s*e"))
+
 tab(starwars)
 
 tab1(starwars, 1:3)
+
 tab1(starwars, ends_with("color"))
+
 tab1(starwars, ends_with("color"), .type = "tibble")
+
 fre1(starwars, ends_with("color"))
+
 fre1(starwars, ends_with("color"), .type = "list")
 
 tab2(starwars, sex, gender)
+
 tab2(starwars, height, gender)
+
 fre2(starwars, height, gender)
 }

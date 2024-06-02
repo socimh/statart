@@ -1,7 +1,6 @@
 #include "cpp11.hpp"
 #include "cpp11/matrix.hpp"
 #include "cpp11/doubles.hpp"
-#include <boost/array.hpp>
 #include <vector>
 #include <set>
 #include <algorithm>

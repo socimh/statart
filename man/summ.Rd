@@ -54,3 +54,17 @@ A tibble
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 Enhanced \code{summarise()}.
 }
+\examples{
+summ(lifeexp)
+
+summ(lifeexp, .by = region)
+
+tabstat(lifeexp, .by = region)
+
+lifeexp \%>\%
+  summ(
+    dplyr::where(is.numeric),
+    .by = region,
+    .stat = c("mean", "sd")
+  )
+}

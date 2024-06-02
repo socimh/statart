@@ -24,5 +24,15 @@ A tibble.
 Import and export with various data formats
 }
 \examples{
-ds(starwars)
+# Read data
+\dontrun{
+tb <- read_data("data.xlsx")
+tb <- read_data("data.dta")
+}
+
+# Write data
+\dontrun{
+write_data(tb, "data.json")
+write_data(tb, "data.ftr")
+}
 }

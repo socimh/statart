@@ -63,5 +63,10 @@ Return the input data frame invisibly.
 }
 \examples{
 print_headtail(starwars)
+
 print_interval(starwars)
+
+slice_headtail(starwars)
+
+slice_interval(starwars)
 }

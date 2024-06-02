@@ -19,5 +19,10 @@ Otherwise, it returns TRUE.
 }
 \examples{
 s_try(mean(1:10))
+
+# This gives a warning, but it is still working, so s_try() returns TRUE
 s_try(mean(letters[1:10]))
+
+# This throws an error, so s_try() returns FALSE
+s_try(means(1:10))
 }

@@ -63,11 +63,9 @@ tb <- tibble::tibble(
 )
 
 row_mean(tb)
+
 row_sum(tb)
-row_max(tb)
-row_median(tb)
-row_sd(tb)
-row_unique(tb)
+
 row_non_miss(tb)
 
 tb \%>\%

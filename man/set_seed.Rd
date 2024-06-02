@@ -17,3 +17,11 @@ Return the function result with a seed set.
 \description{
 Attach a seed to a specific function.
 }
+\examples{
+sample(1:10, 8) \%>\% 
+  set_seed(123)
+
+# When we re-run the code, we will get the same result.
+sample(1:10, 8) \%>\%
+ set_seed(123)
+}

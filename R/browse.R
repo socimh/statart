@@ -10,9 +10,7 @@
 #'
 #' @examples
 #' browse(starwars)
-#'
 #' browse(starwars, name:mass)
-#'
 #' browse(starwars, s_match("*color"))
 browse <- function(.data, ...) {
   if (missing(...)) {

@@ -39,10 +39,14 @@ Quickly save a ggplot to a file
 }
 \examples{
 gg <- s_plot(mtcars, mpg, wt)
-# s_ggsave(gg, "plot.png")
+\dontrun{
+s_ggsave(gg, "plot.png")
+}
 
 # Alternatively, you can use the pipe operator
-# mtcars \%>\%
-#   s_plot(mpg, wt) \%>\%
-#   s_ggsave("plot.png")
+\dontrun{
+mtcars \%>\%
+  s_plot(mpg, wt) \%>\%
+  s_ggsave("plot.png")
+}
 }

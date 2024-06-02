@@ -39,6 +39,8 @@ Cut a numeric vector into intervals.
 }
 \examples{
 cut_quantile(1:20)
+
 cut_length(1:20)
+
 cut_breaks(1:20, breaks = c(5, 15))
 }

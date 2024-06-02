@@ -7,13 +7,19 @@
 #' @name names
 #'
 #' @examples
-#' ds(starwars)
+#' ds(starwars) # equivalent to names(starwars)
+#' 
 #' ds(starwars, homeworld:starships)
-#' ds(starwars, ends_with("color"))
-#' ds(starwars, where(is.character))
+#' 
+#' ds_as_column(starwars, ends_with("color"))
+#' 
+#' ds_as_column(starwars, where(is.character))
+#' 
 #' 
 #' names_as_column(starwars)
+#' 
 #' names_as_column(starwars, ends_with("color"))
+#' 
 #' names_as_column(starwars, where(is.character))
 
 

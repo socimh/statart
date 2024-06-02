@@ -27,7 +27,7 @@
 #' 
 #' mtcars %>%
 #'   dplyr::mutate(mpg20 = mpg > 20) %>%
-#'   regress(mpg ~ wt + hp, model = "logit")
+#'   regress(mpg20 ~ wt + hp, model = "logit")
 
 #' @rdname regress
 #' @export

@@ -15,6 +15,9 @@ ls("package:statart")
 
 document()
 
+sample(1:10, 5) %>% 
+   set_seed(123)
+
 remotes::install_deps(dependencies = TRUE)
 
 library(pkgbuild)
@@ -37,8 +40,20 @@ tibble(a = 1:5, b = 11:15) %>%
   row_max2()
 
 load_all()
+document()
 check()
 library(flextable)
+
+lifeexp %>%
+  summ(.by = region, .stat = "mean")
+
+lifeexp %>%
+  tabstat(.by = region)
+
+means(1:10) |>
+  s_try()
+
+
 ?view
 
 diamonds |>
@@ -281,6 +296,10 @@ usethis::use_release_issue()
 view(diamonds)
 check()
 test()
+
+mtcars %>%
+  dplyr::mutate(mpg20 = mpg > 20) %>%
+  regress(mpg20 ~ wt + hp, model = "logit")
 
 tab(starwars) %>%
    print_headtail()

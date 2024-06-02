@@ -53,9 +53,14 @@ codebook of a dataset or selected variables.
 \examples{
 starwars
 codebook(starwars)
+
 codebook(starwars, 1:4)
+
 codebook(starwars, ends_with("color"))
+
 codebook(starwars, where(is.numeric))
+
 lifeexp
+
 codebook(lifeexp)
 }

@@ -49,12 +49,16 @@ ds(tb)
 
 tb \%>\%
   ds(s_match("x1*"))
+
 tb \%>\%
   ds(s_match("x1~"))
+
 tb \%>\%
   ds(s_match("*5"))
+
 tb \%>\%
   ds(s_match("?5"))
+
 tb \%>\%
   ds(s_match("x[9-15]"))
 

@@ -13,10 +13,24 @@
 #'
 #' @return A tibble
 #' @export
+#'
+#' @examples
+#' summ(lifeexp)
+#'
+#' summ(lifeexp, .by = region)
+#'
+#' tabstat(lifeexp, .by = region)
+#'
+#' lifeexp %>%
+#'   summ(
+#'     dplyr::where(is.numeric),
+#'     .by = region,
+#'     .stat = c("mean", "sd")
+#'   )
 summ <- function(
     .data, ...,
     .by = NULL,
-    .keep_all = FALSE, 
+    .keep_all = FALSE,
     .detail = FALSE,
     .stat = character(0)) {
   # Identify group variables
@@ -61,7 +75,7 @@ tabstat <- function(
   return(
     summ(
       .data, ...,
-      .by = .by,
+      .by = {{ .by }},
       .keep_all = .keep_all,
       .detail = .detail,
       .stat = .stat

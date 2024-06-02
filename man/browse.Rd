@@ -21,8 +21,6 @@ Browse columns like Stata's \code{browse} command
 }
 \examples{
 browse(starwars)
-
 browse(starwars, name:mass)
-
 browse(starwars, s_match("*color"))
 }

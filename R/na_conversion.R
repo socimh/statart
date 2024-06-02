@@ -15,6 +15,7 @@
 #' @examples
 #' x <- c(1, 2, NA, 4)
 #' na_if_value(x, 2)
+#' 
 #' value_if_na(x, 3)
 
 #' @rdname na_conversion

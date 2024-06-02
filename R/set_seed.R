@@ -7,6 +7,13 @@
 #' @returns Return the function result with a seed set.
 #'
 #' @export
+#' @examples 
+#' sample(1:10, 8) %>% 
+#'   set_seed(123)
+#' 
+#' # When we re-run the code, we will get the same result.
+#' sample(1:10, 8) %>%
+#'  set_seed(123)
 set_seed <- function(.fn, seed) {
   set.seed(seed)
   return(.fn)
