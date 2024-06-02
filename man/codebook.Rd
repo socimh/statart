@@ -3,8 +3,7 @@
 \name{codebook}
 \alias{codebook}
 \alias{codebook_detail}
-\alias{variables}
-\title{View the codebook of a dataset or selected variables.}
+\title{View the codebook of a dataset or selected columns}
 \usage{
 codebook(.data, ...)
 
@@ -17,8 +16,6 @@ codebook_detail(
   range_at = 6,
   verbose = TRUE
 )
-
-variables(.data, ...)
 }
 \arguments{
 \item{.data}{The input data (data frame or tibble).}
@@ -49,9 +46,13 @@ A tibble or a flextable.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 \code{codebook()} is a function to view the
 codebook of a dataset or selected variables.
+
+\code{codebook_detail()} would show more detailed information.
+It is a wrapper of \code{datawizard::data_codebook()} with a better output format.
 }
 \examples{
 starwars
+
 codebook(starwars)
 
 codebook(starwars, 1:4)
@@ -60,7 +61,14 @@ codebook(starwars, ends_with("color"))
 
 codebook(starwars, where(is.numeric))
 
-lifeexp
-
 codebook(lifeexp)
+
+# codebook_detail() is less stable than codebook().
+# Some column types may not be recognized.
+lifeexp \%>\%
+ dplyr::select(-region) \%>\%
+ codebook_detail()
+}
+\seealso{
+\code{\link[=ds]{ds()}}, \code{\link[=variables]{variables()}}, \code{\link[=browse]{browse()}}
 }

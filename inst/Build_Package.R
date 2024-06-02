@@ -2,20 +2,25 @@ pacman::p_load(devtools, usethis, tidyverse, sloop, pkgdown, cpp11)
 build_readme()
 
 # usethis::use_pkgdown_github_pages()
-use_pkgdown()
+# use_pkgdown()
 # VPN set to 美国
 pkgdown::build_site()
 preview_site()
+
+
 
 devtools::install_github("socimh/statart")
 library(statart)
 sessionInfo()
 library(statart)
 ls("package:statart")
+?tidyr_tidy_select
 
 document()
+load_all()
+?browse
 
-sample(1:10, 5) %>% 
+sample(1:10, 5) %>%
    set_seed(123)
 
 remotes::install_deps(dependencies = TRUE)
@@ -47,8 +52,9 @@ library(flextable)
 lifeexp %>%
   summ(.by = region, .stat = "mean")
 
+load_all()
 lifeexp %>%
-  tabstat(.by = region)
+  codebook_detail()
 
 means(1:10) |>
   s_try()

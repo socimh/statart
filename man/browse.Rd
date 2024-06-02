@@ -24,3 +24,6 @@ browse(starwars)
 browse(starwars, name:mass)
 browse(starwars, s_match("*color"))
 }
+\seealso{
+\code{\link[=ds]{ds()}}, \code{\link[=variables]{variables()}}, \code{\link[=codebook]{codebook()}}
+}

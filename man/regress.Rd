@@ -5,7 +5,6 @@
 \alias{regress_coef}
 \alias{regress_stat}
 \alias{regress_data}
-\alias{tidy_coef}
 \title{Directly obtain the regression results}
 \usage{
 regress(.data, formula, model = "lm", digit = integer(0), format = "\%.3f")
@@ -21,8 +20,6 @@ regress_coef(
 regress_stat(.data, formula, model = "lm")
 
 regress_data(.data, formula, model = "lm")
-
-tidy_coef(model, digit = integer(0), format = "\%.3f")
 }
 \arguments{
 \item{.data}{A data frame, data frame extension
@@ -48,7 +45,6 @@ The naming convention is \verb{regress_*} for raw formula and \verb{tidy_*} for 
 \item \code{regress_coef()} returns the coefficients.
 \item \code{regress_stat()} returns the model statistics.
 \item \code{regress_data()} returns the augmented data.
-\item \code{tidy_coef()} returns the coefficients from the model object.
 }
 }
 \examples{
@@ -58,4 +54,7 @@ regress_coef(mtcars, mpg ~ wt + hp)
 mtcars \%>\%
   dplyr::mutate(mpg20 = mpg > 20) \%>\%
   regress(mpg20 ~ wt + hp, model = "logit")
+}
+\seealso{
+\code{\link[=tidy_coef]{tidy_coef()}}
 }

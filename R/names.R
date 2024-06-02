@@ -5,6 +5,7 @@
 #'
 #' @return A character vector of column names.
 #' @name names
+#' @seealso [variables()], [codebook()], [browse()]
 #'
 #' @examples
 #' ds(starwars) # equivalent to names(starwars)

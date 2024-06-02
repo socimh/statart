@@ -2,3 +2,35 @@ url: ~
 template:
   bootstrap: 5
 
+reference:
+- title: "Easy Import/Export"
+  contents:
+  - import-export
+- title: "Stata-like Functions"
+  contents:
+  - browse
+  - names
+  - variables
+  - codebook
+  - summ
+  - matches("^(tab|fre)")
+  - matches("^row_")
+- title: "Easy Regression"
+  contents:
+  - regress
+  - tidy_coef
+- title: "Type Conversion"
+  contents:
+  - na_conversion
+  - type_conversion
+- title: "Small Tools"
+  contents:
+  - special-print
+  - cut
+  - starts_with("s_")
+  - set_seed
+  - stat
+- title: "Sample Data"
+  contents:
+  - lifeexp
+  - starwars

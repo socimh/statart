@@ -40,3 +40,6 @@ names_as_column(starwars, ends_with("color"))
 
 names_as_column(starwars, where(is.character))
 }
+\seealso{
+\code{\link[=variables]{variables()}}, \code{\link[=codebook]{codebook()}}, \code{\link[=browse]{browse()}}
+}

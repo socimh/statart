@@ -8,6 +8,8 @@
 #' @return A character vector of column names.
 #' @export
 #'
+#' @seealso [ds()], [variables()], [codebook()]
+#'
 #' @examples
 #' browse(starwars)
 #' browse(starwars, name:mass)

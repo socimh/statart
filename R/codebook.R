@@ -1,9 +1,12 @@
-#' View the codebook of a dataset or selected variables.
+#' View the codebook of a dataset or selected columns
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
 #' `codebook()` is a function to view the
 #' codebook of a dataset or selected variables.
+#'
+#' `codebook_detail()` would show more detailed information.
+#' It is a wrapper of `datawizard::data_codebook()` with a better output format.
 #'
 #' @param .data The input data (data frame or tibble).
 #' @param ...  <[`tidy-select`][dplyr_tidy_select]> or
@@ -15,9 +18,11 @@
 #'
 #' @return  A tibble or a flextable.
 #' @name codebook
+#' @seealso [ds()], [variables()], [browse()]
 #'
 #' @examples
 #' starwars
+#'
 #' codebook(starwars)
 #'
 #' codebook(starwars, 1:4)
@@ -26,9 +31,13 @@
 #'
 #' codebook(starwars, where(is.numeric))
 #'
-#' lifeexp
-#'
 #' codebook(lifeexp)
+#'
+#' # codebook_detail() is less stable than codebook().
+#' # Some column types may not be recognized.
+#' lifeexp %>%
+#'  dplyr::select(-region) %>%
+#'  codebook_detail()
 
 #' @rdname codebook
 #' @export
@@ -96,62 +105,10 @@ codebook_detail <- function(.data, ..., .type = c("flextable", "tibble"), n = In
     dplyr::rename(row_id = .row_id)
 
   if (.type[1] == "flextable") {
-    print(out, n = n)
-  } else {
     flextable::as_flextable(out, max_row = n) %>%
       return()
-  }
-}
-
-#' @rdname codebook
-#' @export
-variables <- function(.data, ...) {
-  # if ... is empty, select all variables
-  if (!missing(...)) {
-    .data <- dplyr::select(.data, ...)
-  }
-
-  out <- .data %>%
-    names_as_column()
-
-  label <- Hmisc::contents(.data)$contents %>%
-    tibble::as_tibble() %>%
-    dplyr::select(dplyr::any_of(c("Labels")))
-
-  if (ncol(label) == 1) {
-    out <- out %>%
-      dplyr::bind_cols(
-        label %>%
-          dplyr::rename(label = Labels)
-      )
-  }
-
-  return(out)
-}
-
-variables_search <- function(.data, string, ...) {
-  if (is.character(string)) {
-    string <- string %>%
-      stringr::str_replace_all("\\*", ".*") %>%
-      stringr::str_replace_all("~", ".+") %>%
-      stringr::str_replace_all("\\?", ".") %>%
-      purrr::map_chr(num_range_to_regex)
-    string <- stringr::str_glue("(?i).*{string}.*")
-  }
-
-  if ("label" %in% colnames(.data)) {
-    variables(.data, ...) %>%
-      dplyr::filter(
-        stringr::str_detect(name, string) |
-          stringr::str_detect(label, string)
-      ) %>%
-      return()
   } else {
-    variables(.data, ...) %>%
-      dplyr::filter(
-        stringr::str_detect(name, string)
-      ) %>%
-      return()
+    print(out, n = n)
   }
 }
 
