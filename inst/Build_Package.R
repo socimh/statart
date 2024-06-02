@@ -276,6 +276,7 @@ tb <- tibble(
 document()
 check()
 load_all()
+usethis::use_release_issue()
 
 view(diamonds)
 check()

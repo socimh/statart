@@ -1,25 +1,4 @@
-url: https://socimh.github.io/statart/
+url: ~
 template:
   bootstrap: 5
 
-reference:
-- title: "Stata-like Functions"
-  desc: >
-    Functions providing Stata-inspired functionality.
-  contents:
-  - matches("^(codebook|ds)$")
-  - summ
-  - matches("^(tab|fre)")
-- title: "S-Tools"
-  desc: "Small tools to improve efficiency."
-  contents:
-  - starts_with("s_")
-- title: "Type Conversion"
-  desc: "Type conversion accommondate haven-labelled vectors."
-  contents:
-  - starts_with("as_")
-  - stat
-- title: "Sample Data"
-  contents:
-  - lifeexp
-  - starwars

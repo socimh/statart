@@ -50,14 +50,14 @@ View the codebook of `lifeexp`.
 ``` r
 codebook(lifeexp)
 #> # A tibble: 6 × 5
-#>   variable  type             n unique label                   
-#>   <chr>     <chr>        <int>  <int> <chr>                   
-#> 1 region    double+label    68      3 Region                  
-#> 2 country   character       68     68 Country                 
-#> 3 popgrowth double          68     30 Avg. annual % growth    
-#> 4 lexp      double          68     18 Life expectancy at birth
-#> 5 gnppc     double          63     62 GNP per capita          
-#> 6 safewater double          40     29 Safe water
+#>   variable  label                    type             n unique
+#>   <chr>     <chr>                    <chr>        <int>  <int>
+#> 1 region    Region                   double+label    68      3
+#> 2 country   Country                  character       68     68
+#> 3 popgrowth Avg. annual % growth     double          68     30
+#> 4 lexp      Life expectancy at birth double          68     18
+#> 5 gnppc     GNP per capita           double          63     62
+#> 6 safewater Safe water               double          40     29
 ```
 
 ### summ()
@@ -157,26 +157,6 @@ tab1(starwars, s_match("*color"))
 #> 15 yellow           11   12.6  100   12.6      100
 ```
 
-`.append` flattens the list into a tibble.
-
-``` r
-tab1(starwars, s_match("*color"), .append = TRUE)
-#> # A tibble: 59 × 7
-#>    variable   value             n percent   cum valid valid_cum
-#>    <chr>      <chr>         <int>   <dbl> <dbl> <dbl>     <dbl>
-#>  1 hair_color auburn            1    1.15  1.15  1.22      1.22
-#>  2 hair_color auburn, grey      1    1.15  2.30  1.22      2.44
-#>  3 hair_color auburn, white     1    1.15  3.45  1.22      3.66
-#>  4 hair_color black            13   14.9  18.4  15.9      19.5 
-#>  5 hair_color blond             3    3.45 21.8   3.66     23.2 
-#>  6 hair_color blonde            1    1.15 23.0   1.22     24.4 
-#>  7 hair_color brown            18   20.7  43.7  22.0      46.3 
-#>  8 hair_color brown, grey       1    1.15 44.8   1.22     47.6 
-#>  9 hair_color grey              1    1.15 46.0   1.22     48.8 
-#> 10 hair_color none             37   42.5  88.5  45.1      93.9 
-#> # ℹ 49 more rows
-```
-
 `tab2()` cross-tabulates two variables.
 
 ``` r
@@ -198,17 +178,9 @@ tab2(starwars, sex, gender)
 
 ``` r
 fre(starwars, sex)
-#> # A tibble: 7 × 6
-#>   sex                n percent   cum  valid valid_cum
-#>   <chr>          <int>   <dbl> <dbl>  <dbl>     <dbl>
-#> 1 female            16   18.4   18.4  19.3       19.3
-#> 2 hermaphroditic     1    1.15  19.5   1.20      20.5
-#> 3 male              60   69.0   88.5  72.3       92.8
-#> 4 none               6    6.90  95.4   7.23     100  
-#> 5 Valid Total       83   95.4   NA   100         NA  
-#> 6 <NA>               4    4.60 100    NA         NA  
-#> 7 Total             87  100     NA    NA         NA
 ```
+
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
 ## Code of Conduct
 
