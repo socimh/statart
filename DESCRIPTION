@@ -1,6 +1,6 @@
 Package: statart
 Title: Tidy Functions with Stata Functionality
-Version: 0.1.1
+Version: 0.2.0
 Authors@R: 
     person("Minghong", "Shen", , "mhshenaa@connect.ust.hk", role = c("aut", "cre"))
 Description: An R package that provides a range of functions for data summarization, drawing inspiration from the tidyverse and taking cues from Stata.

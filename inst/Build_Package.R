@@ -7,7 +7,7 @@ build_readme()
 pkgdown::build_site()
 preview_site()
 
-
+install.packages("htmltools")
 
 devtools::install_github("socimh/statart")
 library(statart)
@@ -16,8 +16,9 @@ library(statart)
 ls("package:statart")
 ?tidyr_tidy_select
 
-document()
-load_all()
+install.packages("Matrix")
+devtools::document()
+devtools::load_all()
 ?browse
 
 sample(1:10, 5) %>%
@@ -35,7 +36,7 @@ compile_dll(
     )
 )
 
-usethis::use_cpp11()
+iusethis::use_cpp11()
 devtools::document()
 devtools::load_all()
 cpp11::cpp_register()
