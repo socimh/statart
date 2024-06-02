@@ -1,4 +1,11 @@
 #' Quick plot
+#' 
+#' @param data A data frame or tibble.
+#' @param x A column name.
+#' @param y A column name (optional).
+#' @param ... Other arguments to be passed to the `qplot()` function.
+#' @inheritParams ggplot2::qplot
+#' 
 #' @export
 s_plot <- function(data, x, y, ..., geom = "auto",
                    main, xlab, ylab, asp) {
@@ -6,27 +13,16 @@ s_plot <- function(data, x, y, ..., geom = "auto",
   with_y <- !missing(y)
 
   if (with_x) {
-    with_x <- data %>%
-      s_select({{ x }}) %>%
-      ncol() > 0
-  }
-  if (with_y) {
-    with_y <- data %>%
-      s_select({{ y }}) %>%
-      ncol() > 0
-  }
-
-  if (with_x) {
     if (data %>%
       s_select({{ x }}) %>%
-      ncol() > 1) {
+      ncol() != 1) {
       stop("x must be a single column.", call. = FALSE)
     }
   }
   if (with_y) {
     if (data %>%
       s_select({{ y }}) %>%
-      ncol() > 1) {
+      ncol() != 1) {
       stop("y must be a single column.", call. = FALSE)
     }
   }
@@ -87,7 +83,7 @@ s_plot <- function(data, x, y, ..., geom = "auto",
   if (geom[1] == "auto") {
     if (!with_y) {
       if (x_is_integer) {
-        gg <- ggplot(data) +
+        gg <- ggplot2::ggplot(data) +
           ggplot2::geom_histogram(
             mapping = ggplot2::aes(x = {{ x }}),
             binwidth = .5,
@@ -139,7 +135,7 @@ s_plot <- function(data, x, y, ..., geom = "auto",
           .by = x
         )
       gg <- ggplot2::ggplot(data) +
-        aes(x = {{ x }}, y = {{ y }}) +
+        ggplot2::aes(x = {{ x }}, y = {{ y }}) +
         ggplot2::geom_violin(
           scale = "width",
           trim = TRUE,
@@ -205,7 +201,7 @@ s_plot <- function(data, x, y, ..., geom = "auto",
 # copy from https://copyprogramming.com/howto/change-geom-default-aesthetics-as-part-of-theme-component-only#theme-overrides-geompointrange
 geom_aes_defaults <- function() {
   geom_names <- apropos("^Geom", ignore.case = FALSE)
-  geoms <- mget(geom_names, env = asNamespace("ggplot2"))
+  geoms <- mget(geom_names, envir = asNamespace("ggplot2"))
   purrr::map(geoms, ~ .$default_aes)
 }
 
@@ -232,7 +228,6 @@ aes_to_single_tbl <- function(aes) {
   return(tb)
 }
 
-#' @export
 aes_to_tbl <- function() {
   possible_aes <- c(
     "linetype", "linewidth", "colour", "fill", "weight", "size", "stroke",
@@ -252,11 +247,10 @@ aes_to_tbl <- function() {
 }
 
 
-#' @export
 theme_statart <- function(base_size = 18, base_family = "",
                           base_line_size = base_size / 22,
                           base_rect_size = base_size / 22) {
-  # Starts with theme_grey and then modify some parts
+  # Starts with theme_bw() and then modify some parts
   ggplot2::theme_bw(
     base_size = base_size,
     base_family = base_family,
@@ -264,7 +258,7 @@ theme_statart <- function(base_size = 18, base_family = "",
     base_rect_size = base_rect_size
   ) %+replace%
     ggplot2::theme(
-      legend.key.height = unit(1, "cm")
+      legend.key.height = grid::unit(1, "cm")
     )
 }
 
@@ -284,14 +278,21 @@ change_ggplot_style <- function() {
     "path", "segment", "step"
   )
   lines %>%
-    purrr::map(~ update_geom_defaults(.x, aes(linewidth = 1)))
-  update_geom_defaults("area", aes(alpha = .5))
-  update_geom_defaults("bar", aes(color = "black"))
-  update_geom_defaults("boxplot", aes(alpha = .5))
-  update_geom_defaults("col", aes(color = "black"))
-  update_geom_defaults("label", aes(size = 5))
-  update_geom_defaults("point", aes(fill = "lightgray", shape = 21, size = 5, alpha = 0.75))
-  update_geom_defaults("sf", aes(color = "black", fill = "lightgray"))
-  update_geom_defaults("text", aes(size = 5))
-  update_geom_defaults("violin", aes(fill = "lightgray"))
+    purrr::map(~ update_geom_defaults(.x, ggplot2::aes(linewidth = 1)))
+  update_geom_defaults("area", ggplot2::aes(alpha = .5))
+  update_geom_defaults("bar", ggplot2::aes(color = "black"))
+  update_geom_defaults("boxplot", ggplot2::aes(alpha = .5))
+  update_geom_defaults("col", ggplot2::aes(color = "black"))
+  update_geom_defaults("label", ggplot2::aes(size = 5))
+  update_geom_defaults(
+    "point", 
+    ggplot2::aes(fill = "lightgray", shape = 21, size = 5, alpha = 0.75)
+  )
+  update_geom_defaults(
+    "sf",
+    ggplot2::aes(
+      color = "black", fill = "lightgray")
+  )
+  update_geom_defaults("text", ggplot2::aes(size = 5))
+  update_geom_defaults("violin", ggplot2::aes(fill = "lightgray"))
 }

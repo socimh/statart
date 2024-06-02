@@ -2,6 +2,7 @@
 % Please edit documentation in R/summ.R
 \name{summ}
 \alias{summ}
+\alias{tabstat}
 \title{Summarise columns}
 \usage{
 summ(
@@ -11,6 +12,15 @@ summ(
   .keep_all = FALSE,
   .detail = FALSE,
   .stat = character(0)
+)
+
+tabstat(
+  .data,
+  ...,
+  .by = NULL,
+  .keep_all = FALSE,
+  .detail = FALSE,
+  .stat = "mean"
 )
 }
 \arguments{

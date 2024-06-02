@@ -6,6 +6,23 @@
 \usage{
 s_plot(data, x, y, ..., geom = "auto", main, xlab, ylab, asp)
 }
+\arguments{
+\item{data}{A data frame or tibble.}
+
+\item{x}{A column name.}
+
+\item{y}{A column name (optional).}
+
+\item{...}{Other arguments to be passed to the \code{qplot()} function.}
+
+\item{geom}{Character vector specifying geom(s) to draw. Defaults to
+"point" if x and y are specified, and "histogram" if only x is specified.}
+
+\item{main, xlab, ylab}{Character vector (or expression) giving plot title,
+x axis label, and y axis label respectively.}
+
+\item{asp}{The y/x aspect ratio}
+}
 \description{
 Quick plot
 }

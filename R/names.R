@@ -4,13 +4,21 @@
 #' @param ... <[`tidy-select`][dplyr_tidy_select]> Variables to select.
 #'
 #' @return A character vector of column names.
-#' @export
+#' @name names
 #'
 #' @examples
 #' ds(starwars)
 #' ds(starwars, homeworld:starships)
 #' ds(starwars, ends_with("color"))
 #' ds(starwars, where(is.character))
+#' 
+#' names_as_column(starwars)
+#' names_as_column(starwars, ends_with("color"))
+#' names_as_column(starwars, where(is.character))
+
+
+#' @rdname names
+#' @export
 ds <- function(.data, ...) {
   if (missing(...)) {
     names(.data) %>%
@@ -21,4 +29,17 @@ ds <- function(.data, ...) {
       names() %>%
       return()
   }
+}
+
+#' @rdname names
+#' @export
+ds_as_column <- function(.data, ...) {
+  names_as_column(.data, ...)
+}
+
+#' @rdname names
+#' @export
+names_as_column <- function(.data, ...) {
+  ds(.data, ...) %>%
+    tibble::as_tibble_col("name")
 }

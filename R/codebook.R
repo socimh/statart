@@ -6,13 +6,15 @@
 #' codebook of a dataset or selected variables.
 #'
 #' @param .data The input data (data frame or tibble).
-#' @param ...  <[`tidy-select`][dplyr_tidy_select]> One or more
-#' unquoted expressions separated by commas. Variable names can be
-#' used as if they were positions in the data frame, so expressions
-#' like x:y can be used to select a range of variables.
+#' @param ...  <[`tidy-select`][dplyr_tidy_select]> or
+#' <[`data-masking`][args_data_masking]> Variables to include in the codebook.
 #' *This argument can be omitted*.
-#' @return  An object of the same type as `.data`.
-#' @export
+#' @param .type The output type. Default for `codebook_detail()` is `"flextable"`.
+#' @param n The number of rows to display. Default is `Inf`.
+#' @inheritParams datawizard::data_codebook
+#' 
+#' @return  A tibble or a flextable.
+#' @name codebook
 #'
 #' @examples
 #' starwars
@@ -22,10 +24,13 @@
 #' codebook(starwars, where(is.numeric))
 #' lifeexp
 #' codebook(lifeexp)
+
+#' @rdname codebook
+#' @export
 codebook <- function(.data, ...) {
   # if ... is empty, select all variables
   if (!missing(...)) {
-    .data <- dplyr::select(.data, ...)
+    .data <- s_select(.data, ...)
   }
 
   out <- dplyr::summarise(
@@ -46,34 +51,105 @@ codebook <- function(.data, ...) {
     ) %>%
     dplyr::select(-unit)
 
-  # Hmisc::contents() cannot include "units" variables.
-  .data_no_unit <- .data %>%
-    dplyr::select(
-      tidyselect::where(
-        ~ s_type(.x) != c("units")
-      )
-    )
-
-  contents <- Hmisc::contents(.data_no_unit)$contents %>%
+  contents <- Hmisc::contents(.data)$contents %>%
     tibble::as_tibble() %>%
-    dplyr::mutate(
-      variable = names(.data_no_unit)
-    ) %>%
-    dplyr::select(
-      tidyselect::any_of(c("variable", "Labels"))
-    )
+    dplyr::select(dplyr::any_of(c("Labels")))
 
-  if (ncol(contents) == 2) {
+  if (ncol(contents) == 1) {
     out <- out %>%
-      dplyr::left_join(
+      dplyr::bind_cols(
         contents %>%
-          dplyr::rename(label = Labels), 
-          by = dplyr::join_by(variable)
+          dplyr::rename(label = Labels)
+      ) %>%
+      dplyr::relocate(label, .after = variable)
+  }
+
+  return(out)
+}
+
+#' @rdname codebook
+#' @export
+codebook_detail <- function(.data, ..., .type = c("flextable", "tibble"), n = Inf, max_values = 10, range_at = 6, verbose = TRUE) {
+  # if ... is empty, select all variables
+  if (!missing(...)) {
+    .data <- s_select(.data, ...)
+  }
+
+  out <- .data %>%
+    datawizard::data_codebook(
+      max_values = max_values,
+      range_at = range_at,
+      verbose = verbose
+    ) %>%
+    tibble::as_tibble() %>%
+    dplyr::rename_with(
+      stringr::str_to_lower
+    ) %>%
+    dplyr::rename_with(
+      ~ stringr::str_replace_all(., " ", "_")
+    ) %>%
+    dplyr::rename(row_id = .row_id)
+
+  if (.type[1] == "flextable") {
+    print(out, n = n)
+  } else {
+    flextable::as_flextable(out, max_row = n) %>%
+      return()
+  }
+}
+
+#' @rdname codebook
+#' @export
+variables <- function(.data, ...) {
+  # if ... is empty, select all variables
+  if (!missing(...)) {
+    .data <- dplyr::select(.data, ...)
+  }
+
+  out <- .data %>%
+    names_as_column()
+
+  label <- Hmisc::contents(.data)$contents %>%
+    tibble::as_tibble() %>%
+    dplyr::select(dplyr::any_of(c("Labels")))
+
+  if (ncol(label) == 1) {
+    out <- out %>%
+      dplyr::bind_cols(
+        label %>%
+          dplyr::rename(label = Labels)
       )
   }
 
   return(out)
 }
+
+variables_search <- function(.data, string, ...) {
+  if (is.character(string)) {
+    string <- string %>%
+      stringr::str_replace_all("\\*", ".*") %>%
+      stringr::str_replace_all("~", ".+") %>%
+      stringr::str_replace_all("\\?", ".") %>%
+      purrr::map_chr(num_range_to_regex)
+    string <- stringr::str_glue("(?i).*{string}.*")
+  }
+
+  if ("label" %in% colnames(.data)) {
+    variables(.data, ...) %>%
+      dplyr::filter(
+        stringr::str_detect(name, string) |
+          stringr::str_detect(label, string)
+      ) %>%
+      return()
+  } else {
+    variables(.data, ...) %>%
+      dplyr::filter(
+        stringr::str_detect(name, string)
+      ) %>%
+      return()
+  }
+}
+
 
 # Helper function:
 codebook_var <- function(var) {

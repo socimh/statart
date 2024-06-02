@@ -5,7 +5,8 @@
 #' @export
 #'
 #' @examples
-#' s_time(1:10)
+#' x <- seq_len(1e6)
+#' mean(x) %>% s_time()
 s_time <- function(.x) {
   begin_time <- Sys.time()
   out <- .x

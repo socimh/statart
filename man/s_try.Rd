@@ -13,5 +13,11 @@ s_try(.fn)
 A logical value.
 }
 \description{
-Try a function and return a logical
+This function tries to evaluate a function,
+and if the function throws an error, it returns FALSE.
+Otherwise, it returns TRUE.
+}
+\examples{
+s_try(mean(1:10))
+s_try(mean(letters[1:10]))
 }

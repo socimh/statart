@@ -83,12 +83,6 @@ tab(starwars, sex)
 tab1(starwars, s_match("*color"))
 ```
 
-`.append` flattens the list into a tibble.
-
-```{r}
-tab1(starwars, s_match("*color"), .append = TRUE)
-```
-
 `tab2()` cross-tabulates two variables.
 
 ```{r}

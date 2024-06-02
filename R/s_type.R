@@ -1,4 +1,4 @@
-#' The clean type of an object.
+#' Know the type of an object.
 #'
 #' @name s_type
 #' @param .x An object.
@@ -38,6 +38,7 @@ s_type <- function(.x, .abbr = FALSE) {
       stringr::str_replace("lgl", "logical") %>%
       stringr::str_replace("cpl", "complex") %>%
       stringr::str_replace("fct", "factor") %>%
+      stringr::str_replace("ord", "ordered") %>%
       stringr::str_replace("dttm", "datetime") %>%
       stringr::str_replace("drtn", "duration") %>%
       stringr::str_replace("df", "dataframe") %>%

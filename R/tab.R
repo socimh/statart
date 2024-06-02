@@ -11,12 +11,10 @@
 #' * `fre1()` - Adds “Total” row(s) to the output of `tab1()`.
 #' * `fre2()` - Adds a “Total” row and a “total” column to the output of `tab2()`.
 #'
-#' Overall, `tab()` functions are suitable for
-#' subsequent data analysis, while `fre()` functions
-#' are suitable for printing.
+#' `tab()` functions are suitable for subsequent data analysis, while `fre()` functions return flextables by default and are suitable for reporting.
 #'
 #' If the output tibble has many rows, consider using
-#' `print()` or [`s_print()`][s_print] to display the output.
+#' `print()` or [`print_headtail()`][print_headtail] to display the output.
 #'
 #' @param .data A data frame, data frame extension
 #' (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).
@@ -26,13 +24,13 @@
 #' Both tidyselect (e.g., `starts_with()`) and
 #' data masking (e.g., `x_sq = x^2`) are supported.
 #' See examples below.
+#' @inheritParams dplyr::summarise
 #' @param .desc If TRUE, will show the largest groups at the top.
-#' @param .append If TRUE, will return a single tibble
-#' instead of a list of tibbles.
+#' @param .type Output type. tab1() returns a list by default, and fre() functions return flextables by default.
 #' @param .flip If TRUE, will transpose the output tibble.
 #'
 #' @return
-#' An object of the same type as `.data`.
+#' A tibble, a list of tibbles, or a flextable.
 #'
 #' @name tab
 #'
@@ -42,7 +40,7 @@
 #' tab(starwars, sex, .desc = TRUE)
 #' fre(starwars, sex)
 #' fre(starwars, sex, .desc = TRUE)
-#' 
+#'
 #' tab(starwars, sex, gender)
 #' tab(starwars, sex == "male")
 #' tab(starwars, male = sex == "male")
@@ -52,29 +50,38 @@
 #'
 #' tab1(starwars, 1:3)
 #' tab1(starwars, ends_with("color"))
-#' tab1(starwars, ends_with("color"), .append = TRUE)
-#' fre1(starwars, ends_with("color"), .append = TRUE)
-#' fre1(starwars, ends_with("color"), .append = TRUE) %>% s_print()
+#' tab1(starwars, ends_with("color"), .type = "tibble")
+#' fre1(starwars, ends_with("color"))
+#' fre1(starwars, ends_with("color"), .type = "list")
 #'
 #' tab2(starwars, sex, gender)
 #' tab2(starwars, height, gender)
 #' fre2(starwars, height, gender)
-#' fre2(starwars, height, gender) %>% s_print()
 NULL
 
 #' @export
 #' @rdname tab
-tab <- function(.data, ..., .desc = FALSE) {
+tab <- function(
+    .data, ...,
+    .by = NULL,
+    .desc = FALSE) {
+  # Identify group variables
+  by <- rlang::enquo(.by)
+  group_vars <- extract_group_var(.data, by)
+
   # Prepare data
+  .data_nogroup <- prepare_tab_data(.data, ..., group_vars = group_vars)
   .data <- .data %>%
-    s_select(...)
-  .data <- s_ungroup(.data)
+    dplyr::select(dplyr::any_of(group_vars)) %>%
+    dplyr::bind_cols(.data_nogroup)
 
   # Confirm names
   .data <- modify_invalid_names(.data, "tab()")
 
   # Tabulate
-  out <- tab_data(.data, .desc) %>%
+  out <- tab_data(
+    .data, group_vars, .desc
+  ) %>%
     dplyr::select(-...any_miss)
 
   # Output
@@ -85,12 +92,15 @@ tab <- function(.data, ..., .desc = FALSE) {
 #' @rdname tab
 tab1 <- function(
     .data, ...,
+    .by = NULL,
     .desc = FALSE,
-    .append = FALSE) {
+    .type = c("list", "tibble")) {
+  # Identify group variables
+  by <- rlang::enquo(.by)
+  group_vars <- extract_group_var(.data, by)
+
   # Prepare data
-  .data <- .data %>%
-    s_select(...)
-  .data <- s_ungroup(.data)
+  .data <- prepare_tab_data(.data, ..., group_vars)
 
   # Confirm names
   .data <- modify_invalid_names(.data, "tab1()")
@@ -98,13 +108,16 @@ tab1 <- function(
   # Tabulate as a list
   out <- .data %>%
     purrr::map(
-      ~ tibble::tibble(value = .) %>%
-        tab_data(.desc) %>%
+      ~ .data %>%
+        dplyr::select(dplyr::any_of(group_vars)) %>%
+        dplyr::bind_cols(tibble::tibble(value = .x)) %>%
+        tab_data(group_vars, .desc) %>%
         dplyr::select(-...any_miss)
-    )
+    ) %>%
+    purrr::discard_at(group_vars)
 
-  # Bind rows if .append
-  if (.append) {
+  # Bind rows if the type is a tibble
+  if (.type[1] == "tibble") {
     out <- append_tab_list(out)
   }
 
@@ -141,20 +154,33 @@ tab2 <- function(
 #' @export
 #' @rdname tab
 fre <- function(
-    .data, ..., .desc = FALSE) {
+    .data, ...,
+    .by = NULL,
+    .desc = FALSE,
+    .type = c("flextable", "tibble")) {
+  # Identify group variables
+  by <- rlang::enquo(.by)
+  group_vars <- extract_group_var(.data, by)
+
   # Prepare data
+  .data_nogroup <- prepare_tab_data(.data, ..., group_vars = group_vars)
   .data <- .data %>%
-    s_select(...)
-  .data <- s_ungroup(.data)
+    dplyr::select(dplyr::any_of(group_vars)) %>%
+    dplyr::bind_cols(.data_nogroup)
 
   # Confirm names
   .data <- modify_invalid_names(.data, "fre()")
 
   # Tabulate
   out <- .data %>%
-    tab_data(.desc) %>%
+    tab_data(group_vars, .desc) %>%
     add_total() %>%
     dplyr::select(-...any_miss)
+
+  if (.type[1] == "flextable") {
+    out <- out %>%
+      result_to_flextable(group_vars)
+  }
 
   # Output
   return(out)
@@ -163,11 +189,16 @@ fre <- function(
 #' @export
 #' @rdname tab
 fre1 <- function(
-    .data, ..., .desc = FALSE, .append = FALSE) {
+    .data, ...,
+    .by = NULL,
+    .desc = FALSE,
+    .type = c("flextable", "list", "tibble")) {
+  # Identify group variables
+  by <- rlang::enquo(.by)
+  group_vars <- extract_group_var(.data, by)
+
   # Prepare data
-  .data <- .data %>%
-    s_select(...)
-  .data <- s_ungroup(.data)
+  .data <- prepare_tab_data(.data, ..., group_vars)
 
   # Confirm names
   .data <- modify_invalid_names(.data, "fre1()")
@@ -175,15 +206,25 @@ fre1 <- function(
   # Tabulate as a list
   out <- .data %>%
     purrr::map(
-      ~ tibble::tibble(value = .) %>%
-        tab_data(.desc) %>%
+      ~ .data %>%
+        dplyr::select(dplyr::any_of(group_vars)) %>%
+        dplyr::bind_cols(tibble::tibble(value = .x)) %>%
+        tab_data(group_vars, .desc) %>%
         add_total() %>%
         dplyr::select(-...any_miss)
-    )
+    ) %>%
+    purrr::discard_at(group_vars)
 
-  # Bind rows if .append
-  if (.append) {
-    out <- append_tab_list(out)
+  if (.type[1] == "flextable") {
+    out <- out %>%
+      append_tab_list(blank_row = TRUE) %>%
+      dplyr::slice(-dplyr::n()) %>%
+      result_to_flextable(group_vars, fre1 = TRUE)
+  } else if (.type[1] == "tibble") {
+    out <- append_tab_list(
+      out,
+      blank_row = TRUE
+    )
   }
 
   # Output
@@ -194,7 +235,8 @@ fre1 <- function(
 #' @export
 #' @rdname tab
 fre2 <- function(
-    .data, ..., .flip = FALSE) {
+    .data, ..., .flip = FALSE,
+    .type = c("flextable", "tibble")) {
   # Prepare data
   .data <- .data %>%
     s_select(...)
@@ -214,6 +256,11 @@ fre2 <- function(
   out <- .data %>%
     tab2_data() %>%
     add_total2(.data)
+
+  if (.type[1] == "flextable") {
+    out <- out %>%
+      result_to_flextable(group_vars, fre2 = TRUE)
+  }
 
   # Output
   return(out)

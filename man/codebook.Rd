@@ -2,21 +2,48 @@
 % Please edit documentation in R/codebook.R
 \name{codebook}
 \alias{codebook}
+\alias{codebook_detail}
+\alias{variables}
 \title{View the codebook of a dataset or selected variables.}
 \usage{
 codebook(.data, ...)
+
+codebook_detail(
+  .data,
+  ...,
+  .type = c("flextable", "tibble"),
+  n = Inf,
+  max_values = 10,
+  range_at = 6,
+  verbose = TRUE
+)
+
+variables(.data, ...)
 }
 \arguments{
 \item{.data}{The input data (data frame or tibble).}
 
-\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> One or more
-unquoted expressions separated by commas. Variable names can be
-used as if they were positions in the data frame, so expressions
-like x:y can be used to select a range of variables.
+\item{...}{<\code{\link[=dplyr_tidy_select]{tidy-select}}> or
+<\code{\link[=args_data_masking]{data-masking}}> Variables to include in the codebook.
 \emph{This argument can be omitted}.}
+
+\item{.type}{The output type. Default for \code{codebook_detail()} is \code{"flextable"}.}
+
+\item{n}{The number of rows to display. Default is \code{Inf}.}
+
+\item{max_values}{Number of maximum values that should be displayed. Can be
+used to avoid too many rows when variables have lots of unique values.}
+
+\item{range_at}{Indicates how many unique values in a numeric vector are
+needed in order to print a range for that variable instead of a frequency
+table for all numeric values. Can be useful if the data contains numeric
+variables with only a few unique values and where full frequency tables
+instead of value ranges should be displayed.}
+
+\item{verbose}{Toggle warnings and messages on or off.}
 }
 \value{
-An object of the same type as \code{.data}.
+A tibble or a flextable.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}

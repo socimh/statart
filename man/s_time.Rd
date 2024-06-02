@@ -16,5 +16,6 @@ The function output
 Time spent on a function
 }
 \examples{
-s_time(1:10)
+x <- seq_len(1e6)
+mean(x) \%>\% s_time()
 }

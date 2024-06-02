@@ -2,28 +2,31 @@
 #'
 #' `r lifecycle::badge("experimental")`
 #' Enhanced `summarise()`.
-#' 
+#'
 #' @inheritParams tab
 #' @inheritParams dplyr::summarise
 #' @param .keep_all A logical. If `TRUE`, all variables are kept.
 #' @param .detail A logical. If `TRUE`, the detailed summary is returned.
-#' @param .stat A character vector. 
+#' @param .stat A character vector.
 #' If specified, only the listed statistics are returned.
+#' @name summ
 #'
 #' @return A tibble
 #' @export
 summ <- function(
     .data, ...,
     .by = NULL,
-    .keep_all = FALSE,
+    .keep_all = FALSE, 
     .detail = FALSE,
     .stat = character(0)) {
   # Identify group variables
-  group_vars <- extract_group_var(.data, .by)
+  by <- rlang::enquo(.by)
+  group_vars <- extract_group_var(.data, by)
 
   # Prepare data
-  .data_summ <- keep_summ_vars(
-    .data, ..., group_vars = group_vars
+  .data_summ <- remove_group_vars(
+    .data, ...,
+    group_vars = group_vars
   )
 
   # Confirm variables
@@ -45,4 +48,23 @@ summ <- function(
   # .output <- summ_data_to_value(.data, vars, group_vars, .by, .stat, .detail, no_dot_by)
 
   # return(.output)
+}
+
+#' @rdname summ
+#' @export
+tabstat <- function(
+    .data, ...,
+    .by = NULL,
+    .keep_all = FALSE,
+    .detail = FALSE,
+    .stat = "mean") {
+  return(
+    summ(
+      .data, ...,
+      .by = .by,
+      .keep_all = .keep_all,
+      .detail = .detail,
+      .stat = .stat
+    )
+  )
 }

@@ -1,4 +1,5 @@
 ## code to prepare `complex_tb` dataset goes here
+library(tidyverse)
 complex_tb <- tibble(
   date1 = as.Date("2024-01-01") - 1:1000,
   date2 = as.Date("2024-01-01") + 1:1000,
@@ -36,3 +37,4 @@ complex_tb <- tibble(
   all_miss1 = NA,
   all_miss2 = NA_integer_
 )
+

@@ -3,7 +3,7 @@
 \name{s_type}
 \alias{s_type}
 \alias{s_unit}
-\title{The clean type of an object.}
+\title{Know the type of an object.}
 \usage{
 s_type(.x, .abbr = FALSE)
 
@@ -19,7 +19,7 @@ of the type is returned.}
 A character.
 }
 \description{
-The clean type of an object.
+Know the type of an object.
 }
 \examples{
 s_type(1:10)

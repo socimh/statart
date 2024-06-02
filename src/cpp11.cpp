@@ -5,89 +5,66 @@
 #include "cpp11/declarations.hpp"
 #include <R_ext/Visibility.h>
 
-// sum.cpp
-writable::doubles row_sum(data_frame tb);
-extern "C" SEXP _statart_row_sum(SEXP tb) {
+// code.cpp
+void fun();
+extern "C" SEXP _statart_fun() {
   BEGIN_CPP11
-    return cpp11::as_sexp(row_sum(cpp11::as_cpp<cpp11::decay_t<data_frame>>(tb)));
+    fun();
+    return R_NilValue;
   END_CPP11
 }
-// sum.cpp
-writable::doubles row_max(data_frame tb);
-extern "C" SEXP _statart_row_max(SEXP tb) {
+// row_stat.cpp
+cpp11::doubles_matrix<> df_to_mat(data_frame tb, double na);
+extern "C" SEXP _statart_df_to_mat(SEXP tb, SEXP na) {
   BEGIN_CPP11
-    return cpp11::as_sexp(row_max(cpp11::as_cpp<cpp11::decay_t<data_frame>>(tb)));
+    return cpp11::as_sexp(df_to_mat(cpp11::as_cpp<cpp11::decay_t<data_frame>>(tb), cpp11::as_cpp<cpp11::decay_t<double>>(na)));
   END_CPP11
 }
-// sum.cpp
-writable::doubles row_min(data_frame tb);
-extern "C" SEXP _statart_row_min(SEXP tb) {
+// row_stat.cpp
+writable::doubles row_max_dbl(data_frame tb);
+extern "C" SEXP _statart_row_max_dbl(SEXP tb) {
   BEGIN_CPP11
-    return cpp11::as_sexp(row_min(cpp11::as_cpp<cpp11::decay_t<data_frame>>(tb)));
+    return cpp11::as_sexp(row_max_dbl(cpp11::as_cpp<cpp11::decay_t<data_frame>>(tb)));
   END_CPP11
 }
-// sum.cpp
-writable::integers row_unique(data_frame tb);
-extern "C" SEXP _statart_row_unique(SEXP tb) {
+// row_stat.cpp
+writable::doubles row_min_dbl(data_frame tb);
+extern "C" SEXP _statart_row_min_dbl(SEXP tb) {
   BEGIN_CPP11
-    return cpp11::as_sexp(row_unique(cpp11::as_cpp<cpp11::decay_t<data_frame>>(tb)));
+    return cpp11::as_sexp(row_min_dbl(cpp11::as_cpp<cpp11::decay_t<data_frame>>(tb)));
   END_CPP11
 }
-// sum.cpp
-double s_sum(doubles vec);
-extern "C" SEXP _statart_s_sum(SEXP vec) {
+// row_stat.cpp
+writable::doubles row_sum_dbl(data_frame tb);
+extern "C" SEXP _statart_row_sum_dbl(SEXP tb) {
   BEGIN_CPP11
-    return cpp11::as_sexp(s_sum(cpp11::as_cpp<cpp11::decay_t<doubles>>(vec)));
+    return cpp11::as_sexp(row_sum_dbl(cpp11::as_cpp<cpp11::decay_t<data_frame>>(tb)));
   END_CPP11
 }
-// sum.cpp
-double s_mean(doubles vec);
-extern "C" SEXP _statart_s_mean(SEXP vec) {
+// row_stat.cpp
+writable::doubles row_mean_dbl(data_frame tb);
+extern "C" SEXP _statart_row_mean_dbl(SEXP tb) {
   BEGIN_CPP11
-    return cpp11::as_sexp(s_mean(cpp11::as_cpp<cpp11::decay_t<doubles>>(vec)));
+    return cpp11::as_sexp(row_mean_dbl(cpp11::as_cpp<cpp11::decay_t<data_frame>>(tb)));
   END_CPP11
 }
-// sum.cpp
-double s_max(doubles vec);
-extern "C" SEXP _statart_s_max(SEXP vec) {
+// row_stat.cpp
+writable::integers row_unique_dbl(data_frame tb);
+extern "C" SEXP _statart_row_unique_dbl(SEXP tb) {
   BEGIN_CPP11
-    return cpp11::as_sexp(s_max(cpp11::as_cpp<cpp11::decay_t<doubles>>(vec)));
-  END_CPP11
-}
-// sum.cpp
-double dbl_sd(doubles dbl_vec);
-extern "C" SEXP _statart_dbl_sd(SEXP dbl_vec) {
-  BEGIN_CPP11
-    return cpp11::as_sexp(dbl_sd(cpp11::as_cpp<cpp11::decay_t<doubles>>(dbl_vec)));
-  END_CPP11
-}
-// sum.cpp
-int n_distinct10k(doubles vec);
-extern "C" SEXP _statart_n_distinct10k(SEXP vec) {
-  BEGIN_CPP11
-    return cpp11::as_sexp(n_distinct10k(cpp11::as_cpp<cpp11::decay_t<doubles>>(vec)));
-  END_CPP11
-}
-// sum.cpp
-double s_median(doubles vec);
-extern "C" SEXP _statart_s_median(SEXP vec) {
-  BEGIN_CPP11
-    return cpp11::as_sexp(s_median(cpp11::as_cpp<cpp11::decay_t<doubles>>(vec)));
+    return cpp11::as_sexp(row_unique_dbl(cpp11::as_cpp<cpp11::decay_t<data_frame>>(tb)));
   END_CPP11
 }
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
-    {"_statart_dbl_sd",        (DL_FUNC) &_statart_dbl_sd,        1},
-    {"_statart_n_distinct10k", (DL_FUNC) &_statart_n_distinct10k, 1},
-    {"_statart_row_max",       (DL_FUNC) &_statart_row_max,       1},
-    {"_statart_row_min",       (DL_FUNC) &_statart_row_min,       1},
-    {"_statart_row_sum",       (DL_FUNC) &_statart_row_sum,       1},
-    {"_statart_row_unique",    (DL_FUNC) &_statart_row_unique,    1},
-    {"_statart_s_max",         (DL_FUNC) &_statart_s_max,         1},
-    {"_statart_s_mean",        (DL_FUNC) &_statart_s_mean,        1},
-    {"_statart_s_median",      (DL_FUNC) &_statart_s_median,      1},
-    {"_statart_s_sum",         (DL_FUNC) &_statart_s_sum,         1},
+    {"_statart_df_to_mat",      (DL_FUNC) &_statart_df_to_mat,      2},
+    {"_statart_fun",            (DL_FUNC) &_statart_fun,            0},
+    {"_statart_row_max_dbl",    (DL_FUNC) &_statart_row_max_dbl,    1},
+    {"_statart_row_mean_dbl",   (DL_FUNC) &_statart_row_mean_dbl,   1},
+    {"_statart_row_min_dbl",    (DL_FUNC) &_statart_row_min_dbl,    1},
+    {"_statart_row_sum_dbl",    (DL_FUNC) &_statart_row_sum_dbl,    1},
+    {"_statart_row_unique_dbl", (DL_FUNC) &_statart_row_unique_dbl, 1},
     {NULL, NULL, 0}
 };
 }

@@ -1,11 +1,11 @@
-extract_group_var <- function(.data, .by) {
-  any_dot_by <- length(.by) > 0
+extract_group_var <- function(.data, by) {
+  any_dot_by <- !rlang::quo_is_null(by)
   any_group_by <- dplyr::is_grouped_df(.data)
 
   if (!any_dot_by && any_group_by) {
     group_vars <- dplyr::group_vars(.data)
   } else if (any_dot_by) {
-    group_vars <- ds(.data, .by)
+    group_vars <- ds(.data, !!by)
   } else {
     group_vars <- character(0)
   }
@@ -27,9 +27,11 @@ contain_vars <- function(.data, group_vars) {
   return(contain)
 }
 
-keep_summ_vars <- function(.data, ..., group_vars) {
+remove_group_vars <- function(.data, ..., group_vars) {
+  if (!missing(...)) {
+    .data <- s_select(.data, ...)
+  }
   out <- .data %>%
-    s_select(...) %>%
     dplyr::ungroup() %>%
     dplyr::select(
       -tidyselect::any_of(group_vars)
@@ -52,9 +54,9 @@ keep_useful_vars <- function(.data, .data_num, group_vars) {
 
 is_summable_chr <- function(chr) {
   chr %>%
-  stringr::str_detect(
-    "^(lgl|int|dbl|int64|units|drtn|time|date|dttm|fct|ord)"
-  )
+    stringr::str_detect(
+      "^(lgl|int|dbl|int64|units|drtn|time|date|dttm|fct|ord)"
+    )
 }
 
 is_summable <- function(.x) {
@@ -88,7 +90,7 @@ warning_vars <- function(vars, suffix) {
     warning(message, call. = FALSE)
   } else if (
     stringr::str_length(vars[1]) +
-    stringr::str_length(vars[2]) > 40) {
+      stringr::str_length(vars[2]) > 40) {
     message <- paste0(
       vars[1], ", ... are ", suffix
     )
@@ -170,7 +172,7 @@ summ_var <- function(var, stat = character(0), .detail = FALSE) {
         !is.na(s_unit(var)),
         stringr::str_glue(
           "{s_type(var, .abbr = TRUE)} [{s_unit(var)}]"
-          ),
+        ),
         s_type(var, .abbr = TRUE)
       ) %>% as.character(),
       n = sum(!is.na(var), na.rm = TRUE),
@@ -187,7 +189,7 @@ summ_var <- function(var, stat = character(0), .detail = FALSE) {
         !is.na(s_unit(var)),
         stringr::str_glue(
           "{s_type(var, .abbr = TRUE)} [{s_unit(var)}]"
-          ),
+        ),
         s_type(var, .abbr = TRUE)
       ) %>% as.character(),
       n = sum(!is.na(var), na.rm = TRUE),
@@ -306,30 +308,35 @@ summ_list <- function(.data, group_vars, .detail, .stat) {
         )
     )
 
+
   numeric <- summ_data(
     .data, summ_var, numeric, group_vars, .detail, .stat
-  ) %>%
-    dplyr::mutate(
-      dplyr::across(
-        type:tidyselect::last_col() &
-          tidyselect::where(
-            ~ is.numeric(.x)
-          ),
-        ~ dplyr::if_else(
-          is.na(.x) | !is.finite(.x),
-          NA_real_, .x
-        )
-      ),
-      name = dplyr::case_when(
-        !is_summable_chr(type) ~
-          stringr::str_glue("***{name}"),
-        type %in% c("fct", "ord") ~
-          stringr::str_glue("**{name}"),
-        stringr::str_detect(type, "lbl$") ~
-          stringr::str_glue("*{name}"),
-        TRUE ~ name
-      ) %>% as.character()
-    )
+  )
+
+  if (!is.null(numeric) && nrow(numeric) > 0) {
+    numeric <- numeric %>%
+      dplyr::mutate(
+        dplyr::across(
+          type:tidyselect::last_col() &
+            tidyselect::where(
+              ~ is.numeric(.x)
+            ),
+          ~ dplyr::if_else(
+            is.na(.x) | !is.finite(.x),
+            NA_real_, .x
+          )
+        ),
+        name = dplyr::case_when(
+          !is_summable_chr(type) ~
+            stringr::str_glue("***{name}"),
+          type %in% c("fct", "ord") ~
+            stringr::str_glue("**{name}"),
+          stringr::str_detect(type, "lbl$") ~
+            stringr::str_glue("*{name}"),
+          TRUE ~ name
+        ) %>% as.character()
+      )
+  }
 
   date <- summ_data(
     .data, summ_date, date, group_vars, .detail, .stat
@@ -349,7 +356,7 @@ summ_list <- function(.data, group_vars, .detail, .stat) {
   if (length(out) == 1) {
     out <- out[[1]]
   } else {
-    warning(
+    message(
       "A list is returned as statistics are heterogeneous.",
       call. = FALSE
     )
