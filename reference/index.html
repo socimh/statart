@@ -41,7 +41,23 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="easy-import-export">Easy Import/Export<a class="anchor" aria-label="anchor" href="#easy-import-export"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="import-export.html">read_data()</a></code> <code><a href="import-export.html">write_data()</a></code> 
+        </dt>
+        <dd>Import and export with various data formats</dd>
+      </dl></div><div class="section level2">
+      <h2 id="stata-like-functions">Stata-like Functions<a class="anchor" aria-label="anchor" href="#stata-like-functions"></a></h2>
       
       
 
@@ -58,44 +74,97 @@
         <dd>Browse columns like Stata's <code>browse</code> command</dd>
       </dl><dl><dt>
           
-          <code><a href="codebook.html">codebook()</a></code> <code><a href="codebook.html">codebook_detail()</a></code> <code><a href="codebook.html">variables()</a></code> 
+          <code><a href="names.html">ds()</a></code> <code><a href="names.html">ds_as_column()</a></code> <code><a href="names.html">names_as_column()</a></code> 
         </dt>
-        <dd>View the codebook of a dataset or selected variables.</dd>
+        <dd>List column names by tidyselect</dd>
       </dl><dl><dt>
           
-          <code><a href="cut.html">cut_quantile()</a></code> <code><a href="cut.html">cut_length()</a></code> <code><a href="cut.html">cut_breaks()</a></code> 
+          <code><a href="variables.html">variables()</a></code> <code><a href="variables.html">variables_search()</a></code> 
         </dt>
-        <dd>Cut a numeric vector into intervals.</dd>
+        <dd>Show the variable list of a dataset</dd>
       </dl><dl><dt>
           
-          <code><a href="import-export.html">read_data()</a></code> <code><a href="import-export.html">write_data()</a></code> 
+          <code><a href="codebook.html">codebook()</a></code> <code><a href="codebook.html">codebook_detail()</a></code> 
         </dt>
-        <dd>Import and export with various data formats</dd>
+        <dd>View the codebook of a dataset or selected columns</dd>
       </dl><dl><dt>
           
-          <code><a href="lifeexp.html">lifeexp</a></code> 
+          <code><a href="summ.html">summ()</a></code> <code><a href="summ.html">tabstat()</a></code> 
         </dt>
-        <dd>Life expectancy data in 1998</dd>
+        <dd>Summarise columns</dd>
       </dl><dl><dt>
+          
+          <code><a href="tab.html">tab()</a></code> <code><a href="tab.html">tab1()</a></code> <code><a href="tab.html">tab2()</a></code> <code><a href="tab.html">fre()</a></code> <code><a href="tab.html">fre1()</a></code> <code><a href="tab.html">fre2()</a></code> 
+        </dt>
+        <dd>Tabulate columns</dd>
+      </dl><dl><dt>
+          
+          <code><a href="row_egen.html">row_mean()</a></code> <code><a href="row_egen.html">row_sum()</a></code> <code><a href="row_egen.html">row_max()</a></code> <code><a href="row_egen.html">row_miss()</a></code> <code><a href="row_egen.html">row_non_miss()</a></code> <code><a href="row_egen.html">row_min()</a></code> <code><a href="row_egen.html">row_median()</a></code> <code><a href="row_egen.html">row_var()</a></code> <code><a href="row_egen.html">row_sd()</a></code> <code><a href="row_egen.html">row_unique()</a></code> 
+        </dt>
+        <dd>Generate a variable based on row-wise operations.</dd>
+      </dl></div><div class="section level2">
+      <h2 id="easy-regression">Easy Regression<a class="anchor" aria-label="anchor" href="#easy-regression"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="regress.html">regress()</a></code> <code><a href="regress.html">regress_coef()</a></code> <code><a href="regress.html">regress_stat()</a></code> <code><a href="regress.html">regress_data()</a></code> 
+        </dt>
+        <dd>Directly obtain the regression results</dd>
+      </dl><dl><dt>
+          
+          <code><a href="tidy_coef.html">tidy_coef()</a></code> 
+        </dt>
+        <dd>Directly obtain the regression results</dd>
+      </dl></div><div class="section level2">
+      <h2 id="type-conversion">Type Conversion<a class="anchor" aria-label="anchor" href="#type-conversion"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
           
           <code><a href="na_conversion.html">na_if_value()</a></code> <code><a href="na_conversion.html">value_if_na()</a></code> 
         </dt>
         <dd>NA Conversion</dd>
       </dl><dl><dt>
           
-          <code><a href="names.html">ds()</a></code> <code><a href="names.html">ds_as_column()</a></code> <code><a href="names.html">names_as_column()</a></code> 
+          <code><a href="type_conversion.html">as_character()</a></code> <code><a href="type_conversion.html">as_numeric()</a></code> 
         </dt>
-        <dd>List column names by tidyselect</dd>
+        <dd>Better type conversion</dd>
+      </dl></div><div class="section level2">
+      <h2 id="small-tools">Small Tools<a class="anchor" aria-label="anchor" href="#small-tools"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="special-print.html">print_headtail()</a></code> <code><a href="special-print.html">print_interval()</a></code> <code><a href="special-print.html">slice_headtail()</a></code> <code><a href="special-print.html">slice_interval()</a></code> 
+        </dt>
+        <dd>Print a long tibble with selected rows</dd>
       </dl><dl><dt>
           
-          <code><a href="regress.html">regress()</a></code> <code><a href="regress.html">regress_coef()</a></code> <code><a href="regress.html">regress_stat()</a></code> <code><a href="regress.html">regress_data()</a></code> <code><a href="regress.html">tidy_coef()</a></code> 
+          <code><a href="cut.html">cut_quantile()</a></code> <code><a href="cut.html">cut_length()</a></code> <code><a href="cut.html">cut_breaks()</a></code> 
         </dt>
-        <dd>Directly obtain the regression results</dd>
-      </dl><dl><dt>
-          
-          <code><a href="row_egen.html">row_mean()</a></code> <code><a href="row_egen.html">row_sum()</a></code> <code><a href="row_egen.html">row_max()</a></code> <code><a href="row_egen.html">row_miss()</a></code> <code><a href="row_egen.html">row_non_miss()</a></code> <code><a href="row_egen.html">row_min()</a></code> <code><a href="row_egen.html">row_median()</a></code> <code><a href="row_egen.html">row_var()</a></code> <code><a href="row_egen.html">row_sd()</a></code> <code><a href="row_egen.html">row_unique()</a></code> 
-        </dt>
-        <dd>Generate a variable based on row-wise operations.</dd>
+        <dd>Cut a numeric vector into intervals.</dd>
       </dl><dl><dt>
           
           <code><a href="s_ggsave.html">s_ggsave()</a></code> 
@@ -138,36 +207,33 @@
         <dd>Set seeds with pipeline.</dd>
       </dl><dl><dt>
           
-          <code><a href="special-print.html">print_headtail()</a></code> <code><a href="special-print.html">print_interval()</a></code> <code><a href="special-print.html">slice_headtail()</a></code> <code><a href="special-print.html">slice_interval()</a></code> 
+          <code><a href="stat.html">skew()</a></code> <code><a href="stat.html">kurtosis()</a></code> 
         </dt>
-        <dd>Print a long tibble with selected rows</dd>
+        <dd>Skewness and kurtosis</dd>
+      </dl></div><div class="section level2">
+      <h2 id="sample-data">Sample Data<a class="anchor" aria-label="anchor" href="#sample-data"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="lifeexp.html">lifeexp</a></code> 
+        </dt>
+        <dd>Life expectancy data in 1998</dd>
       </dl><dl><dt>
           
           <code><a href="starwars.html">starwars</a></code> 
         </dt>
         <dd>Starwars characters</dd>
-      </dl><dl><dt>
-          
-          <code><a href="stat.html">skew()</a></code> <code><a href="stat.html">kurtosis()</a></code> 
-        </dt>
-        <dd>Skewness and kurtosis</dd>
-      </dl><dl><dt>
-          
-          <code><a href="summ.html">summ()</a></code> <code><a href="summ.html">tabstat()</a></code> 
-        </dt>
-        <dd>Summarise columns</dd>
-      </dl><dl><dt>
-          
-          <code><a href="tab.html">tab()</a></code> <code><a href="tab.html">tab1()</a></code> <code><a href="tab.html">tab2()</a></code> <code><a href="tab.html">fre()</a></code> <code><a href="tab.html">fre1()</a></code> <code><a href="tab.html">fre2()</a></code> 
-        </dt>
-        <dd>Tabulate columns</dd>
-      </dl><dl><dt>
-          
-          <code><a href="type_conversion.html">as_character()</a></code> <code><a href="type_conversion.html">as_numeric()</a></code> 
-        </dt>
-        <dd>Better type conversion</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

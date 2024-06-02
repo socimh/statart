@@ -91,6 +91,12 @@
     <loc>/reference/tab.html</loc>
   </url>
   <url>
+    <loc>/reference/tidy_coef.html</loc>
+  </url>
+  <url>
     <loc>/reference/type_conversion.html</loc>
+  </url>
+  <url>
+    <loc>/reference/variables.html</loc>
   </url>
 </urlset>
