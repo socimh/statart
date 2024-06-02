@@ -1,69 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://socimh.github.io/statart/404.html</loc>
+    <loc>/404.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/LICENSE-text.html</loc>
+    <loc>/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/LICENSE.html</loc>
+    <loc>/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/authors.html</loc>
+    <loc>/authors.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/index.html</loc>
+    <loc>/index.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/as_type.html</loc>
+    <loc>/reference/browse.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/codebook.html</loc>
+    <loc>/reference/codebook.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/ds.html</loc>
+    <loc>/reference/cut.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/index.html</loc>
+    <loc>/reference/import-export.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/lifeexp.html</loc>
+    <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/pipe.html</loc>
+    <loc>/reference/lifeexp.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/s_match.html</loc>
+    <loc>/reference/na_conversion.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/s_print.html</loc>
+    <loc>/reference/names.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/s_select.html</loc>
+    <loc>/reference/pipe.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/s_time.html</loc>
+    <loc>/reference/regress.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/s_try.html</loc>
+    <loc>/reference/row_egen.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/s_type.html</loc>
+    <loc>/reference/s_ggsave.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/starwars.html</loc>
+    <loc>/reference/s_match.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/stat.html</loc>
+    <loc>/reference/s_plot.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/statart-package.html</loc>
+    <loc>/reference/s_select.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/summ.html</loc>
+    <loc>/reference/s_time.html</loc>
   </url>
   <url>
-    <loc>https://socimh.github.io/statart/reference/tab.html</loc>
+    <loc>/reference/s_try.html</loc>
+  </url>
+  <url>
+    <loc>/reference/s_type.html</loc>
+  </url>
+  <url>
+    <loc>/reference/set_seed.html</loc>
+  </url>
+  <url>
+    <loc>/reference/special-print.html</loc>
+  </url>
+  <url>
+    <loc>/reference/starwars.html</loc>
+  </url>
+  <url>
+    <loc>/reference/stat.html</loc>
+  </url>
+  <url>
+    <loc>/reference/statart-package.html</loc>
+  </url>
+  <url>
+    <loc>/reference/summ.html</loc>
+  </url>
+  <url>
+    <loc>/reference/tab.html</loc>
+  </url>
+  <url>
+    <loc>/reference/type_conversion.html</loc>
   </url>
 </urlset>
