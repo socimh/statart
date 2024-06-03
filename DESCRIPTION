@@ -2,8 +2,10 @@ Package: statart
 Title: Tidy Functions with Stata Functionality
 Version: 0.2.0
 Authors@R: 
-    person("Minghong", "Shen", , "mhshenaa@connect.ust.hk", role = c("aut", "cre"))
-Description: An R package that provides a range of functions for data summarization, drawing inspiration from the tidyverse and taking cues from Stata.
+    person("Minghong", "Shen", , "mhshenaa@connect.ust.hk", role = c("aut", "cre", "cph"))
+Description: Enhanced versions of core Stata functions like tab(), fre(), summ(), codebook(), and row_mean(), among others. Designed to work smoothly with tidyverse packages, it also includes functions for data import/export, regression, plotting, and other useful tools.
+URL: https://socimh.github.io/statart/
+BugReports: https://github.com/socimh/statart/issues
 License: MIT + file LICENSE
 Suggests: 
     testthat (>= 3.0.0)

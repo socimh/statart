@@ -30,7 +30,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Minghong Shen \email{mhshenaa@connect.ust.hk}
+\strong{Maintainer}: Minghong Shen \email{mhshenaa@connect.ust.hk} [copyright holder]
 
 }
 \keyword{internal}

@@ -14,14 +14,25 @@ library(statart)
 sessionInfo()
 library(statart)
 ls("package:statart")
-?tidyr_tidy_select
+
+# Publish to cran
+usethis::use_cran_comments()
+urlchecker::url_check()
+devtools::check(remote = TRUE, manual = TRUE)
+devtools::check_win_devel()
+
+usethis::use_news_md()
+devtools::submit_cran()
 
 install.packages("Matrix")
 devtools::document()
 devtools::load_all()
+
 ?browse
 
-sample(1:10, 5) %>%
+
+
+sample(1:10, 5) |>
    set_seed(123)
 
 remotes::install_deps(dependencies = TRUE)
